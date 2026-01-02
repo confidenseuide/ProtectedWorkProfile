@@ -7,7 +7,7 @@
     <application
         android:label="WorkAppHider"
         android:directBootAware="true"
-		android:icon="@drawable/ic_launcher"
+		
         android:theme="@android:style/Theme.DeviceDefault.NoActionBar">
 
         <activity android:name=".MainActivity"
