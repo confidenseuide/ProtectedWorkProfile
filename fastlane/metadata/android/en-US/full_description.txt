@@ -1,0 +1,1 @@
+Application that checks what happens if it hides system components in a work profile.
