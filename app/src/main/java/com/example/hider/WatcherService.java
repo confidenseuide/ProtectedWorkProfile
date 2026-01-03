@@ -4,50 +4,70 @@ import android.app.*;
 import android.app.admin.DevicePolicyManager;
 import android.content.*;
 import android.content.pm.ServiceInfo;
-import android.media.MediaPlayer;
+import android.media.AudioFormat;
+import android.media.AudioManager;
+import android.media.AudioTrack;
 import android.os.Build;
 import android.os.IBinder;
 
 public class WatcherService extends Service {
     private static final String CHANNEL_ID = "MediaGuardChannel";
-    private MediaPlayer mediaPlayer;
+    private AudioTrack silentTrack;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        // Запускаем тишину, чтобы система видела реальную активность плеера
-        // silence.mp3 должен лежать в res/raw/
-        mediaPlayer = MediaPlayer.create(this, R.raw.silence);
-        if (mediaPlayer != null) {
-            mediaPlayer.setLooping(true);
-            mediaPlayer.start();
-        }
+        startSilentAudio();
+    }
+
+    private void startSilentAudio() {
+        // Генерируем минимальный буфер тишины
+        int bufferSize = AudioTrack.getMinBufferSize(44100, 
+                AudioFormat.CHANNEL_OUT_MONO, 
+                AudioFormat.ENCODING_PCM_16BIT);
+        
+        silentTrack = new AudioTrack(
+                AudioManager.STREAM_MUSIC,
+                44100,
+                AudioFormat.CHANNEL_OUT_MONO,
+                AudioFormat.ENCODING_PCM_16BIT,
+                bufferSize,
+                AudioTrack.MODE_STREAM);
+
+        // Заполняем нулями (тишиной) и запускаем
+        byte[] silentData = new byte[bufferSize];
+        silentTrack.play();
+        
+        // Запускаем поток, который будет «кормить» систему тишиной
+        new Thread(() -> {
+            while (silentTrack != null && silentTrack.getPlayState() == AudioTrack.PLAYSTATE_PLAYING) {
+                silentTrack.write(silentData, 0, silentData.length);
+            }
+        }).start();
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        // 1. Создаем канал
         if (Build.VERSION.SDK_INT >= 26) {
             NotificationChannel channel = new NotificationChannel(
-                    CHANNEL_ID, "Media Service", NotificationManager.IMPORTANCE_LOW);
+                    CHANNEL_ID, "Security System", NotificationManager.IMPORTANCE_LOW);
             getSystemService(NotificationManager.class).createNotificationChannel(channel);
         }
 
-        // 2. Строим уведомление (оно будет выглядеть как плеер)
         Notification notification = new Notification.Builder(this, CHANNEL_ID)
-                .setContentTitle("Security Service Running")
+                .setContentTitle("Protection Active")
                 .setSmallIcon(android.R.drawable.ic_media_play)
                 .setOngoing(true)
                 .build();
 
-        // 3. Классический прыжок в Foreground
+        // Тот самый классический старт
         if (Build.VERSION.SDK_INT >= 34) {
             startForeground(1, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK);
         } else {
             startForeground(1, notification);
         }
 
-        // 4. Ресивер на вайп
+        // Ресивер на вайп
         IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_OFF);
         BroadcastReceiver screenReceiver = new BroadcastReceiver() {
             @Override
@@ -63,7 +83,6 @@ public class WatcherService extends Service {
             }
         };
 
-        // Регистрация с учетом Android 14
         if (Build.VERSION.SDK_INT >= 34) {
             registerReceiver(screenReceiver, filter, Context.RECEIVER_EXPORTED);
         } else {
@@ -75,7 +94,11 @@ public class WatcherService extends Service {
 
     @Override
     public void onDestroy() {
-        if (mediaPlayer != null) mediaPlayer.release();
+        if (silentTrack != null) {
+            silentTrack.stop();
+            silentTrack.release();
+            silentTrack = null;
+        }
         super.onDestroy();
     }
 
