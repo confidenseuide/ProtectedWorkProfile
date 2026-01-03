@@ -104,9 +104,15 @@ private void restart() {
     protected void onResume() {
         super.onResume();
         if (!isWorkProfileContext() && hasWorkProfile()) {
-            launchWorkProfileDelayed();
-            getWindow().getDecorView().setSystemUiVisibility(5894);
-        }
+            launchWorkProfileDelayed();}
+        getWindow().getDecorView().setSystemUiVisibility(
+			View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+			| View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+			| View.SYSTEM_UI_FLAG_FULLSCREEN
+			| View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+			| View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+			| View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        );
     }
 
     @Override
@@ -114,6 +120,7 @@ private void restart() {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 100 && resultCode == Activity.RESULT_OK) {
             //launchWorkProfileDelayed();
+			restart();
         }
     }
 
