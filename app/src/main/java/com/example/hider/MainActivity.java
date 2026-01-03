@@ -25,6 +25,12 @@ public class MainActivity extends Activity {
             android.Manifest.permission.POST_NOTIFICATIONS,
             DevicePolicyManager.PERMISSION_GRANT_STATE_GRANTED
         );}
+
+		getPackageManager().setComponentEnabledSetting(
+    new ComponentName(this, NucleusReceiver.class),
+    PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+    PackageManager.DONT_KILL_APP
+);
 		
 		Intent intent = new Intent(this, WatcherService.class);
 		startForegroundService(intent);  
