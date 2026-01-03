@@ -1,1 +1,1 @@
-Application that checks what happens if it hides system and other components in a work profile.
+This app creates a temporary work profile. It will be reset when the screen is turned off or when you reboot your phone.
