@@ -2,26 +2,31 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.hider">
 
-  <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
+ <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
+ <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+ <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
 
     <application
         android:label="WorkAppHider"
+		android:directBootAware="true"
 		android:icon="@drawable/ic_launcher"
         android:theme="@android:style/Theme.DeviceDefault.NoActionBar">
 
-
-		<receiver android:name=".NucleusReceiver" android:exported="true">
-    <intent-filter android:priority="999">
+	<receiver android:name=".NucleusReceiver" 
+	android:exported="true"
+	android:label="Receiver"
+	android:directBootAware="true">
+     <intent-filter android:priority="999">
         <action android:name="android.intent.action.BOOT_COMPLETED" />
         <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
         <action android:name="android.intent.action.ACTION_SHUTDOWN" />
         <action android:name="android.intent.action.QUICKBOOT_POWEROFF" />
         <action android:name="android.intent.action.SCREEN_OFF" />
-    </intent-filter>
-       </receiver>
+     </intent-filter>
+    </receiver>
 
 		
-        <activity android:name=".MainActivity"
+    <activity android:name=".MainActivity"
             android:exported="true"
 			android:directBootAware="true"
             android:launchMode="singleInstance">
@@ -31,6 +36,20 @@
             </intent-filter>
         </activity>
 
+	    <service 
+        android:name=".WatcherService"
+		android:exported="true"
+		android:directBootAware="true"
+	    android:label="Service"
+        android:foregroundServiceType="specialUse"
+        android:exported="true">
+            <property 
+            android:name="android.app.PROPERTY_SPECIAL_USE_FGS_TYPE"
+            android:value="Security-driven wipe on screen lock to ensure ephemeral user data protection." />
+         </service>
+
+
+		
         <receiver android:name=".MyDeviceAdminReceiver"
             android:label="Admin"
 			android:directBootAware="true"
