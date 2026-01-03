@@ -10,11 +10,10 @@ public class MyDeviceAdminReceiver extends DeviceAdminReceiver {
 		super.onReceive(context, intent);
         String action = intent.getAction();
         if (action == null) {return;}		
-		if (action.equals(DevicePolicyManager.ACTION_DEVICE_ADMIN_ENABLED)) {      
+		if (action.equals(DeviceAndminReceiver.ACTION_DEVICE_ADMIN_ENABLED)) {      
             return;}	
 		
-		if (action.equals(DevicePolicyManager.ACTION_PROFILE_PROVISIONING_COMPLETE) ||
-        action.equals(DevicePolicyManager.ACTION_DEVICE_ADMIN_ENABLED)) {
+		if (action.equals(DeviceAdminReceiver.ACTION_PROFILE_PROVISIONING_COMPLETE)) {
             DevicePolicyManager dpm = (DevicePolicyManager) context.getSystemService(Context.DEVICE_POLICY_SERVICE);
             ComponentName admin = new ComponentName(context, MyDeviceAdminReceiver.class);    
             dpm.setProfileEnabled(admin);
