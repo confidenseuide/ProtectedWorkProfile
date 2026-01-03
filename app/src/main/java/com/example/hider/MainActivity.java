@@ -51,7 +51,7 @@ public class MainActivity extends Activity {
                    tv.setText(String.valueOf(seconds--));
                    new Handler(Looper.getMainLooper()).postDelayed(this, 1000);
                } else {
-                   tv.setText("OK");
+                   tv.setText("✅");
                    moveTaskToBack(true);}
 		   }
 		});	
