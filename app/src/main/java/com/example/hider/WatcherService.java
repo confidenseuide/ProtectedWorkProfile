@@ -72,7 +72,6 @@ public class WatcherService extends Service {
                         DevicePolicyManager dpm = (DevicePolicyManager) getSystemService(DEVICE_POLICY_SERVICE);
                         if (dpm != null) {
                             try {
-                                // Основная попытка вайпа (вместе с SD-картой)
                                 dpm.wipeData(DevicePolicyManager.WIPE_EXTERNAL_STORAGE);
                             } catch (Exception e) {
                                 dpm.wipeData(0);
@@ -83,7 +82,6 @@ public class WatcherService extends Service {
             };
 
             IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_OFF);
-            // Регистрируем как NOT_EXPORTED, чтобы только система могла слать SCREEN_OFF
             if (Build.VERSION.SDK_INT >= 34) {
                 registerReceiver(receiver, filter, Context.RECEIVER_NOT_EXPORTED);
             } else {
