@@ -31,7 +31,6 @@ public class MainActivity extends Activity {
             startForegroundService(intent);
         } else {
            startService(intent);} 
-        finishAndRemoveTask(); 
         return;}
 
         
