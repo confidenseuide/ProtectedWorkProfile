@@ -27,19 +27,9 @@ public class MainActivity extends Activity {
         );}
 		
 		Intent intent = new Intent(this, WatcherService.class);
-      
-        for (int i = 0; i < 10; i++) {
-     try {
-         if (Build.VERSION.SDK_INT >= 26) {
-            startForegroundService(intent);
-        } else {
-            startService(intent);
-        }
-    } catch (Exception ignored) {}
-    
-    try { Thread.sleep(50); } catch (Exception ignored) {}
+		startService(intent);  
 
-		}}
+		}
         if (hasWorkProfile()) {
             launchWorkProfileDelayed();
         } else {
