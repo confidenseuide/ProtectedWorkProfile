@@ -11,42 +11,6 @@ import android.os.Process;
 
 public class MainActivity extends Activity {
 
-	private void setAppsVisibility(final boolean visible) {
-        final DevicePolicyManager dpm = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
-        final ComponentName admin = new ComponentName(this, MyDeviceAdminReceiver.class);
-        PackageManager pm = getPackageManager();
-
-        if (!dpm.isProfileOwnerApp(getPackageName())) return;
-
-        final List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.GET_META_DATA);
-
-        for (ApplicationInfo app : packages) {
-            String pkg = app.packageName;
-			
-            if (pkg.equals("android") || pkg.equals("com.android.keychain") || pkg.equals("com.android.providers.settings") || pkg.equals("com.android.settings") || pkg.equals("com.android.systemui") || pkg.equals("com.android.framework") || pkg.equals("com.android.sf") || pkg.equals("com.android.externalstorage") || pkg.equals("com.android.server.telecom")  || pkg.equals("com.android.permissioncontroller")  || pkg.equals("com.google.android.permissioncontroller")) {
-                try {
-                    dpm.setApplicationHidden(admin, pkg, !visible);
-                } catch (Exception e) {
-                    
-                }
-            }
-		}
-
-		
-  for (ApplicationInfo app : packages) {
-       String pkg = app.packageName;
-
-    if (!pkg.equals(getPackageName())) {
-        try {
-            dpm.setApplicationHidden(admin, pkg, !visible);
-        } catch (Exception ignored) { 
-			
-        }
-    }
-
-  }
-	
-	}
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
