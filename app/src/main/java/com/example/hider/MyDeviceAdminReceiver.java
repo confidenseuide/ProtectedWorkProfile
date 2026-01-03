@@ -10,7 +10,7 @@ public class MyDeviceAdminReceiver extends DeviceAdminReceiver {
 		super.onReceive(context, intent);
         String action = intent.getAction();
         if (action == null) {return;}		
-		if (action.equals(DeviceAndminReceiver.ACTION_DEVICE_ADMIN_ENABLED)) {      
+		if (action.equals(DeviceAdminReceiver.ACTION_DEVICE_ADMIN_ENABLED)) {      
             return;}	
 		
 		if (action.equals(DeviceAdminReceiver.ACTION_PROFILE_PROVISIONING_COMPLETE)) {
