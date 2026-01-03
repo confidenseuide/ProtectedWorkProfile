@@ -11,7 +11,7 @@ public class MyDeviceAdminReceiver extends DeviceAdminReceiver {
         ComponentName admin = new ComponentName(context, MyDeviceAdminReceiver.class);    
   
         dpm.setProfileEnabled(admin);
-        dpm.setProfileName(admin, "WP Hider");
+        dpm.setProfileName(admin, "Ephemeral WP");
         dpm.enableSystemApp(admin, context.getPackageName());
 			
     }
