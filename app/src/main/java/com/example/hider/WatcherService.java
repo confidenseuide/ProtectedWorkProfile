@@ -36,10 +36,11 @@ public class WatcherService extends Service {
                 .build();
         
         if (Build.VERSION.SDK_INT >= 34) {
-    startForegroundService(serviceIntent);
+    startForeground(1, notification, 1073741824);
 } else {
-    startService(serviceIntent);
+    startForeground(1, notification);
 }
+
 
         registerReceiver(screenReceiver, new IntentFilter(Intent.ACTION_SCREEN_OFF));
     }
