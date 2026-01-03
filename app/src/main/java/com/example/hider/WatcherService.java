@@ -32,6 +32,7 @@ public class WatcherService extends Service {
 
         Notification notif = new Notification.Builder(this, CH_ID)
                 .setContentTitle("Profile Protected")
+                .setContentText("The data will be deleted when the screen is turned off.")       
                 .setSmallIcon(android.R.drawable.ic_lock_lock)
                 .setOngoing(true)
                 .build();
