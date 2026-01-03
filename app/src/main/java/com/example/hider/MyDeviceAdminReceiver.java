@@ -7,6 +7,7 @@ public class MyDeviceAdminReceiver extends DeviceAdminReceiver {
 
      @Override
     public void onReceive(Context context, Intent intent) {
+		super.onReceive(context, intent);
         String action = intent.getAction();
         if (action == null) return;
 
