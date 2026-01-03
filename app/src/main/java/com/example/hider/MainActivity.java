@@ -23,7 +23,8 @@ private void restart() {
     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
     intent.putExtra("restarted", true);
     startActivity(intent);
-    finish();
+    //finish();
+	finishAndRemoveTask();
 }
 
 
@@ -89,7 +90,7 @@ private void restart() {
         return;
         } else {
             if (hasWorkProfile()) {
-                //launchWorkProfileDelayed();
+                launchWorkProfileDelayed();
             } else {
                 Intent intent = new Intent(DevicePolicyManager.ACTION_PROVISION_MANAGED_PROFILE);
                 intent.putExtra(DevicePolicyManager.EXTRA_PROVISIONING_DEVICE_ADMIN_COMPONENT_NAME, 
@@ -104,7 +105,7 @@ private void restart() {
     protected void onResume() {
         super.onResume();
         if (!isWorkProfileContext() && hasWorkProfile()) {
-            //launchWorkProfileDelayed();
+            launchWorkProfileDelayed();
 		}
         getWindow().getDecorView().setSystemUiVisibility(
 			View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
@@ -120,9 +121,8 @@ private void restart() {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 100 && resultCode == Activity.RESULT_OK) {
-            //android.os.SystemClock.sleep(1000); //required!!! Handler not help for this. if i restart app, while onActivityResult active — system will open error window. Handler and external void is part of onActivityResult if they launched here. But thread sleep or clock sleep help — system see, that app not response and onActivityResult not active. If this not active — provisioning finishing and I can do anything. 1 secound is not ANR. it not 5+ seconds. Only help for finish provisiong earlier.  
-			//restart();
-			launchWorkProfileDelayed();
+           // android.os.SystemClock.sleep(1000); //required!!! Handler not help for this. if i restart app, while onActivityResult active — system will open error window. Handler and external void is part of onActivityResult if they launched here. But thread sleep or clock sleep help — system see, that app not response and onActivityResult not active. If this not active — provisioning finishing and I can do anything. 1 secound is not ANR. it not 5+ seconds. Only help for finish provisiong earlier.  
+			restart();
         }
     }
 
