@@ -88,7 +88,7 @@ public class MainActivity extends Activity {
                             new ComponentName(getPackageName(), MainActivity.class.getName()), 
                             profile, null, null
                         );
-                        finishAndRemoveTask(); 
+                    
                         break;
                     }
                 }
