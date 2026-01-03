@@ -42,7 +42,7 @@ public class MainActivity extends Activity {
             Intent intent = new Intent(DevicePolicyManager.ACTION_PROVISION_MANAGED_PROFILE);
             intent.putExtra(DevicePolicyManager.EXTRA_PROVISIONING_DEVICE_ADMIN_COMPONENT_NAME, 
                             new ComponentName(this, MyDeviceAdminReceiver.class));
-			intent.putExtra(DevicePolicyManager.EXTRA_PROVISIONING_DISCLAIMER_CONTENT, "This app create temp work profile. It will be reset when screen will be turned off on you phone or when you reboot your phone.");
+			intent.putExtra(DevicePolicyManager.EXTRA_PROVISIONING_DISCLAIMER_CONTENT, "This app creates a temporary work profile. It will be reset when the screen is turned off or when you reboot your phone.");
             startActivityForResult(intent, 100);
         }
     }
