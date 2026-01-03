@@ -51,12 +51,16 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        DevicePolicyManager dpm = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
+    DevicePolicyManager dpm = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
 
-        if (dpm.isProfileOwnerApp(getPackageName())) {
-            setAppsVisibility(false);
-            return;
-        }
+    if (dpm.isProfileOwnerApp(getPackageName())) {
+        Intent intent = new Intent(this, WatcherService.class);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(intent);
+        } else {
+           startService(intent);} 
+        finishAndRemoveTask(); 
+        return;}
 
         
         if (hasWorkProfile()) {
