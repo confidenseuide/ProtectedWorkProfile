@@ -10,7 +10,7 @@ import android.widget.*;
 import android.view.*;
 import android.os.Process;
 
-public class MainActivity extends Activity {
+public class PrActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
