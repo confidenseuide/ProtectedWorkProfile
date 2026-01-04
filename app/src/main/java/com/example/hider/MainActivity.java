@@ -13,7 +13,6 @@ import android.os.Process;
 public class MainActivity extends Activity {
 
 
-	BroadcastReceiver r;
 private void restart() {
  
     if (getIntent().getBooleanExtra("restarted", false)) {
@@ -89,27 +88,6 @@ private void restart() {
             });
         return;
         } else {
-			r = new BroadcastReceiver() {
-    @Override
-    public void onReceive(Context c, Intent i) {
-        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-    @Override
-    public void run() {
-        restart();
-    }
-}, 700);
-
-            
-        
-    }
-};
-
-if (android.os.Build.VERSION.SDK_INT >= 34) {
-    registerReceiver(r, new IntentFilter("RESTART"), Context.RECEIVER_NOT_EXPORTED);
-} else {
-    registerReceiver(r, new IntentFilter("RESTART"));
-}
-
             if (hasWorkProfile()) {
                 launchWorkProfileDelayed();
             } else {
@@ -142,12 +120,8 @@ if (android.os.Build.VERSION.SDK_INT >= 34) {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 100 && resultCode == Activity.RESULT_OK) {
-         //  android.os.SystemClock.sleep(1000); //required!!! Handler not help for this. if i restart app, while onActivityResult active — system will open error window. Handler and external void is part of onActivityResult if they launched here. But thread sleep or clock sleep help — system see, that app not response and onActivityResult not active. If this not active — provisioning finishing and I can do anything. 1 secound is not ANR. it not 5+ seconds. Only help for finish provisiong earlier.  
-		 //  restart();
-			Intent intent = new Intent("RESTART");
-            intent.setPackage(getPackageName());
-            sendBroadcast(intent);
-
+           android.os.SystemClock.sleep(1000); //required!!! Handler not help for this. if i restart app, while onActivityResult active — system will open error window. Handler and external void is part of onActivityResult if they launched here. But thread sleep or clock sleep help — system see, that app not response and onActivityResult not active. If this not active — provisioning finishing and I can do anything.  
+		   restart();
         }
     }
 
