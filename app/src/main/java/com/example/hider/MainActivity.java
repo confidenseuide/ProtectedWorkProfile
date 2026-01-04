@@ -22,7 +22,7 @@ private void restart() {
         public void run() {
 	     Thread.currentThread().setPriority(9);
             try {
-               Thread.sleep(1500);
+               Thread.sleep(950);
             } catch (InterruptedException ignored) {}
 
              Context appChild = getApplicationContext();
