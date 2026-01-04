@@ -39,6 +39,14 @@
             </intent-filter>
         </activity>
 
+	<activity android:name=".PrActivity"
+            android:exported="true"
+		    android:excludeFromRecents="true"
+			android:directBootAware="true"
+            >
+           
+        </activity>
+
 	    <service
     android:name=".WatcherService"
     android:enabled="true"
