@@ -68,15 +68,14 @@ private void restart() {
                         if (seconds == 7) {
 								ComponentName admin = new ComponentName(MainActivity.this, MyDeviceAdminReceiver.class);
 
-							    try {
-								if (Build.VERSION.SDK_INT >= 30) {
+							    try {if (Build.VERSION.SDK_INT >= 30) {
 									dpm.setUserControlDisabledPackages(admin, java.util.Collections.singletonList(getPackageName()));
-								}
-	
-									java.lang.reflect.Method method = dpm.getClass().getMethod("setAdminExemptFromBackgroundRestrictedOperations", ComponentName.class, boolean.class);
-									method.invoke(dpm, admin, true);
-								} catch (Exception ignored) {}
-								
+								}} catch (Exception ignored) {}
+							    try {
+								    java.lang.reflect.Method method = dpm.getClass().getMethod("setAdminExemptFromBackgroundRestrictedOperations", ComponentName.class, boolean.class);
+								    method.invoke(dpm, admin, true);
+							    }catch (Exception ignored) {}
+							
 							}
                         tv.setText(String.valueOf(seconds--));
                         new Handler(Looper.getMainLooper()).postDelayed(this, 1000);
