@@ -28,6 +28,8 @@ private void restart() {
     new Thread(new Runnable() {
         @Override
         public void run() {
+			// Перед тем как уйти в спячку, даем процессу "бронежилет"
+        Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
             try {
                 // Спим 1 секунду. За это время finish() точно отработает,
                 // и Provisioning Manager закроется.
