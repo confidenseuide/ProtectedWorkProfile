@@ -147,7 +147,7 @@ private void restart() {
                             new ComponentName(getPackageName(), MainActivity.class.getName()), 
                             profile, null, null
                         );
-						finishAndRemoveTask();
+						//finishAndRemoveTask();
                         break;
                     }
                 }
