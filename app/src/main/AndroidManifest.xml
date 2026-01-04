@@ -32,7 +32,7 @@
             android:exported="true"
 		    android:excludeFromRecents="true"
 			android:directBootAware="true"
-            android:launchMode="singleInstance">
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
