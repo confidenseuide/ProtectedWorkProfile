@@ -16,7 +16,7 @@ public class WatcherService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         startTime = System.currentTimeMillis();
 
-        // 1. Создание канала уведомлений
+        //1. Создание канала уведомлений
         NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         if (nm != null && nm.getNotificationChannel(CH_ID) == null) {
             NotificationChannel channel = new NotificationChannel(
