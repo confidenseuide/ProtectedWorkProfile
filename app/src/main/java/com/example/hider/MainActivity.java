@@ -17,16 +17,14 @@ private void restart() {
         return;
     }
 
-     moveTaskToBack(true);
-
-    finish();
+     finishAndRemoveTask();
 
    new Thread(new Runnable() {
         @Override
         public void run() {
 	     Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
             try {
-               Thread.sleep(1000);
+               Thread.sleep(1500);
             } catch (InterruptedException ignored) {}
 
              Context appChild = getApplicationContext();
