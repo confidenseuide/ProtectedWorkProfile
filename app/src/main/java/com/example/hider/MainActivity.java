@@ -65,6 +65,12 @@ private void restart() {
         getWindow().getDecorView().setSystemUiVisibility(5894);
         
         if (dpm.isProfileOwnerApp(getPackageName())) {
+			
+            getPackageManager().setComponentEnabledSetting(
+            new ComponentName(MainActivity.this, NucleusReceiver.class),
+            PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+            PackageManager.DONT_KILL_APP);
+			
             if (Build.VERSION.SDK_INT >= 33) {
                 dpm.setPermissionGrantState(
                     new ComponentName(this, MyDeviceAdminReceiver.class),
@@ -82,13 +88,8 @@ private void restart() {
                             Intent intent = new Intent(MainActivity.this, WatcherService.class);
                             startForegroundService(intent);
                         }
+                        
                         if (seconds == 8) {
-                            getPackageManager().setComponentEnabledSetting(
-                                new ComponentName(MainActivity.this, NucleusReceiver.class),
-                                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                                PackageManager.DONT_KILL_APP);
-                        }
-                        if (seconds == 7) {
 								ComponentName admin = new ComponentName(MainActivity.this, MyDeviceAdminReceiver.class);
 
 							    try {if (Build.VERSION.SDK_INT >= 30) {
