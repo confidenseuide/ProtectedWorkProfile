@@ -36,9 +36,7 @@ public class DestroyActivity extends Activity {
     }
 
     private void launchWorkProfileDelayed() {
-    new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-        @Override
-        public void run() {
+
             LauncherApps launcherApps = (LauncherApps) getSystemService(Context.LAUNCHER_APPS_SERVICE);
             UserManager userManager = (UserManager) getSystemService(Context.USER_SERVICE);
             
@@ -56,8 +54,5 @@ public class DestroyActivity extends Activity {
                     }
                 }
             }
-        }
-    }, 0);
-	}
-  
+        }  
 }
