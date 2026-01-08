@@ -8,7 +8,9 @@ import android.view.*;
 import android.widget.*;
 
 public class SetPasswordActivity extends Activity {
-    
+
+	private DevicePolicyManager dpm;
+	
     @Override
     protected void onResume() {
         super.onResume();
