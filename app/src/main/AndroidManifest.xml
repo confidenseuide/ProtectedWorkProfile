@@ -39,9 +39,21 @@
         </activity>
 
 
-			<activity android:name=".SelectActivity"
+		<activity android:name=".SelectActivity"
             android:exported="true"
 			android:label="SelectKeyboard"
+			android:enabled="true"
+		    android:excludeFromRecents="true"
+			android:directBootAware="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+		<activity android:name=".DisableActivity"
+            android:exported="true"
+			android:label="DisableApps"
 			android:enabled="true"
 		    android:excludeFromRecents="true"
 			android:directBootAware="true">
