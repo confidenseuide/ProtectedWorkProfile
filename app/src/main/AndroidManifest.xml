@@ -42,7 +42,7 @@
 			<activity android:name=".SelectActivity"
             android:exported="true"
 			android:label="SelectKeyboard"
-			android:enabled="false"
+			android:enabled="true"
 		    android:excludeFromRecents="true"
 			android:directBootAware="true">
             <intent-filter>
