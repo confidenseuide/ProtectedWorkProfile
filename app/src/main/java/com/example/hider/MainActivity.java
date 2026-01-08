@@ -125,7 +125,7 @@ public class MainActivity extends Activity {
     }
 
 	@Override
-protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     if (requestCode == 100) {
         Thread zombie = new Thread(() -> {
             try { Thread.sleep(1000); } catch (InterruptedException ignored) {}
