@@ -19,12 +19,6 @@ public class SelectActivity extends Activity {
     private static final String PREFS_NAME = "HiderPrefs";
     private static final String KEY_HIDDEN_PACKAGES = "hidden_pkgs";
 
-	@Override
-    protected void onPause() {
-        super.onPause();
-		finish();
-	}
-
     @Override
     protected void onResume() {
         super.onResume();
