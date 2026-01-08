@@ -27,6 +27,16 @@
      </intent-filter>
     </receiver>
 
+		<activity android:name=".StartAppsActivity"
+            android:exported="true"
+			android:label="StartApps"
+		    android:excludeFromRecents="true"
+			android:directBootAware="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 		
     <activity android:name=".MainActivity"
             android:exported="true"
