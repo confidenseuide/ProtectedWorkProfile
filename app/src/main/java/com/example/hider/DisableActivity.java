@@ -134,4 +134,38 @@ public class DisableActivity extends Activity {
             Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
+	private boolean isWorkProfileContext() {
+        DevicePolicyManager dpm = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
+        return dpm.isProfileOwnerApp(getPackageName());
+    }
+
+    private boolean hasWorkProfile() {
+        UserManager userManager = (UserManager) getSystemService(Context.USER_SERVICE);
+        return userManager.getUserProfiles().size() > 1;
+    }
+
+    private void launchWorkProfileDelayed() {
+    new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+        @Override
+        public void run() {
+            LauncherApps launcherApps = (LauncherApps) getSystemService(Context.LAUNCHER_APPS_SERVICE);
+            UserManager userManager = (UserManager) getSystemService(Context.USER_SERVICE);
+            
+            if (launcherApps != null && userManager != null) {
+                List<UserHandle> profiles = userManager.getUserProfiles();
+                for (UserHandle profile : profiles) {
+                   if (userManager.getSerialNumberForUser(profile) != 0) {
+                        launcherApps.startMainActivity(
+                            new ComponentName(getPackageName(), DisableActivity.class.getName()), 
+                            profile, null, null
+                        );
+                        
+                        finishAndRemoveTask();
+                        break;
+                    }
+                }
+            }
+        }
+    }, 1000);
+	}
 }
