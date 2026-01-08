@@ -7,6 +7,7 @@ import android.content.pm.*;
 import android.os.*;
 import android.view.*;
 import android.widget.*;
+import java.util.*;
 
 public class SetPasswordActivity extends Activity {
 
