@@ -12,44 +12,6 @@ import android.os.Process;
 
 public class MainActivity extends Activity {
 
-private void restart() {
-    if (getIntent().getBooleanExtra("restarted", false)) {
-        return;
-    }
-
-	Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
-	android.os.Process.setThreadPriority(android.os.Process.myTid(), android.os.Process.THREAD_PRIORITY_URGENT_DISPLAY);
-	try {
-     Thread.sleep(1500);
-   } catch (InterruptedException ignored) {}
-
-   new Thread(new Runnable() {
-        @Override
-        public void run() {
-	     Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
-	     android.os.Process.setThreadPriority(android.os.Process.myTid(), android.os.Process.THREAD_PRIORITY_URGENT_DISPLAY);
-            try {
-               Thread.sleep(950);
-            } catch (InterruptedException ignored) {}
-
-             Context appChild = getApplicationContext();
-            Intent intent = new Intent(appChild, MainActivity.class);
-            
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            intent.putExtra("restarted", true);
-            
-            try {
-                appChild.startActivity(intent);
-            } catch (Exception e) {
-            }
-
-            }
-    }).start();
-	finishAndRemoveTask();
-}
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
