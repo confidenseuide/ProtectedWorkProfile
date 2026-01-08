@@ -39,6 +39,11 @@ public class SelectActivity extends Activity {
 			Intent intent = new Intent(context, MainActivity.class);
 			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			context.startActivity(intent);
+			getPackageManager().setComponentEnabledSetting(
+            new ComponentName(this, SelectActivity.class),
+            PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+            PackageManager.DONT_KILL_APP);
+			finish();
 		}
 		getWindow().getDecorView().setKeepScreenOn(true);
         getWindow().getDecorView().setSystemUiVisibility(
