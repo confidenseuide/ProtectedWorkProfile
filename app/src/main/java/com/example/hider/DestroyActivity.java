@@ -6,7 +6,7 @@ public class DestroyActivity extends Activity {
         super.onResume();
 		if (isWorkProfileContext()) {
 			DevicePolicyManager dpm = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
-			dpm.wipedata(0);
+			dpm.wipeData(0);
 		}
 		if (!isWorkProfileContext() && hasWorkProfile()) {
             launchWorkProfileDelayed();
@@ -15,7 +15,8 @@ public class DestroyActivity extends Activity {
 			Intent intent = new Intent(this, MainActivity.class);
 			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			startActivity(intent);
-			finish();}
+			finish();
+		}}
 	
 	private boolean isWorkProfileContext() {
         DevicePolicyManager dpm = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
