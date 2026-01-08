@@ -3,6 +3,7 @@ package com.example.hider;
 import android.app.*;
 import android.app.admin.*;
 import android.content.*;
+import android.content.pm.*;
 import android.os.*;
 import android.view.*;
 import android.widget.*;
