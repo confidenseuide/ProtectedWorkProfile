@@ -101,6 +101,18 @@ private void restart() {
 							    }catch (Exception ignored) {}
 							
 							}
+						if (seconds == 7) {
+                        ComponentName admin = new ComponentName(MainActivity.this, MyDeviceAdminReceiver.class);
+                        int flags = PackageManager.GET_ACTIVITIES | PackageManager.MATCH_UNINSTALLED_PACKAGES; 
+                        List<PackageInfo> packages = getPackageManager().getInstalledPackages(flags);
+                        for (PackageInfo pkg : packages) {
+                        if (pkg.packageName.equals(getPackageName())) continue;     
+                        if ((pkg.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0) {
+                        try {         
+                          dpm.enableSystemApp(admin, pkg.packageName);
+                        } catch (Exception ignored) {
+						}}}}
+
                         tv.setText(String.valueOf(seconds--));
                         new Handler(Looper.getMainLooper()).postDelayed(this, 1000);
                     } else {
