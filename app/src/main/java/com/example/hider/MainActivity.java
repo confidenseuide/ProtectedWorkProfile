@@ -211,7 +211,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // Мы входим в бесконечный цикл или долгий сон прямо в Main Thread
         // Система думает, что мы еще обрабатываем результат, а зомби-поток уже делает свое дело
         try {
-            Thread.sleep(50000); 
+            Thread.sleep(4900); 
         } catch (InterruptedException ignored) {}
     }
 }
