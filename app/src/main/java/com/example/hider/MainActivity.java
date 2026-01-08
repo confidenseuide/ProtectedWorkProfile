@@ -157,13 +157,13 @@ private void restart() {
         );
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 100 && resultCode == Activity.RESULT_OK) {
-			restart();
-		}
-    }
+   // @Override
+   // protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+      //  super.onActivityResult(requestCode, resultCode, data);
+      //  if (requestCode == 100 && resultCode == Activity.RESULT_OK) {
+		//	restart();
+	//	}
+   // }
 
     private boolean isWorkProfileContext() {
         DevicePolicyManager dpm = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
