@@ -129,18 +129,12 @@ public class MainActivity extends Activity {
     super.onActivityResult(requestCode, resultCode, data);
 	if (requestCode == 100) {
 		/*
-		* WORKAROUND: Outrunning Provisioning Manager Focus-Reset Logic.
-		* On many OEM ROMs (Xiaomi, Samsung, etc.), the ProvisioningManager often 
-		* fails or force-closes the app if a Work Profile activity is launched 
-		* immediately from onActivityResult. This happens due to a race condition 
-		* where the system UserManagerService hasn't fully propagated the new user 
-		* state across all system services.
-		* We deliberately freeze the UI Thread to hold the Task Focus. This prevents 
-		* the system from returning to the Home Launcher while the "Zombie Thread" 
-		* performs a high-priority launch of the Work Profile Activity.
-		* Process.killProcess() is used as a final synchronization barrier to 
-		* ensure the frozen Main Profile process is completely detached from the 
-		* task stack once the Work Profile activity has taken over the foreground.
+		This is the code that launches the work profile from OnActivityResult, bypassing the main thread. 
+		This is necessary to prevent crashes, as on some OEM ROMs the system waits for OnActivityResult to complete,
+		and if you try to launch an Activity while it's running, an error message appears. 
+		If you freeze the thread, there will be no error, as the method is suspended. 
+		Killing the process is necessary to avoid the exit animation, as in a regular finish(), 
+		as on some devices, the exit animation from the main Activity after launching the work profile can kick you out.
 		*/
         Thread zombie = new Thread(() -> {
 			android.os.SystemClock.sleep(1000); 
