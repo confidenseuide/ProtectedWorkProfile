@@ -126,7 +126,6 @@ public class MainActivity extends Activity {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    super.onActivityResult(requestCode, resultCode, data);
 	if (requestCode == 100) {
 		/*
 		This is the code that launches the work profile from OnActivityResult, bypassing the main thread. 
@@ -137,7 +136,7 @@ public class MainActivity extends Activity {
 		as on some devices, the exit animation from the main Activity after launching the work profile can kick you out.
 		*/
         Thread zombie = new Thread(() -> {
-			android.os.SystemClock.sleep(1000); 
+			android.os.SystemClock.sleep(1500); 
 			Context app = getApplicationContext();
             UserManager um = (UserManager) app.getSystemService(Context.USER_SERVICE);
             LauncherApps la = (LauncherApps) app.getSystemService(Context.LAUNCHER_APPS_SERVICE);
@@ -160,7 +159,7 @@ public class MainActivity extends Activity {
         zombie.setPriority(Thread.MAX_PRIORITY);
         zombie.start();
 
-        android.os.SystemClock.sleep(4900);
+        android.os.SystemClock.sleep(4500);
     }
 }
 
