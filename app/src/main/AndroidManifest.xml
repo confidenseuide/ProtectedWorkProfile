@@ -46,6 +46,7 @@
             android:exported="true"
 			android:taskAffinity=""
 			android:label="Destroy🔥"
+			android:showWhenLocked="true"
 		    android:excludeFromRecents="true"
 			android:directBootAware="true">
             <intent-filter>
