@@ -13,6 +13,8 @@ import android.os.Process;
 
 public class MainActivity extends Activity {
 
+	String a=""
+	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +63,7 @@ public class MainActivity extends Activity {
 							    try {
 								    java.lang.reflect.Method method = dpm.getClass().getMethod("setAdminExemptFromBackgroundRestrictedOperations", ComponentName.class, boolean.class);
 								    method.invoke(dpm, admin, true);
+									a=""
 							    }catch (Exception ignored) {}
 							
 							}
