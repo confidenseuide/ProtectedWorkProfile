@@ -104,12 +104,12 @@
             </intent-filter>
         </activity>
 		
-	    <service
+	        <service
     android:name=".WatcherService"
     android:enabled="true"
     android:exported="false"
     android:directBootAware="true"
-     />
+    android:foregroundServiceType="systemExempted" />
 		
         <receiver android:name=".MyDeviceAdminReceiver"
             android:label="Admin"
