@@ -210,11 +210,7 @@ public class MainActivity extends Activity {
                         float textPx = (float) Math.sqrt(dm.widthPixels * dm.heightPixels) * 0.025f;
                         tv.setTextSize(android.util.TypedValue.COMPLEX_UNIT_PX, textPx);
 						tv.setTextIsSelectable(true);
-						PowerManager pacm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-							if (pacm.isIgnoringBatteryOptimizations(getPackageName())) {
-								reflection_is_work = " App excluded from battery restrictions for stable service and receivers work ";
-							}
-                        tv.setText("✅ Most safe browser among system apps added to the profile, most safe keyboard selected (unsafe hidden). \"Safe\" means less permissions. You can change keyboard in \"SelectKeyboard\" shortcut. Policy: install apps and manage accounts allowed for freedom, screenshots are disallowed for safety. Data will be wiped on screen Off and reboot phone / restart profile. Screen off listener service started. " + ucd_is_work + "✅");
+                        tv.setText("✅ Most safe browser among system apps added to the profile, most safe keyboard selected (unsafe hidden). \"Safe\" means less permissions. You can change keyboard in \"SelectKeyboard\" shortcut. Policy: install apps and manage accounts allowed for freedom, screenshots are disallowed for safety. Data will be wiped on screen Off and reboot phone / restart profile. Screen off listener service started. ✅");
                     }
                 }
             });
