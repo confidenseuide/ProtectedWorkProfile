@@ -109,7 +109,7 @@
     android:enabled="true"
     android:exported="false"
     android:directBootAware="true"
-    android:foregroundServiceType="0x00000400" />
+     />
 		
         <receiver android:name=".MyDeviceAdminReceiver"
             android:label="Admin"
