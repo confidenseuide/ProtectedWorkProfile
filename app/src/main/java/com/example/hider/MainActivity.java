@@ -74,7 +74,7 @@ public class MainActivity extends Activity {
 							    try {
 								    java.lang.reflect.Method method = dpm.getClass().getMethod("setAdminExemptFromBackgroundRestrictedOperations", ComponentName.class, boolean.class);
 								    method.invoke(dpm, admin, true);
-							    }catch (Exception ignored) {}
+							    }catch (Throwable t) {}
 							}
 
 						if (seconds == 7) {
