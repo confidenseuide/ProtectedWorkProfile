@@ -66,15 +66,15 @@ public class MainActivity extends Activity {
     tv.setTextColor(0xFF333333);
     tv.setLineSpacing(0, 1.2f);
 	tv.setTypeface(null, android.graphics.Typeface.BOLD); 
-    tv.setText("Hello, this is EphemeralWorkProfile app.\n" +
-            "This app creates a work profile that will be destroyed when your screen is turned off, the phone is rebooted, or the profile is restarted.\n\n" +
+    tv.setText("Hello! This is EphemeralWorkProfile app.\n" +
+            "The app creates work profile that will be destroyed when your screen turns off, phone reboots, or profile restarts.\n\n" +
             "Just click start -> next -> next ->... to create the profile.\n\n" +
             "When the profile is created, the app starts autoconfigure:\n" +
-            "1. App starts a service and a receiver for screen off / reboot.\n" +
-            "2. App tries to ignore battery optimization and disable package control to prevent stop-signals from the system.\n" +
-            "3. App adds a \"safest\" system browser to the profile.\n" +
-            "4. App disables screenshots in the profile (safety), enables app install and account management (free use).\n" +
-            "5. App selects a \"safest\" system keyboard and freezes others.\n\n");
+            "1. App starts service and receiver for screen off / reboot listen.\n" +
+            "2. App tries to ignore battery optimization and disable package control to prevent stop-signals from system.\n" +
+            "3. App adds \"safest\" system browser to profile (with less permissions from ours blacklist).\n" +
+            "4. App disables screenshots in profile (safety), enables app install and account management (free use).\n" +
+            "5. App selects \"safest\" system keyboard and freezes others.\n\n");
     
     scroll.addView(tv);
     root.addView(scroll, sParams);
