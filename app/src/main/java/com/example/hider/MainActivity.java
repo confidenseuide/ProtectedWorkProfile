@@ -49,7 +49,7 @@ public class MainActivity extends Activity {
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 int seconds = 10;
 				/*
-				Why we use a timer and did not use switches?: This app creates a temporary work profile that is deleted 
+				Why do we use a timer and not use switches?: This app creates a temporary work profile that is deleted 
 				when the screen turns off. The user can delete and recreate it multiple 
 				times in some situations. Auto-configuration allows doing it fast. 
 				At the end, we inform the user of what we did. After the timer expires, 
