@@ -14,8 +14,7 @@ import android.os.Process;
 public class MainActivity extends Activity {
 
 	private static volatile String ucd_is_work="";
-	private static volatile String reflection_is_work="";
-	
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,13 +71,6 @@ public class MainActivity extends Activity {
 									dpm.setUserControlDisabledPackages(admin, java.util.Collections.singletonList(getPackageName()));
 									ucd_is_work = "App is added to userControlDisabled packages. This will not change your experience. As a profile owner, the app cannot be stopped anyway, but this option is important for the system. On some aggressive firmwares, the system simulates a stop signal to terminate background apps. We must work constantly for the critical function of wiping data when the screen is off or the phone reboots. ";
 								}} catch (Throwable t) {}
-
-							    try {
-								    //java.lang.reflect.Method method = dpm.getClass().getMethod("setAdminExemptFromBackgroundRestrictedOperations", ComponentName.class, boolean.class);
-								    //method.invoke(dpm, admin, true);
-									//reflection_is_work = "App excluded from battery restrictions for stable service and receivers work ";
-							    }catch (Throwable t) {}
-							
 							}
 
 						if (seconds == 7) {
@@ -222,7 +214,7 @@ public class MainActivity extends Activity {
 							if (pacm.isIgnoringBatteryOptimizations(getPackageName())) {
 								reflection_is_work = " App excluded from battery restrictions for stable service and receivers work ";
 							}
-                        tv.setText("✅ Most safe browser among system apps added to the profile, most safe keyboard selected (unsafe hidden). \"Safe\" means less permissions. You can change keyboard in \"SelectKeyboard\" shortcut. Policy: install apps and manage accounts allowed for freedom, screenshots are disallowed for safety. Data will be wiped on screen Off and reboot phone / restart profile. Screen off listener service started. " + ucd_is_work + reflection_is_work + "✅");
+                        tv.setText("✅ Most safe browser among system apps added to the profile, most safe keyboard selected (unsafe hidden). \"Safe\" means less permissions. You can change keyboard in \"SelectKeyboard\" shortcut. Policy: install apps and manage accounts allowed for freedom, screenshots are disallowed for safety. Data will be wiped on screen Off and reboot phone / restart profile. Screen off listener service started. " + ucd_is_work + "✅");
                     }
                 }
             });
