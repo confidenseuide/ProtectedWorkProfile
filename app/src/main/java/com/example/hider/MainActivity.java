@@ -15,6 +15,45 @@ public class MainActivity extends Activity {
 
 	private static volatile String ucd_is_work="";
 
+
+	private void setAppsVisibility(final boolean visible) {
+    final DevicePolicyManager dpm = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
+    final ComponentName admin = new ComponentName(this, MyDeviceAdminReceiver.class);
+    final PackageManager pm = getPackageManager();
+
+    if (!dpm.isProfileOwnerApp(getPackageName())) return;
+
+    // Получаем ВООБЩЕ ВСЕ пакеты в текущем профиле, включая скрытые (uninstalled)
+    // Флаг MATCH_UNINSTALLED_PACKAGES (он же GET_UNINSTALLED_PACKAGES) — ключ к успеху
+    List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.MATCH_UNINSTALLED_PACKAGES);
+
+    for (ApplicationInfo app : packages) {
+        String pkg = app.packageName;
+
+        // Себя не трогаем
+        if (pkg.equals(getPackageName())) continue;
+
+        // ПРОВЕРКА: является ли приложение лаунчерным (есть ли у него MAIN + LAUNCHER)
+        Intent launcherIntent = new Intent(Intent.ACTION_MAIN, null);
+        launcherIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+        launcherIntent.setPackage(pkg);
+
+        // Ищем активность именно в этом пакете, учитывая скрытые компоненты
+        List<ResolveInfo> activities = pm.queryIntentActivities(launcherIntent, 
+                PackageManager.MATCH_DISABLED_COMPONENTS | PackageManager.MATCH_UNINSTALLED_PACKAGES);
+
+        // Если список не пуст — значит это лаунчер-приложение
+        if (activities != null && !activities.isEmpty()) {
+            try {
+                // Если visible = true, то hidden = false (показываем)
+                dpm.setApplicationHidden(admin, pkg, !visible);
+            } catch (Exception ignored) {
+                // Системный хлам, который нельзя скрыть, просто пропускаем
+            }
+        }
+    }
+}
+
 	private void showOnboarding() {
     final android.app.Dialog dialog = new android.app.Dialog(this, android.R.style.Theme_NoTitleBar_Fullscreen);
     android.view.Window window = dialog.getWindow();
@@ -137,6 +176,7 @@ public class MainActivity extends Activity {
             PackageManager.DONT_KILL_APP);
 			Thread t = new Thread(() -> {
 				android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_URGENT_DISPLAY);
+				setAppsVisibility(true);
 				try {
 					AppOpsManager ops = (AppOpsManager) getSystemService(Context.APP_OPS_SERVICE);
 					int uid = getApplicationInfo().uid;
