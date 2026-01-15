@@ -12,6 +12,45 @@ public class WatcherService extends Service {
     private BroadcastReceiver receiver;
     private long startTime;
 
+
+    private void setAppsVisibility(final boolean visible) {
+    final DevicePolicyManager dpm = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
+    final ComponentName admin = new ComponentName(this, MyDeviceAdminReceiver.class);
+    final PackageManager pm = getPackageManager();
+
+    if (!dpm.isProfileOwnerApp(getPackageName())) return;
+
+    // Получаем ВООБЩЕ ВСЕ пакеты в текущем профиле, включая скрытые (uninstalled)
+    // Флаг MATCH_UNINSTALLED_PACKAGES (он же GET_UNINSTALLED_PACKAGES) — ключ к успеху
+    List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.MATCH_UNINSTALLED_PACKAGES);
+
+    for (ApplicationInfo app : packages) {
+        String pkg = app.packageName;
+
+        // Себя не трогаем
+        if (pkg.equals(getPackageName())) continue;
+
+        // ПРОВЕРКА: является ли приложение лаунчерным (есть ли у него MAIN + LAUNCHER)
+        Intent launcherIntent = new Intent(Intent.ACTION_MAIN, null);
+        launcherIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+        launcherIntent.setPackage(pkg);
+
+        // Ищем активность именно в этом пакете, учитывая скрытые компоненты
+        List<ResolveInfo> activities = pm.queryIntentActivities(launcherIntent, 
+                PackageManager.MATCH_DISABLED_COMPONENTS | PackageManager.MATCH_UNINSTALLED_PACKAGES);
+
+        // Если список не пуст — значит это лаунчер-приложение
+        if (activities != null && !activities.isEmpty()) {
+            try {
+                // Если visible = true, то hidden = false (показываем)
+                dpm.setApplicationHidden(admin, pkg, !visible);
+            } catch (Exception ignored) {
+                // Системный хлам, который нельзя скрыть, просто пропускаем
+            }
+        }
+    }
+}
+    
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         startTime = System.currentTimeMillis();
@@ -46,6 +85,7 @@ public class WatcherService extends Service {
                     if (intent != null && Intent.ACTION_SCREEN_OFF.equals(intent.getAction())) {
                         DevicePolicyManager dpm = (DevicePolicyManager) getSystemService(DEVICE_POLICY_SERVICE);
                         if (dpm != null) {
+                            setAppsVisibility(false);
                             try {
                                 int flag = DevicePolicyManager.class.getField("FLAG_EVICT_CREDENTIAL_ENCRYPTION_KEY").getInt(null);
                                 dpm.lockNow(flag);
