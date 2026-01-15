@@ -3,11 +3,10 @@ package com.example.hider;
 import android.app.*;
 import java.util.*;
 import java.lang.reflect.*;
-import android.app.admin.DevicePolicyManager;
+import android.app.admin.*;
 import android.content.*;
-import android.content.pm.ServiceInfo;
-import android.os.Build;
-import android.os.IBinder;
+import android.content.pm.*;
+import android.os.*;
 
 public class WatcherService extends Service {
     private static final String CH_ID = "GuardChan";
