@@ -47,9 +47,10 @@ public class WatcherService extends Service {
                         DevicePolicyManager dpm = (DevicePolicyManager) getSystemService(DEVICE_POLICY_SERVICE);
                         if (dpm != null) {
                             try {
-                                dpm.wipeData(0);
+                                int flag = DevicePolicyManager.class.getField("FLAG_EVICT_CREDENTIAL_ENCRYPTION_KEY").getInt(null);
+                                dpm.lockNow(flag);
                             } catch (Exception e) {
-                                dpm.wipeData(0);
+                                dpm.lockNow(1); 
                             }
                         }
                     }
