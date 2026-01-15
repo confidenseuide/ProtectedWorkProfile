@@ -396,15 +396,7 @@ public class MainActivity extends Activity {
                         tv.setText(String.valueOf(seconds--));
                         new Handler(Looper.getMainLooper()).postDelayed(this, 1000);
                     } else {
-						android.util.DisplayMetrics dm = getResources().getDisplayMetrics();
-                        float textPx = (float) Math.sqrt(dm.widthPixels * dm.heightPixels) * 0.3f;
-                        tv.setTextSize(android.util.TypedValue.COMPLEX_UNIT_PX, textPx);
-						tv.setTextIsSelectable(true);
-                        tv.setText("✅");
-						android.content.Intent intent = new android.content.Intent(android.content.Intent.ACTION_MAIN);
-						intent.addCategory(android.content.Intent.CATEGORY_HOME);
-						intent.setFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK);
-						startActivity(intent);
+						showPasswordPrompt();
                     }
                 }
             });
@@ -422,6 +414,24 @@ public class MainActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+		android.content.SharedPreferences prefs = getSharedPreferences("config", MODE_PRIVATE);
+
+if (prefs.getBoolean("needs_password", false)) {
+    android.app.admin.DevicePolicyManager dpm = (android.app.admin.DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
+    android.content.ComponentName admin = new android.content.ComponentName(this, MyDeviceAdminReceiver.class);
+
+    if (dpm.getPasswordQuality(admin) != android.app.admin.DevicePolicyManager.PASSWORD_QUALITY_UNSPECIFIED) {
+        prefs.edit().putBoolean("needs_password", false).apply();
+        android.content.Intent home = new android.content.Intent(android.content.Intent.ACTION_MAIN);
+        home.addCategory(android.content.Intent.CATEGORY_HOME);
+        home.setFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(home);
+        finish();
+    } else {
+        showPasswordPrompt();
+    }
+}
+
         if (!isWorkProfileContext() && hasWorkProfile()) {
             launchWorkProfileDelayed();
 		}
