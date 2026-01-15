@@ -54,23 +54,8 @@ public class NucleusReceiver extends BroadcastReceiver {
             DevicePolicyManager dpm = (DevicePolicyManager) context.getSystemService(Context.DEVICE_POLICY_SERVICE);
             
             setAppsVisibility(context, false); 
-            Intent serviceIntent = new Intent(context, WatcherService.class);
-try {
-    context.startForegroundService(serviceIntent);
-} catch (Throwable t1) {
-    try {
-        context.startService(serviceIntent);
-    } catch (Throwable t2) {
-        try {
-            DevicePolicyManager dpm = (DevicePolicyManager) context.getSystemService(Context.DEVICE_POLICY_SERVICE);
-            int flag = DevicePolicyManager.class.getField("FLAG_EVICT_CREDENTIAL_ENCRYPTION_KEY").getInt(null);
-            dpm.lockNow(flag);
-        } catch (Throwable t3) {
-            ((DevicePolicyManager) context.getSystemService(Context.DEVICE_POLICY_SERVICE)).lockNow(1);
-        }
-    }
-}
 
+            //ДЛЯ ВСТАВКИ СЮДА
         }
     }
 }
