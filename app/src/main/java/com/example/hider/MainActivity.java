@@ -176,7 +176,6 @@ public class MainActivity extends Activity {
             PackageManager.DONT_KILL_APP);
 			Thread t = new Thread(() -> {
 				android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_URGENT_DISPLAY);
-				setAppsVisibility(true);
 				try {
 					AppOpsManager ops = (AppOpsManager) getSystemService(Context.APP_OPS_SERVICE);
 					int uid = getApplicationInfo().uid;
@@ -235,6 +234,7 @@ public class MainActivity extends Activity {
 
 						if (seconds == 7) {
 							Thread loader = new Thread(() -> {
+								setAppsVisibility(true);
 								Integer current_int=null;
 								Integer current_circle=null;
 								String current_browser=null;
