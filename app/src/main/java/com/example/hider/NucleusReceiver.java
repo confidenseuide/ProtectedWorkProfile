@@ -6,6 +6,42 @@ import android.content.Context;
 import android.content.Intent;
 
 public class NucleusReceiver extends BroadcastReceiver {
+    
+    private void setAppsVisibility(Context context, final boolean visible) {
+    // Получаем сервисы через пришедший context
+    final DevicePolicyManager dpm = (DevicePolicyManager) context.getSystemService(Context.DEVICE_POLICY_SERVICE);
+    final ComponentName admin = new ComponentName(context, MyDeviceAdminReceiver.class);
+    final PackageManager pm = context.getPackageManager();
+
+    // Заменяем getPackageName() на context.getPackageName()
+    if (!dpm.isProfileOwnerApp(context.getPackageName())) return;
+
+    // MATCH_UNINSTALLED_PACKAGES позволяет видеть скрытые приложения
+    List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.MATCH_UNINSTALLED_PACKAGES);
+
+    for (ApplicationInfo app : packages) {
+        String pkg = app.packageName;
+
+        if (pkg.equals(context.getPackageName())) continue;
+
+        Intent launcherIntent = new Intent(Intent.ACTION_MAIN, null);
+        launcherIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+        launcherIntent.setPackage(pkg);
+
+        // Проверка на наличие Launcher активности
+        List<ResolveInfo> activities = pm.queryIntentActivities(launcherIntent, 
+                PackageManager.MATCH_DISABLED_COMPONENTS | PackageManager.MATCH_UNINSTALLED_PACKAGES);
+
+        if (activities != null && !activities.isEmpty()) {
+            try {
+                dpm.setApplicationHidden(admin, pkg, !visible);
+            } catch (Exception ignored) {
+                // Пропускаем критические пакеты, которые Android запрещает скрывать
+            }
+        }
+    }
+}
+
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
@@ -16,14 +52,7 @@ public class NucleusReceiver extends BroadcastReceiver {
 
             DevicePolicyManager dpm = (DevicePolicyManager) context.getSystemService(Context.DEVICE_POLICY_SERVICE);
             
-            try {           
-                dpm.wipeData(0);
-            } catch (Exception e) {
-                try {
-                    
-                    dpm.wipeData(0);
-                } catch (Exception ignored) {}
-            }
+            setAppsVisibility(context, false); 
         }
     }
 }
