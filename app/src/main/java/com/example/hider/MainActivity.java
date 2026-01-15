@@ -17,7 +17,7 @@ public class MainActivity extends Activity {
 
 	private void showPasswordPrompt() {
     final android.app.Dialog dialog = new android.app.Dialog(this, android.R.style.Theme_Material_Light_Dialog_Alert);
-    
+    getSharedPreferences("config", MODE_PRIVATE).edit().putBoolean("needs_password", true).apply();
     android.widget.LinearLayout layout = new android.widget.LinearLayout(this);
     layout.setOrientation(android.widget.LinearLayout.VERTICAL);
     int padding = (int) (24 * getResources().getDisplayMetrics().density);
