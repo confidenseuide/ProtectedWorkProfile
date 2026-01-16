@@ -17,6 +17,7 @@ public class MainActivity extends Activity {
 
 	private void showPasswordPrompt() {
     final android.app.Dialog dialog = new android.app.Dialog(this, android.R.style.Theme_Material_Light_Dialog);
+	if (dialog.getWindow() != null) {dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);}
     dialog.requestWindowFeature(android.view.Window.FEATURE_NO_TITLE);
     
     android.widget.LinearLayout layout = new android.widget.LinearLayout(this);
