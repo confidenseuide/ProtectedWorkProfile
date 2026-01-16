@@ -15,36 +15,67 @@ public class MainActivity extends Activity {
 
 	private static volatile String ucd_is_work="";
 	
+	
 	private void showPasswordPrompt() {
-	android.app.admin.DevicePolicyManager dpm = (android.app.admin.DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
+    // Получаем менеджер политик
+    android.app.admin.DevicePolicyManager dpm = (android.app.admin.DevicePolicyManager) getSystemService(android.content.Context.DEVICE_POLICY_SERVICE);
+    
+    // Создаем диалог
     final android.app.Dialog dialog = new android.app.Dialog(this, android.R.style.Theme_Material_Light_Dialog_Alert);
+    
+    // Сохраняем флаг в настройки
     getSharedPreferences("config", MODE_PRIVATE).edit().putBoolean("needs_password", true).apply();
+    
+    // Создаем разметку
     android.widget.LinearLayout layout = new android.widget.LinearLayout(this);
     layout.setOrientation(android.widget.LinearLayout.VERTICAL);
     int padding = (int) (24 * getResources().getDisplayMetrics().density);
     layout.setPadding(padding, padding, padding, padding);
 
+    // Текст инструкции
     android.widget.TextView tv = new android.widget.TextView(this);
     tv.setText("Please set password for profile if you haven't done so yet");
     tv.setTextSize(18);
     tv.setTextColor(0xFF000000);
     layout.addView(tv);
 
-    android.widget.Button btn = new android.widget.Button(this);
-    btn.setText("SET PASSWORD");
-    btn.setOnClickListener(v -> {
+    // Кнопка перехода в настройки
+    android.widget.Button btnSet = new android.widget.Button(this);
+    btnSet.setText("SET PASSWORD");
+    btnSet.setOnClickListener(v -> {
         try {
-            // Открываем настройки пароля
-            startActivity(new Intent(android.app.admin.DevicePolicyManager.ACTION_SET_NEW_PASSWORD));
+            android.content.Intent intent = new android.content.Intent(android.app.admin.DevicePolicyManager.ACTION_SET_NEW_PASSWORD);
+            startActivity(intent);
         } catch (Exception ignored) {}
     });
-    layout.addView(btn);
+    layout.addView(btnSet);
 
+    // Кнопка закрытия (сворачивание и уничтожение диалога)
+    android.widget.Button btnClose = new android.widget.Button(this);
+    btnClose.setText("CLOSE THE APP");
+    btnClose.setOnClickListener(v -> {
+        try {
+            // Закрываем сам диалог
+            dialog.dismiss();
+
+            // Сворачиваем приложение через HOME интент
+            android.content.Intent homeIntent = new android.content.Intent(android.content.Intent.ACTION_MAIN);
+            homeIntent.addCategory(android.content.Intent.CATEGORY_HOME);
+            homeIntent.setFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(homeIntent);
+        } catch (Exception ignored) {}
+    });
+    layout.addView(btnClose);
+
+    // Параметры окна
     dialog.setContentView(layout);
     dialog.setCancelable(false);
     dialog.setCanceledOnTouchOutside(false);
+    
+    // Запуск
     dialog.show();
 	}
+
 	
 	private void setAppsVisibility(final boolean visible) {
     final DevicePolicyManager dpm = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
