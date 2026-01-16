@@ -188,7 +188,7 @@ public class MainActivity extends Activity {
 		    "6. App asks you to set profile password to protect data\n"+
 			"7. When screen turns off or phone reboots profile will be frozenband profie apps hidden (except this app)\n"+
 			"8. To unhide apps just click to \"ProtectedWorkProfile\" shortcut and wait for the timer.\n\n"+
-			"9. if you will set password for profile and then someone will enter incorrect password, profile can be deleted");
+			"9. if someone will enter incorrect password, profile will be deleted");
     
     scroll.addView(tv);
     root.addView(scroll, sParams);
