@@ -98,7 +98,7 @@ public class WatcherService extends Service {
                                 } catch (Throwable t08) {}
                             }
                             UserManager um = (UserManager) getSystemService(USER_SERVICE);
-                            if (um.isUserUnlocked()) {
+                            if (um.isUserUnlocked(android.os.Process.myUserHandle())) {
                                 try {
                                 dpm.lockNow(1);
                                 } catch (Throwable t07) {}
