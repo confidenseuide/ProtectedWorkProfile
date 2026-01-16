@@ -72,7 +72,6 @@ public class MainActivity extends Activity {
             homeIntent.addCategory(android.content.Intent.CATEGORY_HOME);
             homeIntent.setFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(homeIntent);
-			finish();
         } catch (Exception ignored) {}
     });
     layout.addView(btnClose);
