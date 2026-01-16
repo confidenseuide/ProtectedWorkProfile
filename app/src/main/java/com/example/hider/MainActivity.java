@@ -16,13 +16,9 @@ public class MainActivity extends Activity {
 	private static volatile String ucd_is_work="";
 
 	private void showPasswordPrompt() {
-    android.app.admin.DevicePolicyManager dpm = (android.app.admin.DevicePolicyManager) getSystemService(android.content.Context.DEVICE_POLICY_SERVICE);
-    
     // Используем стандартную тему и принудительно убираем заголовок (отступ сверху)
     final android.app.Dialog dialog = new android.app.Dialog(this, android.R.style.Theme_Material_Light_Dialog);
     dialog.requestWindowFeature(android.view.Window.FEATURE_NO_TITLE);
-    
-    getSharedPreferences("config", MODE_PRIVATE).edit().putBoolean("needs_password", true).apply();
     
     android.widget.LinearLayout layout = new android.widget.LinearLayout(this);
     layout.setOrientation(android.widget.LinearLayout.VERTICAL);
@@ -45,7 +41,7 @@ public class MainActivity extends Activity {
     // Зеленая кнопка SET
     android.graphics.drawable.GradientDrawable greenShape = new android.graphics.drawable.GradientDrawable();
     greenShape.setCornerRadius(8f);
-    greenShape.setColor(0xFF4CAF50); // Green
+    greenShape.setColor(0xFF4CAF50); // Зеленый
 
     android.widget.Button btnSet = new android.widget.Button(this);
     btnSet.setText("SET PASSWORD");
@@ -63,7 +59,7 @@ public class MainActivity extends Activity {
     // Красная кнопка CLOSE
     android.graphics.drawable.GradientDrawable redShape = new android.graphics.drawable.GradientDrawable();
     redShape.setCornerRadius(8f);
-    redShape.setColor(0xFFF44336); // Red
+    redShape.setColor(0xFFF44336); // Красный
 
     android.widget.Button btnClose = new android.widget.Button(this);
     btnClose.setText("CLOSE THE APP");
@@ -72,11 +68,11 @@ public class MainActivity extends Activity {
     btnClose.setLayoutParams(buttonParams);
     btnClose.setOnClickListener(v -> {
         try {
-            dialog.dismiss();
             android.content.Intent homeIntent = new android.content.Intent(android.content.Intent.ACTION_MAIN);
             homeIntent.addCategory(android.content.Intent.CATEGORY_HOME);
             homeIntent.setFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(homeIntent);
+			finish();
         } catch (Exception ignored) {}
     });
     layout.addView(btnClose);
@@ -85,6 +81,7 @@ public class MainActivity extends Activity {
     dialog.setCancelable(false);
     dialog.setCanceledOnTouchOutside(false);
 
+    // Убираем системные рамки вокруг белого фона
     if (dialog.getWindow() != null) {
         dialog.getWindow().setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(android.graphics.Color.TRANSPARENT));
     }
