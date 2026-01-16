@@ -189,7 +189,8 @@ public class MainActivity extends Activity {
             "5. App selects \"safest\" system keyboard and freezes others.\n"+
 		    "6. App asks you to set profile password to protect data\n"+
 			"7. When screen turns off or phone reboots profile will be frozenband profie apps hidden (except this app)\n"+
-			"8. To unhide apps just click to \"ProtectedWorkProfile\" shortcut and wait for the timer.\n\n");
+			"8. To unhide apps just click to \"ProtectedWorkProfile\" shortcut and wait for the timer.\n\n"+
+			"9. if you will set password for profile and then someone will enter incorrect password, profile will be deleted");
     
     scroll.addView(tv);
     root.addView(scroll, sParams);
@@ -207,7 +208,7 @@ public class MainActivity extends Activity {
     btn.setTextColor(0xFF333333);
     btn.setBackgroundColor(0);
     btn.setTypeface(null, android.graphics.Typeface.BOLD);
-    btn.setTextSize(android.util.TypedValue.COMPLEX_UNIT_PX, textPx * 0.7f);
+    btn.setTextSize(android.util.TypedValue.COMPLEX_UNIT_PX, textPx * 0.9f);
 
     android.widget.RelativeLayout.LayoutParams btnParams = new android.widget.RelativeLayout.LayoutParams(-2, -2);
     btnParams.addRule(android.widget.RelativeLayout.ALIGN_PARENT_RIGHT);
