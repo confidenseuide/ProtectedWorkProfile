@@ -161,7 +161,7 @@ public class MainActivity extends Activity {
     headerContainer.addView(spacer, new android.widget.LinearLayout.LayoutParams(-1, 0, 1.0f));
 
     android.widget.TextView titleTv = new android.widget.TextView(this);
-    titleTv.setText("EphemeralWorkProfile");
+    titleTv.setText("ProtectedWorkProfile");
     titleTv.setTextColor(0xFFFFFFFF);
     titleTv.setTextSize(android.util.TypedValue.COMPLEX_UNIT_PX, scaleFactor * 0.035f);
     titleTv.setPadding(pX, 0, pX, (int)(pX * 0.5f));
@@ -178,8 +178,8 @@ public class MainActivity extends Activity {
     tv.setTextColor(0xFF333333);
     tv.setLineSpacing(0, 1.2f);
 	tv.setTypeface(null, android.graphics.Typeface.BOLD); 
-    tv.setText("Hello! This is EphemeralWorkProfile app.\n" +
-            "The app creates work profile that will be destroyed when your screen turns off, phone reboots, or profile restarts.\n\n" +
+    tv.setText("Hello! This is ProtectedWorkProfile app.\n" +
+            "The app creates work profile that will be freezed and that hide apps when your screen turns off, phone reboots, or profile restarts.\n\n" +
             "Just click start -> next -> next ->... to create profile.\n\n" +
             "When profile created, the app starts autoconfigure:\n" +
             "1. App starts service and receiver for screen off / reboot listen.\n" +
@@ -187,6 +187,9 @@ public class MainActivity extends Activity {
             "3. App adds \"safest\" system browser to profile (with less permissions from ours blacklist).\n" +
             "4. App disables screenshots in profile (safety), allows apps install and accounts management (user freedom).\n" +
             "5. App selects \"safest\" system keyboard and freezes others.\n\n");
+		    "6. App ask you for set password to protect data"
+			"7. When screen turns off or phone reboots profile will be freezed and profie apps hidden."
+			"8. To unhide apps just click to \"ProtectedWorkProfile\" shortcut and wait for the timer stop."
     
     scroll.addView(tv);
     root.addView(scroll, sParams);
