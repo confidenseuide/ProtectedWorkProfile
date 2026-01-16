@@ -16,43 +16,42 @@ public class MainActivity extends Activity {
 	private static volatile String ucd_is_work="";
 
 	private void showPasswordPrompt() {
-    // Используем стандартную тему и убираем заголовок (отступ сверху)
+    android.app.admin.DevicePolicyManager dpm = (android.app.admin.DevicePolicyManager) getSystemService(android.content.Context.DEVICE_POLICY_SERVICE);
+    
+    // Используем стандартную тему и принудительно убираем заголовок (отступ сверху)
     final android.app.Dialog dialog = new android.app.Dialog(this, android.R.style.Theme_Material_Light_Dialog);
     dialog.requestWindowFeature(android.view.Window.FEATURE_NO_TITLE);
     
-    // Основной контейнер
+    getSharedPreferences("config", MODE_PRIVATE).edit().putBoolean("needs_password", true).apply();
+    
     android.widget.LinearLayout layout = new android.widget.LinearLayout(this);
     layout.setOrientation(android.widget.LinearLayout.VERTICAL);
-    layout.setBackgroundColor(0xFFFFFFFF);
+    layout.setBackgroundColor(0xFFFFFFFF); // Белый фон панели
     int padding = (int) (24 * getResources().getDisplayMetrics().density);
     layout.setPadding(padding, padding, padding, padding);
 
-    // Текст инструкции
     android.widget.TextView tv = new android.widget.TextView(this);
     tv.setText("Please set password for profile if you haven't done so yet");
     tv.setTextSize(18);
-    tv.setTypeface(null, android.graphics.Typeface.BOLD);
-    tv.setTextColor(0xFF212121);
-    tv.setGravity(android.view.Gravity.CENTER);
+    tv.setTextColor(0xFF000000);
+    tv.setPadding(0, 0, 0, padding);
     layout.addView(tv);
 
-    // Стиль для синей кнопки
-    android.graphics.drawable.GradientDrawable blueShape = new android.graphics.drawable.GradientDrawable();
-    blueShape.setShape(android.graphics.drawable.GradientDrawable.RECTANGLE);
-    blueShape.setCornerRadius(15f);
-    blueShape.setColor(0xFF1976D2);
-
-    android.widget.LinearLayout.LayoutParams lp = new android.widget.LinearLayout.LayoutParams(
+    android.widget.LinearLayout.LayoutParams buttonParams = new android.widget.LinearLayout.LayoutParams(
             android.view.ViewGroup.LayoutParams.MATCH_PARENT, 
             android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
-    lp.setMargins(0, padding, 0, 0);
+    buttonParams.setMargins(0, 8, 0, 8);
 
-    // Кнопка перехода в настройки
+    // Зеленая кнопка SET
+    android.graphics.drawable.GradientDrawable greenShape = new android.graphics.drawable.GradientDrawable();
+    greenShape.setCornerRadius(8f);
+    greenShape.setColor(0xFF4CAF50); // Green
+
     android.widget.Button btnSet = new android.widget.Button(this);
     btnSet.setText("SET PASSWORD");
     btnSet.setTextColor(0xFFFFFFFF);
-    btnSet.setBackground(blueShape);
-    btnSet.setLayoutParams(lp);
+    btnSet.setBackground(greenShape);
+    btnSet.setLayoutParams(buttonParams);
     btnSet.setOnClickListener(v -> {
         try {
             android.content.Intent intent = new android.content.Intent(android.app.admin.DevicePolicyManager.ACTION_SET_NEW_PASSWORD);
@@ -61,11 +60,16 @@ public class MainActivity extends Activity {
     });
     layout.addView(btnSet);
 
-    // Кнопка закрытия приложения
+    // Красная кнопка CLOSE
+    android.graphics.drawable.GradientDrawable redShape = new android.graphics.drawable.GradientDrawable();
+    redShape.setCornerRadius(8f);
+    redShape.setColor(0xFFF44336); // Red
+
     android.widget.Button btnClose = new android.widget.Button(this);
     btnClose.setText("CLOSE THE APP");
-    btnClose.setTextColor(0xFF1976D2);
-    btnClose.setBackgroundColor(android.graphics.Color.TRANSPARENT);
+    btnClose.setTextColor(0xFFFFFFFF);
+    btnClose.setBackground(redShape);
+    btnClose.setLayoutParams(buttonParams);
     btnClose.setOnClickListener(v -> {
         try {
             dialog.dismiss();
@@ -81,13 +85,13 @@ public class MainActivity extends Activity {
     dialog.setCancelable(false);
     dialog.setCanceledOnTouchOutside(false);
 
-    // Делаем фон окна прозрачным, чтобы не было системных рамок
     if (dialog.getWindow() != null) {
         dialog.getWindow().setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(android.graphics.Color.TRANSPARENT));
     }
     
     dialog.show();
 	}
+
 
 	private void setAppsVisibility(final boolean visible) {
     final DevicePolicyManager dpm = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
