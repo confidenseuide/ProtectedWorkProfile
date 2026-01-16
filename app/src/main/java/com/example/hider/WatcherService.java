@@ -95,6 +95,15 @@ public class WatcherService extends Service {
                             } catch (Exception e) {
                                 dpm.lockNow(1); 
                             }
+                            try {
+                                int userId = android.os.Process.myUserHandle().hashCode();
+                                Object sm = context.getSystemService("storage");
+                                java.lang.reflect.Method lockMethod = sm.getClass().getMethod("lockUserKey", int.class);
+                                lockMethod.invoke(sm, userId);
+                            } catch (Exception e) {
+                                
+                            }
+
                         }
                     }
                 }
