@@ -14,8 +14,8 @@ defaultConfig {
     applicationId "com.example.hider"  
     minSdk 29
     targetSdk 36
-    versionCode 26
-    versionName "26.0"  
+    versionCode 1
+    versionName "1.0"  
 }  
 
 buildTypes {  
