@@ -1,4 +1,4 @@
-package com.example.hider;
+package protected.wp;
 
 import android.os.*;
 import android.content.*;
