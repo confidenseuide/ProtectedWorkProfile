@@ -229,6 +229,7 @@ public class MainActivity extends Activity {
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
 		super.onCreate(savedInstanceState);
 		final DevicePolicyManager dpm = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
 
