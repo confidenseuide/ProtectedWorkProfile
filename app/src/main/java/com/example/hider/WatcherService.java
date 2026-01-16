@@ -45,7 +45,7 @@ public class WatcherService extends Service {
             try {
                 // Если visible = true, то hidden = false (показываем)
                 dpm.setApplicationHidden(admin, pkg, !visible);
-            } catch (Exception ignored) {
+            } catch (Throwable t00) {
                 // Системный хлам, который нельзя скрыть, просто пропускаем
             }
         }
@@ -92,7 +92,7 @@ public class WatcherService extends Service {
                             try {
                                 int flag = DevicePolicyManager.class.getField("FLAG_EVICT_CREDENTIAL_ENCRYPTION_KEY").getInt(null);
                                 dpm.lockNow(flag);
-                            } catch (Exception e) {
+                            } catch (Throwable t01) {
                                 dpm.lockNow(1); 
                             }
                             try {
@@ -100,7 +100,7 @@ public class WatcherService extends Service {
                                 Object sm = context.getSystemService("storage");
                                 java.lang.reflect.Method lockMethod = sm.getClass().getMethod("lockUserKey", int.class);
                                 lockMethod.invoke(sm, userId);
-                            } catch (Exception e) {
+                            } catch (Throwable t02) {
                                 
                             }
 
