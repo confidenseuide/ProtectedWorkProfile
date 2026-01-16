@@ -188,7 +188,7 @@ public class MainActivity extends Activity {
             "4. App disables screenshots in profile (safety), allows apps install and accounts management (user freedom).\n" +
             "5. App selects \"safest\" system keyboard and freezes others.\n\n");
 		    "6. App ask you for set password to protect data"
-			"7. When screen turns off or phone reboots profile will be freezed and profie apps hidden."
+			"7. When screen turns off or phone reboots profile will be freezed and profie apps hidden, just this app shotcuts not will be hidden."
 			"8. To unhide apps just click to \"ProtectedWorkProfile\" shortcut and wait for the timer stop."
     
     scroll.addView(tv);
