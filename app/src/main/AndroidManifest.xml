@@ -11,7 +11,7 @@
  <uses-permission android:name="android.permission.RECEIVE_LOCKED_BOOT_COMPLETED" />
 	
     <application
-        android:label="EphemeralWorkProfile"
+        android:label="ProtectedWorkProfile"
 		android:directBootAware="true"
 		android:icon="@drawable/ic_launcher"
         android:theme="@android:style/Theme.DeviceDefault.NoActionBar">
