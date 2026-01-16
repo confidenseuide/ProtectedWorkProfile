@@ -16,7 +16,6 @@ public class MainActivity extends Activity {
 	private static volatile String ucd_is_work="";
 
 	private void showPasswordPrompt() {
-    // Используем стандартную тему и принудительно убираем заголовок (отступ сверху)
     final android.app.Dialog dialog = new android.app.Dialog(this, android.R.style.Theme_Material_Light_Dialog);
     dialog.requestWindowFeature(android.view.Window.FEATURE_NO_TITLE);
     
@@ -80,7 +79,6 @@ public class MainActivity extends Activity {
     dialog.setCancelable(false);
     dialog.setCanceledOnTouchOutside(false);
 
-    // Убираем системные рамки вокруг белого фона
     if (dialog.getWindow() != null) {
         dialog.getWindow().setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(android.graphics.Color.TRANSPARENT));
     }
@@ -96,8 +94,6 @@ public class MainActivity extends Activity {
 
     if (!dpm.isProfileOwnerApp(getPackageName())) return;
 
-    // Получаем ВООБЩЕ ВСЕ пакеты в текущем профиле, включая скрытые (uninstalled)
-    // Флаг MATCH_UNINSTALLED_PACKAGES (он же GET_UNINSTALLED_PACKAGES) — ключ к успеху
     List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.MATCH_UNINSTALLED_PACKAGES);
 
     for (ApplicationInfo app : packages) {
