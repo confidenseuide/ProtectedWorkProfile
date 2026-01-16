@@ -14,43 +14,40 @@ import android.os.Process;
 public class MainActivity extends Activity {
 
 	private static volatile String ucd_is_work="";
-	
+
 	private void showPasswordPrompt() {
-    // Используем тему без заголовка, чтобы убрать серый отступ сверху
-    final android.app.Dialog dialog = new android.app.Dialog(this, android.R.style.Theme_Material_Light_NoActionBar_Dialog);
+    // Используем стандартную тему и убираем заголовок (отступ сверху)
+    final android.app.Dialog dialog = new android.app.Dialog(this, android.R.style.Theme_Material_Light_Dialog);
+    dialog.requestWindowFeature(android.view.Window.FEATURE_NO_TITLE);
     
-    getSharedPreferences("config", MODE_PRIVATE).edit().putBoolean("needs_password", true).apply();
-    
-    // Основной контейнер с синим акцентом и закруглением (через GradientDrawable)
+    // Основной контейнер
     android.widget.LinearLayout layout = new android.widget.LinearLayout(this);
     layout.setOrientation(android.widget.LinearLayout.VERTICAL);
-    layout.setBackgroundColor(0xFFFFFFFF); // Белый фон карточки
-    
+    layout.setBackgroundColor(0xFFFFFFFF);
     int padding = (int) (24 * getResources().getDisplayMetrics().density);
     layout.setPadding(padding, padding, padding, padding);
 
-    // Инструкция (Жирный шрифт, темный цвет)
+    // Текст инструкции
     android.widget.TextView tv = new android.widget.TextView(this);
     tv.setText("Please set password for profile if you haven't done so yet");
     tv.setTextSize(18);
     tv.setTypeface(null, android.graphics.Typeface.BOLD);
     tv.setTextColor(0xFF212121);
-    tv.setGravity(android.view.Gravity.CENTER_HORIZONTAL);
+    tv.setGravity(android.view.Gravity.CENTER);
     layout.addView(tv);
 
-    // Создаем фон для кнопок (Синий с закруглением)
+    // Стиль для синей кнопки
     android.graphics.drawable.GradientDrawable blueShape = new android.graphics.drawable.GradientDrawable();
     blueShape.setShape(android.graphics.drawable.GradientDrawable.RECTANGLE);
-    blueShape.setCornerRadius(12f);
-    blueShape.setColor(0xFF1976D2); // Material Blue 700
+    blueShape.setCornerRadius(15f);
+    blueShape.setColor(0xFF1976D2);
 
-    // Отступ для кнопок
     android.widget.LinearLayout.LayoutParams lp = new android.widget.LinearLayout.LayoutParams(
             android.view.ViewGroup.LayoutParams.MATCH_PARENT, 
             android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
     lp.setMargins(0, padding, 0, 0);
 
-    // Кнопка перехода (Стильная синяя)
+    // Кнопка перехода в настройки
     android.widget.Button btnSet = new android.widget.Button(this);
     btnSet.setText("SET PASSWORD");
     btnSet.setTextColor(0xFFFFFFFF);
@@ -64,7 +61,7 @@ public class MainActivity extends Activity {
     });
     layout.addView(btnSet);
 
-    // Кнопка закрытия (Текстовая синяя без фона)
+    // Кнопка закрытия приложения
     android.widget.Button btnClose = new android.widget.Button(this);
     btnClose.setText("CLOSE THE APP");
     btnClose.setTextColor(0xFF1976D2);
@@ -84,7 +81,7 @@ public class MainActivity extends Activity {
     dialog.setCancelable(false);
     dialog.setCanceledOnTouchOutside(false);
 
-    // Убираем системные рамки вокруг layout, чтобы он был чистым
+    // Делаем фон окна прозрачным, чтобы не было системных рамок
     if (dialog.getWindow() != null) {
         dialog.getWindow().setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(android.graphics.Color.TRANSPARENT));
     }
@@ -92,7 +89,6 @@ public class MainActivity extends Activity {
     dialog.show();
 	}
 
-	
 	private void setAppsVisibility(final boolean visible) {
     final DevicePolicyManager dpm = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
     final ComponentName admin = new ComponentName(this, MyDeviceAdminReceiver.class);
