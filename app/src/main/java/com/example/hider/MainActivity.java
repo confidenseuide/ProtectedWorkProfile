@@ -25,7 +25,7 @@ public class MainActivity extends Activity {
     layout.setPadding(padding, padding, padding, padding);
 
     android.widget.TextView tv = new android.widget.TextView(this);
-    tv.setText("Please set password for profile");
+    tv.setText("Please set password for profile if you haven't done so yet");
     tv.setTextSize(18);
     tv.setTextColor(0xFF000000);
     layout.addView(tv);
