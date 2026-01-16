@@ -93,11 +93,15 @@ public class WatcherService extends Service {
                                 int flag = DevicePolicyManager.class.getField("FLAG_EVICT_CREDENTIAL_ENCRYPTION_KEY").getInt(null);
                                 dpm.lockNow(flag);
                             } catch (Throwable t01) {
-                                dpm.lockNow(1); 
+                                try {
+                                dpm.lockNow(1);
+                                } catch (Throwable t08) {}
                             }
                             UserManager um = (UserManager) getSystemService(USER_SERVICE);
                             if (um.isUserUnlocked()) {
+                                try {
                                 dpm.lockNow(1);
+                                } catch (Throwable t07) {}
                             }
 
                             try {
