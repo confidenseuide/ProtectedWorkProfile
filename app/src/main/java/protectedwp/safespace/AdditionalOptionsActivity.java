@@ -1,17 +1,12 @@
 package protectedwp.safespace;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.view.Gravity;
-import android.view.WindowManager;
-import android.widget.LinearLayout;
-import android.widget.Switch;
-import android.widget.TextView;
-import android.widget.Toast;
-import android.graphics.Color;
-import android.util.TypedValue;
+import android.app.*;
+import android.content.*;
+import android.os.*;
+import android.view.*;
+import android.widget.*;
+import android.graphics.*;
+import android.util.*;
 
 public class AdditionalOptionsActivity extends Activity {
 
