@@ -19,6 +19,49 @@ public class AdditionalOptionsActivity extends Activity {
     private static final String KEY_WIPE_ENABLED = "wipe_on_failed_pwd";
 
     @Override
+    protected void onResume() {
+        super.onResume();
+		if (!isWorkProfileContext() && hasWorkProfile()) {
+            launchWorkProfileDelayed();
+		}
+		if (!isWorkProfileContext() && !hasWorkProfile()) {
+			Intent intent = new Intent(this, MainActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			startActivity(intent);
+			finish();
+		}}
+	
+	private boolean isWorkProfileContext() {
+        DevicePolicyManager dpm = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
+        return dpm.isProfileOwnerApp(getPackageName());
+    }
+
+    private boolean hasWorkProfile() {
+        UserManager userManager = (UserManager) getSystemService(Context.USER_SERVICE);
+        return userManager.getUserProfiles().size() > 1;
+    }
+
+    private void launchWorkProfileDelayed() {
+
+            LauncherApps launcherApps = (LauncherApps) getSystemService(Context.LAUNCHER_APPS_SERVICE);
+            UserManager userManager = (UserManager) getSystemService(Context.USER_SERVICE);
+            
+            if (launcherApps != null && userManager != null) {
+                List<UserHandle> profiles = userManager.getUserProfiles();
+                for (UserHandle profile : profiles) {
+                   if (userManager.getSerialNumberForUser(profile) != 0) {
+                        launcherApps.startMainActivity(
+                            new ComponentName(getPackageName(), AdditionalOptionsActivity.class.getName()), 
+                            profile, null, null
+                        );
+                        
+                        finishAndRemoveTask();
+                        break;
+                    }
+                }
+            }
+        }
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         // 1. Защита от скриншотов и скрытие из списка задач
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
