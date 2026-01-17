@@ -93,14 +93,9 @@ public class AdditionalOptionsActivity extends Activity {
         final Switch sw = new Switch(this);
         sw.setChecked(prefs.getBoolean(KEY_WIPE_ENABLED, false));
         
-        // 4. Логика сохранения (защита от ANR + Гарантия записи)
         sw.setOnCheckedChangeListener((btn, isChecked) -> {
-            // Запускаем запись в фоновом потоке, чтобы исключить ANR на медленных дисках
             new Thread(() -> {
-                // Используем .commit() для синхронной и гарантированной записи
                 final boolean success = prefs.edit().putBoolean(KEY_WIPE_ENABLED, isChecked).commit();
-                
-
                 if (!success) {
                     runOnUiThread(() -> {
                         Toast.makeText(AdditionalOptionsActivity.this, "Memory error! Try again!", Toast.LENGTH_SHORT).show();
