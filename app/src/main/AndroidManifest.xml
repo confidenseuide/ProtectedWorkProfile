@@ -39,13 +39,11 @@
             </intent-filter>
         </activity>
 
-		<activity android:name=".DestroyActivity"
+		<activity android:name=".AdditionalOptionsActivity"
             android:exported="true"
 			android:taskAffinity=""
-			android:label="Destroy🔥"
-			android:showWhenLocked="true"
-		    android:excludeFromRecents="true"
-			android:directBootAware="true">
+			android:label="AdditionalOptions"
+		    android:excludeFromRecents="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -53,6 +51,17 @@
         </activity>
 		
 		<activity android:name=".StartAppsActivity"
+            android:exported="true"
+			android:taskAffinity=""
+			android:label="StartApps"
+		    android:excludeFromRecents="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+			<activity android:name=".StartAppsActivity"
             android:exported="true"
 			android:taskAffinity=""
 			android:label="StartApps"
