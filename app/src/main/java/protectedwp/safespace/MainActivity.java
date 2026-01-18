@@ -75,6 +75,14 @@ public class MainActivity extends Activity {
     layout.addView(btnClose);
 
     dialog.setContentView(layout);
+	android.view.Window window = dialog.getWindow();
+	if (window != null) {
+    WindowManager.LayoutParams lp = window.getAttributes();
+    lp.gravity = Gravity.CENTER;
+    lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+    window.setAttributes(lp);
+	}
+
     dialog.setCancelable(false);
     dialog.setCanceledOnTouchOutside(false);
 
