@@ -84,12 +84,7 @@ public class MainActivity extends Activity {
         window.setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(android.graphics.Color.TRANSPARENT));
     }
     dialog.setCancelable(false);
-    dialog.setCanceledOnTouchOutside(false);
-
-    if (dialog.getWindow() != null) {
-        dialog.getWindow().setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(android.graphics.Color.TRANSPARENT));
-    }
-    
+    dialog.setCanceledOnTouchOutside(false);    
     dialog.show();
 	}
 
