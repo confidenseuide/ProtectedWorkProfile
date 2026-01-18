@@ -9,7 +9,6 @@ import java.util.*;
 public class NucleusReceiver extends BroadcastReceiver {
     
     private void setAppsVisibility(Context context, final boolean visible) {
-    // Получаем сервисы через пришедший context
     final DevicePolicyManager dpm = (DevicePolicyManager) context.getSystemService(Context.DEVICE_POLICY_SERVICE);
     final ComponentName admin = new ComponentName(context, MyDeviceAdminReceiver.class);
     final PackageManager pm = context.getPackageManager();
