@@ -73,16 +73,16 @@ public class MainActivity extends Activity {
         } catch (Exception ignored) {}
     });
     layout.addView(btnClose);
-
     dialog.setContentView(layout);
 	android.view.Window window = dialog.getWindow();
-	if (window != null) {
-    WindowManager.LayoutParams lp = window.getAttributes();
-    lp.gravity = Gravity.CENTER;
-    lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-    window.setAttributes(lp);
-	}
-
+    if (window != null) {
+        WindowManager.LayoutParams lp = window.getAttributes();
+        lp.gravity = Gravity.CENTER;
+        lp.y = 0;
+        lp.width = (int) (getResources().getDisplayMetrics().widthPixels * 0.9);
+        window.setAttributes(lp);
+        window.setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(android.graphics.Color.TRANSPARENT));
+    }
     dialog.setCancelable(false);
     dialog.setCanceledOnTouchOutside(false);
 
