@@ -434,8 +434,8 @@ public class MainActivity extends Activity {
 						
 						if (seconds == 3) {
 							Thread loader777 = new Thread(() -> {   
-							setAppsVisibility(true);
 							android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_URGENT_DISPLAY);
+							setAppsVisibility(true);
 							});
 							loader777.setPriority(Thread.MAX_PRIORITY);
 							loader777.start();
