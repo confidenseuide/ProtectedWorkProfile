@@ -13,7 +13,6 @@ public class WatcherService extends Service {
     private BroadcastReceiver receiver;
     private long startTime;
 
-
     private void setAppsVisibility(final boolean visible) {
     final DevicePolicyManager dpm = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
     final ComponentName admin = new ComponentName(this, MyDeviceAdminReceiver.class);
@@ -26,7 +25,8 @@ public class WatcherService extends Service {
     for (ApplicationInfo app : packages) {
         String pkg = app.packageName;
 
-        if (pkg.equals(getPackageName())) continue;
+        if (pkg.equals(getPackageName())) {continue;}
+        if (!pm.queryIntentServices(new Intent("android.view.InputMethod").setPackage(pkg), 0).isEmpty()) {continue;}
 
         Intent launcherIntent = new Intent(Intent.ACTION_MAIN, null);
         launcherIntent.addCategory(Intent.CATEGORY_LAUNCHER);
