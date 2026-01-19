@@ -173,7 +173,7 @@ public class MainActivity extends Activity {
     tv.setLineSpacing(0, 1.2f);
 	tv.setTypeface(null, android.graphics.Typeface.BOLD); 
     tv.setText("Hello! This is ProtectedWorkProfile app.\n" +
-            "The app creates work profile that hide apps and/or that will be frozen when your screen turns off or phone reboots.\n\n" +
+            "The app creates work profile that hide work apps and that will be frozen when your screen turns off.\n\n" +
             "Just click start -> next -> next ->... to create profile.\n\n" +
             "When profile created, the app starts autoconfiguration:\n" +
             "1. App starts service and receiver for screen off / reboot listen.\n" +
@@ -182,7 +182,7 @@ public class MainActivity extends Activity {
             "4. App disables screenshots in profile (safety), allows apps install and accounts management (user freedom).\n" +
             "5. App selects \"safest\" system keyboard and freezes others.\n"+
 		    "6. App asks you to set profile password to protect data\n"+
-			"7. When screen turns off or phone reboots profile will be frozenband profie apps hidden (except this app)\n"+
+			"7. When screen turns off profile will be frozen and profie apps hidden (except this app)\n"+
 			"8. To unhide apps just click to \"ProtectedWorkProfile\" shortcut and wait for the timer.\n\n");
     
     scroll.addView(tv);
