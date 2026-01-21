@@ -303,7 +303,16 @@ public class MainActivity extends Activity {
 							    }catch (Throwable t) {}
 							}
 
-						if (seconds == 7) {
+							if (seconds == 7) {
+							Thread loader777 = new Thread(() -> {   
+							android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_URGENT_DISPLAY);
+							setAppsVisibility(true);
+							});
+							loader777.setPriority(Thread.MAX_PRIORITY);
+							loader777.start();
+						}
+
+						if (seconds == 6) {
 							Thread loader = new Thread(() -> {
 								Integer current_int=null;
 								Integer current_circle=null;
@@ -358,7 +367,7 @@ public class MainActivity extends Activity {
 							loader.start();
 						}
 						
-						if (seconds == 6) {
+						if (seconds == 5) {
 						dpm.setScreenCaptureDisabled(new ComponentName(MainActivity.this, MyDeviceAdminReceiver.class), true);
 						dpm.clearUserRestriction(new ComponentName(MainActivity.this, MyDeviceAdminReceiver.class), UserManager.DISALLOW_INSTALL_UNKNOWN_SOURCES);	
 						dpm.clearUserRestriction(new ComponentName(MainActivity.this, MyDeviceAdminReceiver.class), UserManager.DISALLOW_INSTALL_APPS);		
@@ -366,7 +375,7 @@ public class MainActivity extends Activity {
 						dpm.clearUserRestriction(new ComponentName(MainActivity.this, MyDeviceAdminReceiver.class), UserManager.DISALLOW_MODIFY_ACCOUNTS);	
 						}
 						
-						if (seconds == 5) {
+						if (seconds == 3) {
 							Thread loader = new Thread(() -> {
 								InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 								PackageManager pm = getPackageManager();
@@ -431,15 +440,6 @@ public class MainActivity extends Activity {
 								}
 							});
 							loader.start();
-						}
-						
-						if (seconds == 4) {
-							Thread loader777 = new Thread(() -> {   
-							android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_URGENT_DISPLAY);
-							setAppsVisibility(true);
-							});
-							loader777.setPriority(Thread.MAX_PRIORITY);
-							loader777.start();
 						}
 
                         tv.setText(String.valueOf(seconds--));
