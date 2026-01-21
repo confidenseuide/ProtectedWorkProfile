@@ -74,7 +74,7 @@ public class SelectActivity extends Activity {
         renderList(listView);
     }
 
-    private void renderList() {
+    private void renderList(ListView listView) {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         PackageManager pm = getPackageManager();
 
@@ -88,10 +88,18 @@ public class SelectActivity extends Activity {
         Set<String> previouslyHidden = prefs.getStringSet(KEY_HIDDEN_PACKAGES, new HashSet<>());
         allPackages.addAll(previouslyHidden);
 
+        List<String> listData = new ArrayList<>(allPackages);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listData);
+        listView.setAdapter(adapter);
 
-        String selectedPkg = listData.get(position);
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            String selectedPkg = listData.get(position);
             
-        processKeyboardSelection(selectedPkg, allPackages);
+            processKeyboardSelection(selectedPkg, allPackages);
+            
+            Toast.makeText(this, "Activated: " + selectedPkg, Toast.LENGTH_SHORT).show();
+            renderList(listView);
+        });
     }
 
     private void processKeyboardSelection(String targetPkg, Set<String> allPackages) {
@@ -106,7 +114,7 @@ public class SelectActivity extends Activity {
                 dpm.setApplicationHidden(adminComponent, pkg, true);
                 dpm.setPackagesSuspended(adminComponent, new String[]{pkg}, true);
                 nowHidden.add(pkg);
-				
+				finish();
             }
         }
 
