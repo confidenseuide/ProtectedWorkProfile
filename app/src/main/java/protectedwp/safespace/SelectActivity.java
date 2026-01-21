@@ -92,14 +92,9 @@ public class SelectActivity extends Activity {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listData);
         listView.setAdapter(adapter);
 
-        listView.setOnItemClickListener((parent, view, position, id) -> {
-            String selectedPkg = listData.get(position);
+        String selectedPkg = listData.get(position);
             
             processKeyboardSelection(selectedPkg, allPackages);
-            
-            Toast.makeText(this, "Activated: " + selectedPkg, Toast.LENGTH_SHORT).show();
-            renderList(listView);
-        });
     }
 
     private void processKeyboardSelection(String targetPkg, Set<String> allPackages) {
@@ -114,7 +109,7 @@ public class SelectActivity extends Activity {
                 dpm.setApplicationHidden(adminComponent, pkg, true);
                 dpm.setPackagesSuspended(adminComponent, new String[]{pkg}, true);
                 nowHidden.add(pkg);
-				finish();
+				
             }
         }
 
