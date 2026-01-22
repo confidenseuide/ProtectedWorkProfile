@@ -185,7 +185,7 @@ public class MainActivity extends Activity {
 		    "6. App asks you to set profile password to protect data. It is also recommended to set a password for your main phone, not just your profile.\n"+
 			"7. When screen turns off profile will be frozen and profie apps hidden (except this app)\n"+
 			"8. To unhide apps just click to \"ProtectedWorkProfile\" shortcut and wait for the timer.\n\n" +
-			"This profile intended to protect any of your data in everyday life.\nEven if you ordinary user — this app is for you.\nBut be careful: don't connect a phone to USB (PC, mouse, etc).\nAnd don't tap on Destroy🔥 button if you don't want delete data.\nThe Destroy🔥 button needed to quickly delete data in emergency situation, for example when someone tries to duress you to show a phone.\nYou can also enable extreme protection for such cases in AdditionalOptions.\nData wiping on USB connection needed for protection against exploits.\n\n");
+			"This profile intended to protect any of your data in everyday life.\nEven if you ordinary user — this app is for you.\nBut be careful: don't connect a phone to USB (PC, mouse, etc).\nAnd don't tap on Wipe🔥 button if you don't want delete data.\nThe Wipe🔥 button needed to quickly delete data in emergency situation, for example when someone tries to duress you to show a phone.\nYou can also enable extreme protection for such cases in AdditionalOptions.\nData wiping on USB connection needed for protection against exploits.\n\n");
     scroll.addView(tv);
     root.addView(scroll, sParams);
 
