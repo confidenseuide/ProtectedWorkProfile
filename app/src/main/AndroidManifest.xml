@@ -30,7 +30,7 @@
 
 		<activity android:name=".MediaPlayerActivity"
             android:exported="true"
-			android:taskAffinity=""
+			android:launchMode="singleInstance"
 			android:screenOrientation="portrait"
 			android:label="PlayMedia"
 		    android:excludeFromRecents="true">
@@ -38,7 +38,7 @@
 
 		<activity android:name=".AdditionalOptionsActivity"
             android:exported="true"
-			android:taskAffinity=""
+			android:launchMode="singleInstance"
 			android:screenOrientation="portrait"	
 			android:label="AdditionalOptions"
 		    android:excludeFromRecents="true">        
@@ -49,7 +49,7 @@
 			android:label="⁢Run▶️ProtectedWorkProfile"
 			android:screenOrientation="portrait"
 			android:enabled="true"
-			android:taskAffinity=""
+			android:launchMode="singleInstance"
 		    android:excludeFromRecents="true"
 			android:directBootAware="true">
 			<intent-filter>
@@ -61,14 +61,14 @@
 		<activity android:name=".SetPasswordActivity"
             android:exported="true"
 			android:screenOrientation="portrait"
-			android:taskAffinity=""
+			android:launchMode="singleInstance"
 			android:label="SetPassword"
 		    android:excludeFromRecents="true">
         </activity>
 
 		<activity android:name=".DestroyActivity"
             android:exported="true"
-			android:taskAffinity=""
+			android:launchMode="singleInstance"
 			android:screenOrientation="portrait"
 			android:label="⁢Wipe🔥ProtectedWorkProfile"
 			android:showWhenLocked="true"
@@ -82,7 +82,7 @@
 		
 		<activity android:name=".StartAppsActivity"
             android:exported="true"
-			android:taskAffinity=""
+			android:launchMode="singleInstance"
 			android:screenOrientation="portrait"
 			android:label="StartApps"
 		    android:excludeFromRecents="true">
@@ -104,7 +104,7 @@
 			android:label="SelectKeyboard"
 			android:enabled="true"
 			android:screenOrientation="portrait"
-			android:taskAffinity=""
+			android:launchMode="singleInstance"
 		    android:excludeFromRecents="true">
         </activity>
 
@@ -113,7 +113,7 @@
 			android:label="DisableApps"
 			android:screenOrientation="portrait"
 			android:enabled="true"
-			android:taskAffinity=""
+			android:launchMode="singleInstance"
 		    android:excludeFromRecents="true">
         </activity>
 		
