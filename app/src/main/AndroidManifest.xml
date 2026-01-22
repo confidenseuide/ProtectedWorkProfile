@@ -60,7 +60,7 @@
             android:exported="true"
 			android:taskAffinity=""
 			android:screenOrientation="portrait"
-			android:label="Wipe🔥ProtectedWorkProfile"
+			android:label="⁢Wipe🔥ProtectedWorkProfile"
 			android:showWhenLocked="true"
 		    android:excludeFromRecents="true"
 			android:directBootAware="true">
@@ -80,7 +80,7 @@
 		
     <activity android:name=".MainActivity"
             android:exported="true"
-		    android:label="ProtectedWorkProfile"
+		    android:label="⁢ProtectedWorkProfile"
 		    android:screenOrientation="portrait"
 		    android:excludeFromRecents="true">
             <intent-filter>
