@@ -97,7 +97,7 @@ public class AdditionalOptionsActivity extends Activity {
         row.setGravity(Gravity.CENTER_VERTICAL);
 
         TextView label = new TextView(this);
-        label.setText("Wipe profile on 1 password failed attempt. This is useful for situations when someone try to duress you to unlock profile. App can react to main profile failed unlock attempt too.");
+        label.setText("Wipe profile on 1 password failed attempt. This is useful for situations when someone try duress you to unlock profile. App can react to main profile failed unlock attempt too.");
         label.setTextSize(16);
         label.setTextColor(Color.parseColor("#333333"));
         row.addView(label, new LinearLayout.LayoutParams(0, -2, 1.0f));
