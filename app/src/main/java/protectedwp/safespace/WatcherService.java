@@ -12,6 +12,7 @@ import android.hardware.usb.UsbManager;
 public class WatcherService extends Service {
     private static final String CH_ID = "GuardChan";
     private BroadcastReceiver receiver;
+    private BroadcastReceiver usbReceiver;
     private long startTime;
 
     private void setAppsVisibility(final boolean visible) {
@@ -76,8 +77,7 @@ public class WatcherService extends Service {
                 public void onReceive(Context context, Intent intent) {
                     if (isInitialStickyBroadcast()) return;
                     DevicePolicyManager dpm = (DevicePolicyManager) getSystemService(DEVICE_POLICY_SERVICE);
-                    if (intent != null && UsbManager.ACTION_USB_DEVICE_ATTACHED.equals(intent.getAction())) {try {dpm.wipeData(0);} catch (Throwable tex1) {}} 	
-                    if (intent != null && "android.hardware.usb.action.USB_STATE".equals(intent.getAction())) {try {dpm.wipeData(0);} catch (Throwable tex2) {}}
+                    if (intent != null && UsbManager.ACTION_USB_DEVICE_ATTACHED.equals(intent.getAction())) {wipe.wipe(WatcherService.this);} 	
                     if (intent != null && Intent.ACTION_SCREEN_OFF.equals(intent.getAction())) {
                         
                         if (dpm != null) {
@@ -115,7 +115,6 @@ public class WatcherService extends Service {
 
             IntentFilter filter = new IntentFilter();
            filter.addAction(Intent.ACTION_SCREEN_OFF);
-           filter.addAction("android.hardware.usb.action.USB_STATE");
            filter.addAction(UsbManager.ACTION_USB_DEVICE_ATTACHED);
             if (Build.VERSION.SDK_INT >= 34) {
                 registerReceiver(receiver, filter, Context.RECEIVER_NOT_EXPORTED);
