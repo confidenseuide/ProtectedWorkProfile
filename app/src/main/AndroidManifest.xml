@@ -76,8 +76,6 @@
 		
 		<activity android:name=".StartAppsActivity"
             android:exported="true"
-			android:directBootAware="true"
-			android:showWhenLocked="true"	
 			android:launchMode="singleInstance"
 			android:screenOrientation="portrait"
 			android:label="StartApps"
