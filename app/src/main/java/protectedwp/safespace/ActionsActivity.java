@@ -17,39 +17,70 @@ public class ActionsActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        // 1. ФЛАГИ СТРОГО ДО SUPER
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        
+        // Показываем это меню поверх локскрина
         if (Build.VERSION.SDK_INT >= 27) {
             setShowWhenLocked(true);
         } else {
-            getWindow().addFlags(0x00080000); // FLAG_SHOW_WHEN_LOCKED
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
         }
 
         super.onCreate(savedInstanceState);
 
+        // 2. UI СТРУКТУРА
         LinearLayout root = new LinearLayout(this);
         root.setOrientation(LinearLayout.VERTICAL);
         root.setGravity(Gravity.CENTER);
         root.setBackgroundColor(Color.BLACK);
 
+        LinearLayout contentBox = new LinearLayout(this);
+        contentBox.setOrientation(LinearLayout.VERTICAL);
+        contentBox.setGravity(Gravity.CENTER_HORIZONTAL);
+        contentBox.setLayoutParams(new LinearLayout.LayoutParams(-1, -2));
+        ((LinearLayout.LayoutParams)contentBox.getLayoutParams()).setMargins(60, 0, 60, 0);
+
+        TextView title = new TextView(this);
+        title.setText("What to do?");
+        title.setTextSize(24);
+        title.setTypeface(null, Typeface.BOLD);
+        title.setTextColor(Color.WHITE);
+        title.setPadding(0, 0, 0, 40);
+        title.setGravity(Gravity.CENTER);
+        contentBox.addView(title);
+
         ListView listView = new ListView(this);
-        root.addView(listView);
+        listView.setLayoutParams(new LinearLayout.LayoutParams(-1, -2));
+        contentBox.addView(listView);
+
+        root.addView(contentBox);
         setContentView(root);
 
+        // 3. ЛОГИКА СПИСКА
         labelToClass.put(CLOSE_APP_LABEL, "ACTION_CLOSE");
         loadActivities();
 
         List<String> labels = new ArrayList<>(labelToClass.keySet());
-        listView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, labels));
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, labels);
+        listView.setAdapter(adapter);
 
         listView.setOnItemClickListener((parent, view, position, id) -> {
             String label = labels.get(position);
+            String className = labelToClass.get(label);
+
             if (label.equals(CLOSE_APP_LABEL)) {
-                startActivity(new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_HOME).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                Intent home = new Intent(Intent.ACTION_MAIN);
+                home.addCategory(Intent.CATEGORY_HOME);
+                home.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(home);
             } else if (label.equals(RESET_LABEL)) {
                 unlock();
             } else {
                 try {
-                    Intent i = new Intent().setComponent(new ComponentName(getPackageName(), labelToClass.get(label)));
+                    Intent i = new Intent();
+                    i.setComponent(new ComponentName(getPackageName(), className));
                     i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(i);
                 } catch (Exception ignored) {}
@@ -58,30 +89,27 @@ public class ActionsActivity extends Activity {
     }
 
     private void unlock() {
+        // Мгновенно сохраняем состояние в защищенное хранилище
         this.createDeviceProtectedStorageContext()
             .getSharedPreferences("prefs", Context.MODE_PRIVATE)
             .edit()
             .putBoolean("isDone", false)
             .commit();
 
-        LauncherApps la = (LauncherApps) getSystemService(Context.LAUNCHER_APPS_SERVICE);
-        UserManager um = (UserManager) getSystemService(Context.USER_SERVICE);
+        // ШАГ 1: Вылетаем на Home. Система увидит, что Work Profile активен, но залочен,
+        // и при попытке любого действия выкинет системный пароль.
+        Intent home = new Intent(Intent.ACTION_MAIN);
+        home.addCategory(Intent.CATEGORY_HOME);
+        home.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(home);
 
-        UserHandle mainUser = null;
-        List<UserHandle> profiles = um.getUserProfiles();
-        for (UserHandle u : profiles) {
-            if (um.getSerialNumberForUser(u) == 0) {
-                mainUser = u;
-                break;
-            }
-        }
-
-        if (mainUser != null) {
-            // Пробиваем пароль через кросс-профильный запуск
-            la.startMainActivity(new ComponentName(getPackageName(), getPackageName() + ".MainActivity"), mainUser, null, null);
-        } else {
-            startActivity(new Intent(this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-        }
+        // ШАГ 2: Моментально запускаем MainActivity.
+        // Она встанет в очередь и откроется сразу, как только юзер пройдет проверку.
+        Intent main = new Intent(this, MainActivity.class);
+        main.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(main);
+        
+        // Финиш не вызываем, чтобы не ломать стек
     }
 
     private void loadActivities() {
@@ -90,7 +118,16 @@ public class ActionsActivity extends Activity {
             PackageInfo pi = pm.getPackageInfo(getPackageName(), PackageManager.GET_ACTIVITIES);
             for (ActivityInfo info : pi.activities) {
                 if (info.name.equals(this.getClass().getName())) continue;
-                String label = info.name.endsWith("MainActivity") ? RESET_LABEL : info.loadLabel(pm).toString();
+                
+                String label;
+                if (info.name.endsWith("MainActivity")) {
+                    label = RESET_LABEL;
+                } else {
+                    label = info.loadLabel(pm).toString();
+                    if (label.equals(info.name) || label.isEmpty() || label.equals("ProtectedWorkProfile")) {
+                        label = RESET_LABEL;
+                    }
+                }
                 labelToClass.put(label, info.name);
             }
         } catch (Exception ignored) {}
@@ -98,7 +135,8 @@ public class ActionsActivity extends Activity {
 
     @Override
     protected void onResume() {
-        super.onResume();
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        super.onResume();
     }
 }
