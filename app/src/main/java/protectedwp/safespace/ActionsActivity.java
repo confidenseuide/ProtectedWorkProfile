@@ -123,19 +123,9 @@ public class ActionsActivity extends Activity {
         try {
             PackageManager pm = getPackageManager();
             PackageInfo pi = pm.getPackageInfo(getPackageName(), PackageManager.GET_ACTIVITIES);
-            
-            Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
-            mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-            mainIntent.setPackage(getPackageName());
-            List<android.content.pm.ResolveInfo> launcherApps = pm.queryIntentActivities(mainIntent, 0);
-            
-            List<String> launcherClassNames = new ArrayList<>();
-            for (android.content.pm.ResolveInfo ri : launcherApps) {
-                launcherClassNames.add(ri.activityInfo.name);
-            }
 
             for (ActivityInfo info : pi.activities) {
-                if (!info.name.equals(this.getClass().getName()) && !launcherClassNames.contains(info.name)) {
+                if (!info.name.equals(this.getClass().getName())) {
                     String label = info.loadLabel(pm).toString();
 
 					if (label.equals(info.name) || label.isEmpty()) {
