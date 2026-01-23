@@ -76,6 +76,7 @@ public class ActionsActivity extends Activity {
 					if (!label.equals("ProtectedWorkProfile") && !label.equals("ShowApps&SetUp")) {
                     Intent i = new Intent();
                     i.setComponent(new ComponentName(getPackageName(), className));
+					i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(i);}
                 } catch (Exception ignored) {}
             }
@@ -91,6 +92,7 @@ public class ActionsActivity extends Activity {
 		ActionsActivity.this.createDeviceProtectedStorageContext().getSharedPreferences("prefs", Context.MODE_PRIVATE).edit().putBoolean("isDone", false).apply();
 	
 		Intent i1 = new Intent(ActionsActivity.this, MainActivity.class);
+		i1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 	    startActivity(i1);
 		
 	}
