@@ -14,18 +14,6 @@ import android.os.Process;
 public class MainActivity extends Activity {
 
 	private static volatile String ucd_is_work="";
-
-	@Override
-	protected void onNewIntent(Intent intent) {
-    super.onNewIntent(intent);
-
-	finishAndRemoveTask();
-
-    Intent i = new Intent(getApplicationContext(), this.getClass());
-    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-    
-    getApplicationContext().startActivity(i);
-	}
 	
 	private void showPasswordPrompt() {
     final android.app.Dialog dialog = new android.app.Dialog(this, android.R.style.Theme_Material_Light_Dialog);
