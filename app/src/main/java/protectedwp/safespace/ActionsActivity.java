@@ -114,7 +114,7 @@ public class ActionsActivity extends Activity {
                     }
 					if (label.equals("ProtectedWorkProfile")) {
 						label = "ShowApps&SetUp";
-						ActionsActivity.this.createDeviceProtectedStorageContext().getSharedPreferences("prefs", 0).edit().putBoolean("isDone", false).apply();
+						ActionsActivity.this.createDeviceProtectedStorageContext().getSharedPreferences("prefs", Context.MODE_PRIVATE).edit().putBoolean("isDone", false).apply();
 					}
                     labelToClass.put(label, info.name);
                 }
