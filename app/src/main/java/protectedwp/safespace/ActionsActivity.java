@@ -85,11 +85,10 @@ public class ActionsActivity extends Activity {
         });
     }
 
-    private void unlock() {
-        
-        
-
-        
+    private void unlock() {      
+        Intent intent = new Intent(this, ZeroActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);        
+        startActivity(intent);
     }
 
     private void loadActivities() {
