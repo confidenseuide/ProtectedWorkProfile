@@ -1,7 +1,6 @@
 package protectedwp.safespace;
 
 import android.app.*;
-import android.app.admin.*;
 import android.content.*;
 import android.content.pm.*;
 import android.graphics.*;
@@ -18,21 +17,20 @@ public class ActionsActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // 1. ФЛАГИ СУКА ДО SUPER
+        // 1. ФЛАГИ СТРОГО ДО SUPER
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         
-        // Магия пробития локскрина через флаги окна
+        // Показываем это меню поверх локскрина
         if (Build.VERSION.SDK_INT >= 27) {
             setShowWhenLocked(true);
-            setTurnScreenOn(true);
         } else {
-            // FLAG_SHOW_WHEN_LOCKED | FLAG_DISMISS_KEYGUARD | FLAG_TURN_SCREEN_ON
-            getWindow().addFlags(0x00080000 | 0x00400000 | 0x00200000); 
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
         }
 
         super.onCreate(savedInstanceState);
 
+        // 2. UI СТРУКТУРА
         LinearLayout root = new LinearLayout(this);
         root.setOrientation(LinearLayout.VERTICAL);
         root.setGravity(Gravity.CENTER);
@@ -60,6 +58,7 @@ public class ActionsActivity extends Activity {
         root.addView(contentBox);
         setContentView(root);
 
+        // 3. ЛОГИКА СПИСКА
         labelToClass.put(CLOSE_APP_LABEL, "ACTION_CLOSE");
         loadActivities();
 
@@ -90,29 +89,54 @@ public class ActionsActivity extends Activity {
     }
 
     private void unlock() {
-        UserManager um = (UserManager) getSystemService(Context.USER_SERVICE);
-        KeyguardManager km = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
+        // Мгновенно сохраняем состояние в защищенное хранилище
+        this.createDeviceProtectedStorageContext()
+            .getSharedPreferences("prefs", Context.MODE_PRIVATE)
+            .edit()
+            .putBoolean("isDone", false)
+            .commit();
+
+        // ШАГ 1: Вылетаем на Home. Система увидит, что Work Profile активен, но залочен,
+        // и при попытке любого действия выкинет системный пароль.
+        Intent home = new Intent(Intent.ACTION_MAIN);
+        home.addCategory(Intent.CATEGORY_HOME);
+        home.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(home);
+
+        // ШАГ 2: Моментально запускаем MainActivity.
+        // Она встанет в очередь и откроется сразу, как только юзер пройдет проверку.
+        Intent main = new Intent(this, MainActivity.class);
+        main.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(main);
         
-        // Явное указание android.os.Process, чтобы компилятор не ныл
-        UserHandle myUserHandle = android.os.Process.myUserHandle();
+        // Финиш не вызываем, чтобы не ломать стек
+    }
 
-        // Если профиль в "тихом режиме" (залочен на уровне юзера)
-        if (Build.VERSION.SDK_INT >= 24 && um.isQuietModeEnabled(myUserHandle)) {
-            // Посылаем запрос на отключение тихого режима — это триггерит системный локскрин
-            // В Work Profile это самый верный способ заставить систему показать ввод пароля
-            Intent intent = new Intent(Intent.ACTION_RUN); // Заглушка, система перехватит
-            // Но лучше просто доверять KeyguardManager, если профиль активен
-        }
-
-        if (um.isUserUnlocked()) {
-            savePrefsAndRestart();
-            return;
-        }
-
-        // ОСНОВНОЙ ПИНОК СИСТЕМЫ
-        if (Build.VERSION.SDK_INT >= 26) {
-            km.requestDismissKeyguard(this, new KeyguardManager.KeyguardDismissCallback() {
-                @Override
-                public void onDismissSucceeded() {
-                    savePrefsAndRestart();
+    private void loadActivities() {
+        try {
+            PackageManager pm = getPackageManager();
+            PackageInfo pi = pm.getPackageInfo(getPackageName(), PackageManager.GET_ACTIVITIES);
+            for (ActivityInfo info : pi.activities) {
+                if (info.name.equals(this.getClass().getName())) continue;
+                
+                String label;
+                if (info.name.endsWith("MainActivity")) {
+                    label = RESET_LABEL;
+                } else {
+                    label = info.loadLabel(pm).toString();
+                    if (label.equals(info.name) || label.isEmpty() || label.equals("ProtectedWorkProfile")) {
+                        label = RESET_LABEL;
+                    }
                 }
+                labelToClass.put(label, info.name);
+            }
+        } catch (Exception ignored) {}
+    }
+
+    @Override
+    protected void onResume() {
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        super.onResume();
+    }
+}
