@@ -15,15 +15,17 @@ public class ActionsActivity extends Activity {
     private Map<String, String> labelToClass = new LinkedHashMap<>();
     private static final String CLOSE_APP_LABEL = "CloseApp";
     private static final String RESET_LABEL = "ShowApps&SetUp";
+    private static final int REQUEST_CODE_CONFIRM_DEVICE_CREDENTIAL = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // ФЛАГИ СТРОГО ДО SUPER
+        // 1. ФЛАГИ СТРОГО ДО SUPER
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         
         super.onCreate(savedInstanceState);
 
+        // 2. UI
         LinearLayout root = new LinearLayout(this);
         root.setOrientation(LinearLayout.VERTICAL);
         root.setGravity(Gravity.CENTER);
@@ -51,6 +53,7 @@ public class ActionsActivity extends Activity {
         root.addView(contentBox);
         setContentView(root);
 
+        // 3. ЛОГИКА СПИСКА
         labelToClass.put(CLOSE_APP_LABEL, "ACTION_CLOSE");
         loadActivities();
 
@@ -67,16 +70,14 @@ public class ActionsActivity extends Activity {
                 home.addCategory(Intent.CATEGORY_HOME);
                 home.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(home);
-                // НИКАКИХ ФИНИШЕЙ
             } else if (label.equals(RESET_LABEL)) {
                 unlock();
             } else {
                 try {
                     Intent i = new Intent();
                     i.setComponent(new ComponentName(getPackageName(), className));
-                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); 
                     startActivity(i);
-                    // НИКАКИХ ФИНИШЕЙ
                 } catch (Exception ignored) {}
             }
         });
@@ -84,20 +85,38 @@ public class ActionsActivity extends Activity {
 
     private void unlock() {
         UserManager um = (UserManager) getSystemService(Context.USER_SERVICE);
+        
+        // Если уже разблокирован — сразу шьем и рестартуем
         if (um.isUserUnlocked()) {
             savePrefsAndRestart();
+            return;
+        }
+
+        // Если заблокирован — запрашиваем системное окно подтверждения (PIN/Pattern/Pass)
+        KeyguardManager km = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
+        Intent intent = km.createConfirmDeviceCredentialIntent("SafeSpace Unlock", "Confirm your identity");
+        
+        if (intent != null) {
+            startActivityForResult(intent, REQUEST_CODE_CONFIRM_DEVICE_CREDENTIAL);
         } else {
-            KeyguardManager km = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
-            km.requestDismissKeyguard(this, new KeyguardManager.KeyguardDismissCallback() {
-                @Override
-                public void onDismissSucceeded() {
-                    savePrefsAndRestart();
-                }
-            });
+            // Если защиты нет вообще
+            savePrefsAndRestart();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_CONFIRM_DEVICE_CREDENTIAL) {
+            if (resultCode == RESULT_OK) {
+                // Пароль введен верно, профиль разблокирован системой
+                savePrefsAndRestart();
+            }
         }
     }
 
     private void savePrefsAndRestart() {
+        // Мгновенная запись флага
         this.createDeviceProtectedStorageContext()
             .getSharedPreferences("prefs", Context.MODE_PRIVATE)
             .edit()
@@ -105,9 +124,8 @@ public class ActionsActivity extends Activity {
             .commit();
 
         Intent i1 = new Intent(this, MainActivity.class);
-        i1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        i1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(i1);
-        // НИКАКИХ ФИНИШЕЙ
     }
 
     private void loadActivities() {
@@ -134,6 +152,7 @@ public class ActionsActivity extends Activity {
 
     @Override
     protected void onResume() {
+        // ФЛАГИ ДО SUPER
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         
@@ -172,7 +191,6 @@ public class ActionsActivity extends Activity {
         for (UserHandle profile : um.getUserProfiles()) {
             if (um.getSerialNumberForUser(profile) != 0) {
                 la.startMainActivity(new ComponentName(getPackageName(), ActionsActivity.class.getName()), profile, null, null);
-                // ТУТ ТОЖЕ УБРАЛ ФИНИШ
                 break;
             }
         }
