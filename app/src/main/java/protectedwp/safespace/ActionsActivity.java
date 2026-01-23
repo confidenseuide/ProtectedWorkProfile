@@ -16,17 +16,8 @@ public class ActionsActivity extends Activity {
     private static final String RESET_LABEL = "ShowApps&SetUp";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        
+    protected void onCreate(Bundle savedInstanceState) {    
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        
-        if (Build.VERSION.SDK_INT >= 27) {
-            setShowWhenLocked(true);
-        } else {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
-        }
-
         super.onCreate(savedInstanceState);
 
         LinearLayout root = new LinearLayout(this);
@@ -117,5 +108,13 @@ public class ActionsActivity extends Activity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         super.onResume();
+        getWindow().getDecorView().setSystemUiVisibility(
+			View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+			| View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+			| View.SYSTEM_UI_FLAG_FULLSCREEN
+			| View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+			| View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+			| View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        );
     }
 }
