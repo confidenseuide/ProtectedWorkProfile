@@ -15,7 +15,6 @@ public class ActionsActivity extends Activity {
     private Map<String, String> labelToClass = new LinkedHashMap<>();
     private static final String CLOSE_APP_LABEL = "CloseApp";
     private static final String RESET_LABEL = "ShowApps&SetUp";
-    private static final int REQUEST_CODE_CONFIRM_DEVICE_CREDENTIAL = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,9 +22,19 @@ public class ActionsActivity extends Activity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         
+        // Позволяем окну появиться поверх локскрина, чтобы KM мог работать
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+            setShowWhenLocked(true);
+            setTurnScreenOn(true);
+        } else {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED 
+                | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON 
+                | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+        }
+
         super.onCreate(savedInstanceState);
 
-        // 2. UI
+        // UI
         LinearLayout root = new LinearLayout(this);
         root.setOrientation(LinearLayout.VERTICAL);
         root.setGravity(Gravity.CENTER);
@@ -53,7 +62,6 @@ public class ActionsActivity extends Activity {
         root.addView(contentBox);
         setContentView(root);
 
-        // 3. ЛОГИКА СПИСКА
         labelToClass.put(CLOSE_APP_LABEL, "ACTION_CLOSE");
         loadActivities();
 
@@ -76,7 +84,7 @@ public class ActionsActivity extends Activity {
                 try {
                     Intent i = new Intent();
                     i.setComponent(new ComponentName(getPackageName(), className));
-                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); 
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(i);
                 } catch (Exception ignored) {}
             }
@@ -85,38 +93,40 @@ public class ActionsActivity extends Activity {
 
     private void unlock() {
         UserManager um = (UserManager) getSystemService(Context.USER_SERVICE);
-        
-        // Если уже разблокирован — сразу шьем и рестартуем
+        KeyguardManager km = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
+
+        // Если профиль уже разблокирован
         if (um.isUserUnlocked()) {
             savePrefsAndRestart();
             return;
         }
 
-        // Если заблокирован — запрашиваем системное окно подтверждения (PIN/Pattern/Pass)
-        KeyguardManager km = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
-        Intent intent = km.createConfirmDeviceCredentialIntent("SafeSpace Unlock", "Confirm your identity");
-        
-        if (intent != null) {
-            startActivityForResult(intent, REQUEST_CODE_CONFIRM_DEVICE_CREDENTIAL);
-        } else {
-            // Если защиты нет вообще
-            savePrefsAndRestart();
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_CONFIRM_DEVICE_CREDENTIAL) {
-            if (resultCode == RESULT_OK) {
-                // Пароль введен верно, профиль разблокирован системой
+        // Запрашиваем интерактивное снятие блокировки
+        km.requestDismissKeyguard(this, new KeyguardManager.KeyguardDismissCallback() {
+            @Override
+            public void onDismissSucceeded() {
                 savePrefsAndRestart();
             }
-        }
+
+            @Override
+            public void onDismissError() {
+                // Если KM тупит, пробуем форсировать через флаг
+                getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+                // Костыль: проверяем через секунду, не разблокировался ли юзер сам
+                new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                    if (um.isUserUnlocked()) savePrefsAndRestart();
+                }, 1000);
+            }
+
+            @Override
+            public void onDismissCancelled() {
+                // Юзер отменил
+            }
+        });
     }
 
     private void savePrefsAndRestart() {
-        // Мгновенная запись флага
+        // commit() для мгновенной синхронной записи
         this.createDeviceProtectedStorageContext()
             .getSharedPreferences("prefs", Context.MODE_PRIVATE)
             .edit()
@@ -152,7 +162,7 @@ public class ActionsActivity extends Activity {
 
     @Override
     protected void onResume() {
-        // ФЛАГИ ДО SUPER
+        // Флаги безопасности должны быть активны всегда
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         
