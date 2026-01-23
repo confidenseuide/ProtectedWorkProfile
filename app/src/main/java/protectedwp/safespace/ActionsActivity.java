@@ -90,9 +90,9 @@ public class ActionsActivity extends Activity {
 
 		ActionsActivity.this.createDeviceProtectedStorageContext().getSharedPreferences("prefs", Context.MODE_PRIVATE).edit().putBoolean("isDone", false).apply();
 	
-		Intent i1 = new Intent();
-                    i1.setComponent(new ComponentName(getPackageName(), MainActivity.class));
-                    startActivity(i1);
+		Intent i1 = new Intent(ActionsActivity.this, MainActivity.class);
+	    startActivity(i1);
+		
 	}
 
     @Override
