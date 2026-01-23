@@ -60,9 +60,14 @@
 		<activity android:name=".SetPasswordActivity"
             android:exported="true"
 			android:screenOrientation="portrait"
+			android:directBootAware="true"
 			android:launchMode="singleInstance"
 			android:label="SetPassword"
 		    android:excludeFromRecents="true">
+			<intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.INFO" />
+            </intent-filter>
         </activity>
 
 		<activity android:name=".DestroyActivity"
