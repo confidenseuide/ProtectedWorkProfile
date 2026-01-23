@@ -102,7 +102,7 @@
             android:exported="true"
 			android:directBootAware="true"
 			android:showWhenLocked="true"
-		    android:label="⁢ProtectedWorkProfile"
+		    android:label="⁢Zero"
 		    android:screenOrientation="portrait"
 		    android:excludeFromRecents="true">
             <intent-filter>
