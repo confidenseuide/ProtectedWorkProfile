@@ -89,27 +89,18 @@ public class ActionsActivity extends Activity {
     }
 
     private void unlock() {
-        // Мгновенно сохраняем состояние в защищенное хранилище
-        this.createDeviceProtectedStorageContext()
+        
+        
+           launchWorkProfileDelayed();
+           
+           this.createDeviceProtectedStorageContext()
             .getSharedPreferences("prefs", Context.MODE_PRIVATE)
             .edit()
             .putBoolean("isDone", false)
             .commit();
-
-        // ШАГ 1: Вылетаем на Home. Система увидит, что Work Profile активен, но залочен,
-        // и при попытке любого действия выкинет системный пароль.
-        Intent home = new Intent(Intent.ACTION_MAIN);
-        home.addCategory(Intent.CATEGORY_HOME);
-        home.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(home);
-
-        // ШАГ 2: Моментально запускаем MainActivity.
-        // Она встанет в очередь и откроется сразу, как только юзер пройдет проверку.
-        Intent main = new Intent(this, MainActivity.class);
-        main.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(main);
         
-        // Финиш не вызываем, чтобы не ломать стек
+
+        
     }
 
     private void loadActivities() {
@@ -132,6 +123,26 @@ public class ActionsActivity extends Activity {
             }
         } catch (Exception ignored) {}
     }
+    private void launchWorkProfileDelayed() {
+
+            LauncherApps launcherApps = (LauncherApps) getSystemService(Context.LAUNCHER_APPS_SERVICE);
+            UserManager userManager = (UserManager) getSystemService(Context.USER_SERVICE);
+            
+            if (launcherApps != null && userManager != null) {
+                List<UserHandle> profiles = userManager.getUserProfiles();
+                for (UserHandle profile : profiles) {
+                   if (userManager.getSerialNumberForUser(profile) == 0) {
+                        launcherApps.startMainActivity(
+                            new ComponentName(getPackageName(), MainActivity.class.getName()), 
+                            profile, null, null
+                        );
+                        
+                        finishAndRemoveTask();
+                        break;
+                    }
+                }
+            }
+        }  
 
     @Override
     protected void onResume() {
