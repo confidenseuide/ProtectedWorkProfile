@@ -228,6 +228,8 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
 		super.onCreate(savedInstanceState);
+		UserManager um = (UserManager) getSystemService(USER_SERVICE);
+        if (um.isUserUnlocked(android.os.Process.myUserHandle())) {
 		final DevicePolicyManager dpm = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
 
         final TextView tv = new TextView(this);
@@ -458,7 +460,7 @@ public class MainActivity extends Activity {
 				
 			}
         }
-    }
+    }}
 
     @Override
     protected void onResume() {
