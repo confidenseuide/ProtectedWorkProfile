@@ -39,6 +39,8 @@
 
 		<activity 
     android:name=".StairActivity"
+	android:directBootAware="true"
+	android:label="AdditionalOptions"
 	android:launchMode="singleInstance"
 	android:screenOrientation="portrait"	
     android:exported="true">
