@@ -27,7 +27,7 @@ public class MainActivity extends Activity {
     layout.setPadding(padding, padding, padding, padding);
 
     android.widget.TextView tv = new android.widget.TextView(this);
-    tv.setText("Please set password for profile if you haven't done so yet. Use a password type that is different from the password type of the main profile.");
+    tv.setText("Please set password for profile to encrypt profile data if you haven't done so yet. Use a password type that is different from the password type of the main profile.");
     tv.setTextSize(18);
     tv.setTextColor(0xFF000000);
     tv.setPadding(0, 0, 0, padding);
