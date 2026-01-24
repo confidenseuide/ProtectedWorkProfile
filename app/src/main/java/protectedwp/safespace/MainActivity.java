@@ -66,10 +66,10 @@ public class MainActivity extends Activity {
     btnClose.setLayoutParams(buttonParams);
     btnClose.setOnClickListener(v -> {
         try {
-            android.content.Intent homeIntent = new android.content.Intent(android.content.Intent.ACTION_MAIN);
-            homeIntent.addCategory(android.content.Intent.CATEGORY_HOME);
-            homeIntent.setFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(homeIntent);
+            Context appContext2 = getApplicationContext();
+			Intent actions2 = new Intent(appContext2, ActionsActivity.class);
+			actions2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+			appContext2.startActivity(actions2);
         } catch (Exception ignored) {}
     });
     layout.addView(btnClose);
