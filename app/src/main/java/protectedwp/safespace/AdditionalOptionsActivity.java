@@ -15,7 +15,6 @@ public class AdditionalOptionsActivity extends Activity {
 
     private static final String PREFS_NAME = "HiderPrefs";
     private static final String KEY_WIPE_ENABLED = "wipe_on_failed_pwd";
-	private static final String KEY_WIPE_USB = "wipe_on_usb_connected";
 	
     @Override
     protected void onResume() {
