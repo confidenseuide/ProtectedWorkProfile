@@ -88,7 +88,6 @@ public class MainActivity extends Activity {
     dialog.show();
 	}
 
-
 	private void setAppsVisibility(final boolean visible) {
     final DevicePolicyManager dpm = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
     final ComponentName admin = new ComponentName(this, MyDeviceAdminReceiver.class);
