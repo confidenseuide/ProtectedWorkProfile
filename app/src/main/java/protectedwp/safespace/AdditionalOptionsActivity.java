@@ -105,6 +105,9 @@ public class AdditionalOptionsActivity extends Activity {
         sw.setChecked(prefs.getBoolean(KEY_WIPE_ENABLED, false));
         
         sw.setOnCheckedChangeListener((btn, isChecked) -> {
+			if (isChecked){
+				
+			}
             new Thread(() -> {
                 final boolean success = prefs.edit().putBoolean(KEY_WIPE_ENABLED, isChecked).commit();
                 if (!success) {
