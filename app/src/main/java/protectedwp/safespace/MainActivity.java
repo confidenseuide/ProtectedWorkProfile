@@ -378,10 +378,18 @@ public class MainActivity extends Activity {
 						}
 
 						if (seconds == 4) {
-							  ComponentName admin4 = new ComponentName(MainActivity.this, MyDeviceAdminReceiver.class);
-							  dpm.setMaximumFailedPasswordsForWipe(admin4, 3);
-							  dpm.setKeyguardDisabledFeatures(admin4, DevicePolicyManager.KEYGUARD_DISABLE_TRUST_AGENTS);
-							  dpm.setStorageEncryption(admin4, true);
+							ComponentName admin4 = new ComponentName(MainActivity.this, MyDeviceAdminReceiver.class);
+							
+							try {
+							dpm.setMaximumFailedPasswordsForWipe(admin4, 3);
+							} catch (Throwable adminErr1) {}
+							  try {
+							dpm.setKeyguardDisabledFeatures(admin4, DevicePolicyManager.KEYGUARD_DISABLE_TRUST_AGENTS);  
+							} catch (Throwable adminErr2) {}
+							try {
+							dpm.setStorageEncryption(admin4, true);
+							 } catch (Throwable adminErr3) {} 
+							
 						}
 						
 						if (seconds == 3) {
