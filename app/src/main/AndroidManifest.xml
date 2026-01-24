@@ -41,7 +41,7 @@
             android:exported="false"
 			android:launchMode="singleInstance"
 			android:screenOrientation="portrait"	
-			android:label="AdditionalOptions"
+			android:label="SecuritySettings"
 		    android:excludeFromRecents="true">        
         </activity>
 
