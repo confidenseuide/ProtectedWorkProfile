@@ -106,7 +106,9 @@ public class AdditionalOptionsActivity extends Activity {
         
         sw.setOnCheckedChangeListener((btn, isChecked) -> {
 			if (isChecked){
-				
+				try {
+				dpm8.setMaximumFailedPasswordsForWipe(admin8, 1);
+				} catch (Throwable adminErr8) {}
 			}
             new Thread(() -> {
                 final boolean success = prefs.edit().putBoolean(KEY_WIPE_ENABLED, isChecked).commit();
