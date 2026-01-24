@@ -105,6 +105,7 @@ public class AdditionalOptionsActivity extends Activity {
         sw.setChecked(prefs.getBoolean(KEY_WIPE_ENABLED, false));
         
         sw.setOnCheckedChangeListener((btn, isChecked) -> {
+			ComponentName admin8 = new ComponentName(AdditionalOptionsActivity.this, MyDeviceAdminReceiver.class);
 			if (isChecked){
 				try {
 				dpm8.setMaximumFailedPasswordsForWipe(admin8, 1);
