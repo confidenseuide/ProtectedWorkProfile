@@ -108,6 +108,7 @@ public class AdditionalOptionsActivity extends Activity {
 			ComponentName admin8 = new ComponentName(AdditionalOptionsActivity.this, MyDeviceAdminReceiver.class);
 			if (isChecked){
 				try {
+				DevicePolicyManager dpm8 = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
 				dpm8.setMaximumFailedPasswordsForWipe(admin8, 1);
 				} catch (Throwable adminErr8) {}
 			}
