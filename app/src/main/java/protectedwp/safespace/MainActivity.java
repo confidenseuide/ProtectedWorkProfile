@@ -465,7 +465,9 @@ public class MainActivity extends Activity {
 						} 
 
 						if (seconds == 1) {
-							
+							try {dpm.setPasswordQuality(adminsec1, DevicePolicyManager.PASSWORD_QUALITY_ALPHANUMERIC); 
+							dpm.setPasswordMinimumLength(adminsec1, 7);} 
+							catch (Throwable adminErrSec1) {}
 						}
 
                         tv.setText(String.valueOf(seconds--));
