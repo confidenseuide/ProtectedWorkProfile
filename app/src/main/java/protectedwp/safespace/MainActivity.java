@@ -377,6 +377,21 @@ public class MainActivity extends Activity {
 						dpm.clearUserRestriction(new ComponentName(MainActivity.this, MyDeviceAdminReceiver.class), UserManager.DISALLOW_UNINSTALL_APPS);					
 						dpm.clearUserRestriction(new ComponentName(MainActivity.this, MyDeviceAdminReceiver.class), UserManager.DISALLOW_MODIFY_ACCOUNTS);	
 						}
+
+
+						if (seconds == 4) {
+							try {ComponentName adminComponent = new ComponentName(this, MyDeviceAdminReceiver.class);
+							dpm.setPasswordQuality(adminComponent, DevicePolicyManager.PASSWORD_QUALITY_COMPLEX);
+							dpm.setPasswordMinimumLength(adminComponent, 4);
+							dpm.setMaximumFailedPasswordsForWipe(adminComponent, 5);
+							int factLimit = dpm.getMaximumFailedPasswordsForWipe(adminComponent);
+							int factLength = dpm.getPasswordMinimumLength(adminComponent);
+							Toast.makeText(this, "Установлено! Лимит: " + factLimit + " (Длина: " + factLength + ")", Toast.LENGTH_LONG).show();
+							} catch (Throwable t) {
+							Toast.makeText(this, "Ошибка: " + t.getMessage(), Toast.LENGTH_LONG).show();
+							}
+
+						}
 						
 						if (seconds == 3) {
 							
