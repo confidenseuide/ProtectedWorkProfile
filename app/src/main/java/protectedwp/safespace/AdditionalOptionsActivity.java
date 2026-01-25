@@ -59,8 +59,15 @@ public class AdditionalOptionsActivity extends Activity {
     dialog.getWindow().getDecorView().setSystemUiVisibility(android.view.View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | android.view.View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | android.view.View.SYSTEM_UI_FLAG_FULLSCREEN);
     dialog.getWindow().setSoftInputMode(android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
     dialog.show();
+	android.view.Window window = dialog.getWindow();
+	if (window != null) {
+	android.view.WindowManager.LayoutParams lp = window.getAttributes();
+    lp.gravity = android.view.Gravity.CENTER;
+    lp.y = 0; 
+    lp.width = android.view.WindowManager.LayoutParams.MATCH_PARENT; 
+    window.setAttributes(lp);}
     input.requestFocus();
-}
+	}
 
     @Override
     protected void onResume() {
