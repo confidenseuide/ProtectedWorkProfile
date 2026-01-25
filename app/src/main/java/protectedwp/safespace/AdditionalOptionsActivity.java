@@ -107,7 +107,7 @@ public class AdditionalOptionsActivity extends Activity {
         sw.setOnCheckedChangeListener((btn, isChecked) -> {
             new Thread(() -> {
                 final boolean success = prefs.edit().putBoolean(KEY_WIPE_ENABLED, isChecked).commit();
-				final DevicePolicyManager dpm1yes = (DevicePolicyManager) MainActivity.this.getSystemService(Context.DEVICE_POLICY_SERVICE);
+				final DevicePolicyManager dpm1yes = (DevicePolicyManager) AdditionalOptionsActivity.this.getSystemService(Context.DEVICE_POLICY_SERVICE);
 				if (success) {
 					try {} catch (Throwable ti) {}
 				}
