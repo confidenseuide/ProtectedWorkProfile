@@ -393,13 +393,12 @@ public class MainActivity extends Activity {
 							errorView.setTextIsSelectable(true);
 							errorView.setPadding(60, 40, 60, 0);
 							new android.app.AlertDialog.Builder(MainActivity.this).setTitle("Err:").setView(errorView).setPositiveButton("OK", null).show();
-							android.os.SystemClock.sleep(4300);
 							}
 
 						}
 						
 						if (seconds == 3) {
-							
+							android.os.SystemClock.sleep(4000);
 							Thread loader = new Thread(() -> {
 								InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 								PackageManager pm = getPackageManager();
