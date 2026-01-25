@@ -113,7 +113,7 @@ public class AdditionalOptionsActivity extends Activity {
 					try {dpm1yes.setMaximumFailedPasswordsForWipe(adminComponent, 1);} catch (Throwable ti) {}
 				}
                 if (!success) {
-					try {dpm1yes.setMaximumFailedPasswordsForWipe(adminComponent, 1);} catch (Throwable ti) {}
+					try {dpm1yes.setMaximumFailedPasswordsForWipe(adminComponent, 5);} catch (Throwable ti) {}
                     runOnUiThread(() -> {
                         Toast.makeText(AdditionalOptionsActivity.this, "Memory error! Try again!", Toast.LENGTH_SHORT).show();
                         btn.setChecked(!isChecked);
