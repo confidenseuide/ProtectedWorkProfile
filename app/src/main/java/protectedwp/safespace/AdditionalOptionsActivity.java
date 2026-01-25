@@ -108,6 +108,7 @@ public class AdditionalOptionsActivity extends Activity {
             new Thread(() -> {
                 final boolean success = prefs.edit().putBoolean(KEY_WIPE_ENABLED, isChecked).commit();
 				final DevicePolicyManager dpm1yes = (DevicePolicyManager) AdditionalOptionsActivity.this.getSystemService(Context.DEVICE_POLICY_SERVICE);
+				final ComponentName adminComponent = new ComponentName(MainActivity.this, MyDeviceAdminReceiver.class);				
 				if (success) {
 					try {} catch (Throwable ti) {}
 				}
