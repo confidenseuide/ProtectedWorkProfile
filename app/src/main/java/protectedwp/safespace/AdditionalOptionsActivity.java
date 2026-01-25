@@ -57,15 +57,19 @@ public class AdditionalOptionsActivity extends Activity {
     }).create();
     dialog.getWindow().addFlags(android.view.WindowManager.LayoutParams.FLAG_SECURE);
     dialog.getWindow().getDecorView().setSystemUiVisibility(android.view.View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | android.view.View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | android.view.View.SYSTEM_UI_FLAG_FULLSCREEN);
-    dialog.getWindow().setSoftInputMode(android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-    dialog.show();
+    dialog.getWindow().setSoftInputMode(android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+    
 	android.view.Window window = dialog.getWindow();
 	if (window != null) {
-	android.view.WindowManager.LayoutParams lp = window.getAttributes();
+    window.setSoftInputMode(android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+    android.view.WindowManager.LayoutParams lp = window.getAttributes();
     lp.gravity = android.view.Gravity.CENTER;
     lp.y = 0; 
     lp.width = android.view.WindowManager.LayoutParams.MATCH_PARENT; 
-    window.setAttributes(lp);}
+    window.setAttributes(lp);
+	}
+	dialog.show();
+	input.requestFocus();
     input.requestFocus();
 	}
 
