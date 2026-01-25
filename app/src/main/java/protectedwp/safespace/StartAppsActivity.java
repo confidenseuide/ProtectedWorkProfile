@@ -128,7 +128,14 @@ public class StartAppsActivity extends Activity {
                 Toast.makeText(this, "Failed to launch this activity", Toast.LENGTH_SHORT).show();
             }
         });
-        builder.show();
+        AlertDialog dialog = builder.create(); 
+		dialog.show();
+		if (dialog.getWindow() != null) {  
+		WindowManager.LayoutParams lp = dialog.getWindow().getAttributes();
+		lp.gravity = Gravity.CENTER;
+		lp.y = 0;
+		dialog.getWindow().setAttributes(lp);
+		}
     }
 
     private boolean launchActivity(ActivityInfo act) {
