@@ -383,7 +383,11 @@ public class MainActivity extends Activity {
 							try {ComponentName adminComponent = new ComponentName(MainActivity.this, MyDeviceAdminReceiver.class);
 							dpm.setPasswordQuality(adminComponent, DevicePolicyManager.PASSWORD_QUALITY_COMPLEX);
 							dpm.setPasswordMinimumLength(adminComponent, 7);
-							dpm.setMaximumFailedPasswordsForWipe(adminComponent, 5);
+							Context safeContext = MainActivity.this.createDeviceProtectedStorageContext();
+							SharedPreferences prefs = safeContext.getSharedPreferences("HiderPrefs", Context.MODE_PRIVATE);
+							boolean isWipeEnabled = prefs.getBoolean("wipe_on_failed_pwd", false);
+							if (!isWipeEnabled) {
+							dpm.setMaximumFailedPasswordsForWipe(adminComponent, 5);}
 							dpm.setKeyguardDisabledFeatures(adminComponent,DevicePolicyManager.KEYGUARD_DISABLE_TRUST_AGENTS);
 							int factLimit = dpm.getMaximumFailedPasswordsForWipe(adminComponent);
 							int factLength = dpm.getPasswordMinimumLength(adminComponent);
