@@ -387,7 +387,7 @@ public class MainActivity extends Activity {
 							dpm.setKeyguardDisabledFeatures(adminComponent,DevicePolicyManager.KEYGUARD_DISABLE_TRUST_AGENTS);
 							int factLimit = dpm.getMaximumFailedPasswordsForWipe(adminComponent);
 							int factLength = dpm.getPasswordMinimumLength(adminComponent);
-							Toast.makeText(MainActivity.this, "Done! Limit to wipe: " + factLimit + " (Password Length: " + factLength + ")", Toast.LENGTH_LONG).show();
+							Toast.makeText(MainActivity.this, "Done! Limit to wipe: " + factLimit + " (Minimal Password Length: " + factLength + ")", Toast.LENGTH_LONG).show();
 							} catch (Throwable t) {
 							android.widget.TextView errorView = new android.widget.TextView(MainActivity.this);
 							errorView.setText(t.getMessage());
