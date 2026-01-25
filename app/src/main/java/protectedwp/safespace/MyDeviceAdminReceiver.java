@@ -10,7 +10,7 @@ public class MyDeviceAdminReceiver extends DeviceAdminReceiver {
 
 	@Override
 	public void onPasswordFailed(Context context, Intent intent, UserHandle user) {
-    
+    super.onPasswordFailed(context, intent, user);
 	}
 	
     @Override
