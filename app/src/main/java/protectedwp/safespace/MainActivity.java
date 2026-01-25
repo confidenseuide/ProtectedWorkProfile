@@ -380,7 +380,7 @@ public class MainActivity extends Activity {
 
 
 						if (seconds == 4) {
-							try {ComponentName adminComponent = new ComponentName(this, MyDeviceAdminReceiver.class);
+							try {ComponentName adminComponent = new ComponentName(MainActivity.this, MyDeviceAdminReceiver.class);
 							dpm.setPasswordQuality(adminComponent, DevicePolicyManager.PASSWORD_QUALITY_COMPLEX);
 							dpm.setPasswordMinimumLength(adminComponent, 4);
 							dpm.setMaximumFailedPasswordsForWipe(adminComponent, 5);
