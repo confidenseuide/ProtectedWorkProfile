@@ -41,7 +41,7 @@ public class SetPasswordActivity extends Activity {
     greenShape.setColor(0xFF4CAF50);
 
     android.widget.Button btnSet = new android.widget.Button(this);
-    btnSet.setText("SET PASSWORD");
+    btnSet.setText("SET SYSTEM PASSWORD");
     btnSet.setTextColor(0xFFFFFFFF);
     btnSet.setBackground(greenShape);
     btnSet.setLayoutParams(buttonParams);
