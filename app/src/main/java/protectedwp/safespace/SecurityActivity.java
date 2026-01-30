@@ -34,8 +34,6 @@ public class SecurityActivity extends Activity {
     private boolean isSetupMode = false;
     private String tempMainHash = null;
 
-    public static boolean Allowed = false;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
@@ -114,7 +112,7 @@ public class SecurityActivity extends Activity {
 
             if (verifyPassword(input, storedPass)) {
                 try {
-                    Allowed = true;
+                
                     startActivity(new Intent(this, Class.forName("protectedwp.safespace.ZeroActivity")));
                     finish();
                 } catch (ClassNotFoundException e) {
