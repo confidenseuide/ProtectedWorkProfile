@@ -94,7 +94,7 @@ public class ActionsActivity extends Activity {
                     label = RESET_LABEL;
                 } else {
                     label = info.loadLabel(pm).toString();
-					if (label.isEmpty()){continue}
+					if (label.isEmpty()){continue;}
                 }
                 labelToClass.put(label, info.name);
             }
