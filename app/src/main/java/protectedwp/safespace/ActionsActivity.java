@@ -83,25 +83,40 @@ public class ActionsActivity extends Activity {
     }
 
     private void loadActivities() {
-        try {
-            PackageManager pm = getPackageManager();
-            PackageInfo pi = pm.getPackageInfo(getPackageName(), PackageManager.GET_ACTIVITIES);
-            for (ActivityInfo info : pi.activities) {
-                if (info.name.equals(this.getClass().getName())) continue;
-                
-                String label;
-                if (info.name.endsWith("MainActivity")) {
-                    label = RESET_LABEL;
-                } else {
-                    label = info.loadLabel(pm).toString();
-                    if (label.equals(info.name) || label.isEmpty() || label.equals("ProtectedWorkProfile")) {
-                        label = RESET_LABEL;
-                    }
-                }
-                labelToClass.put(label, info.name);
+    try {
+        PackageManager pm = getPackageManager();
+        // Получаем список всех активити из манифеста
+        PackageInfo pi = pm.getPackageInfo(getPackageName(), PackageManager.GET_ACTIVITIES);
+        
+        for (ActivityInfo info : pi.activities) {
+            // 1. Пропускаем саму себя
+            if (info.name.equals(this.getClass().getName())) continue;
+
+            // 2. Если это MainActivity — добавляем её под вашим спец-лейблом
+            if (info.name.endsWith(".MainActivity")) {
+                labelToClass.put(RESET_LABEL, info.name);
+                continue; // Переходим к следующей, чтобы не зайти в общую логику
             }
-        } catch (Exception ignored) {}
-    }
+
+            // 3. Получаем реальный лейбл из манифеста
+            String label = info.loadLabel(pm).toString();
+
+            // 4. ФИЛЬТРАЦИЯ: 
+            // Если лейбл совпадает с названием класса, или он пустой, 
+            // или это стандартное название "ProtectedWorkProfile" — ИГНОРИРУЕМ.
+            if (label.equals(info.name) || 
+                label.isEmpty() || 
+                label.equalsIgnoreCase("ProtectedWorkProfile") ||
+                label.contains("⁢")) { // Проверка на скрытый символ, если он есть в строке
+                continue; 
+            }
+
+            // 5. Если прошли все проверки — добавляем в список
+            labelToClass.put(label, info.name);
+        }
+    } catch (Exception ignored) {}
+	}
+	
 
     @Override
     protected void onResume() {
