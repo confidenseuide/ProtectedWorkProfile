@@ -25,7 +25,7 @@ public class SetPasswordActivity extends Activity {
     layout.setPadding(padding, padding, padding, padding);
 
     android.widget.TextView tv = new android.widget.TextView(this);
-    tv.setText("Please set password for profile if you haven't done so yet. Use a password that is different from the password of the main profile. Don't use face unlock and fingerprints (it's not secure). If error on trying set system password, just wipe the profile and create again. If you don't want wipe it, restart phone.");
+    tv.setText("Please set password for profile if you haven't done so yet. Use a password that is different from the password of the main profile. Don't use face unlock and fingerprints (it's not secure). If error on trying set system password, just wipe profile and create again. If you don't want wipe it, reboot phone.");
     tv.setTextSize(18);
     tv.setTextColor(0xFF000000);
     tv.setPadding(0, 0, 0, padding);
