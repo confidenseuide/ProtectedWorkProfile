@@ -42,6 +42,19 @@ public class MainActivity extends Activity {
     greenShape.setCornerRadius(8f);
     greenShape.setColor(0xFF4CAF50);
 
+    android.widget.Button btnSet = new android.widget.Button(this);
+    btnSet.setText("SET SYSTEM PASSWORD");
+    btnSet.setTextColor(0xFFFFFFFF);
+    btnSet.setBackground(greenShape);
+    btnSet.setLayoutParams(buttonParams);
+    btnSet.setOnClickListener(v -> {
+        try {
+            android.content.Intent intent = new android.content.Intent(android.app.admin.DevicePolicyManager.ACTION_SET_NEW_PASSWORD);
+            startActivity(intent);
+        } catch (Exception ignored) {}
+    });
+    layout.addView(btnSet);
+
 	android.graphics.drawable.GradientDrawable blueShape = new android.graphics.drawable.GradientDrawable();
     blueShape.setCornerRadius(8f);
     blueShape.setColor(0xFF2196F3);
@@ -59,19 +72,6 @@ public class MainActivity extends Activity {
     } catch (Exception ignored) {}
 	});
 	layout.addView(btnSecurity);
-
-    android.widget.Button btnSet = new android.widget.Button(this);
-    btnSet.setText("SET PASSWORD");
-    btnSet.setTextColor(0xFFFFFFFF);
-    btnSet.setBackground(greenShape);
-    btnSet.setLayoutParams(buttonParams);
-    btnSet.setOnClickListener(v -> {
-        try {
-            android.content.Intent intent = new android.content.Intent(android.app.admin.DevicePolicyManager.ACTION_SET_NEW_PASSWORD);
-            startActivity(intent);
-        } catch (Exception ignored) {}
-    });
-    layout.addView(btnSet);
 
     android.graphics.drawable.GradientDrawable redShape = new android.graphics.drawable.GradientDrawable();
     redShape.setCornerRadius(8f);
@@ -249,6 +249,8 @@ public class MainActivity extends Activity {
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
 		super.onCreate(savedInstanceState);
 		final UserManager um = (UserManager) getSystemService(USER_SERVICE);
+		if (MainActivity.this.createDeviceProtectedStorageContext().getSharedPreferences("prefs", Context.MODE_PRIVATE).getBoolean("isDone", false)) {
+		return;}
         if (um.isUserUnlocked(android.os.Process.myUserHandle())) {
 		final DevicePolicyManager dpm = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
 
@@ -525,7 +527,7 @@ public class MainActivity extends Activity {
 					actions1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
 					appContext1.startActivity(actions1);
 		}
-		MainActivity.this.createDeviceProtectedStorageContext().getSharedPreferences("prefs", Context.MODE_PRIVATE).edit().putBoolean("isDone", true).apply();
+		//MainActivity.this.createDeviceProtectedStorageContext().getSharedPreferences("prefs", Context.MODE_PRIVATE).edit().putBoolean("isDone", true).apply();
 		}
     }
 
