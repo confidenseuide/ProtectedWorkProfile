@@ -92,7 +92,7 @@ public class ActionsActivity extends Activity {
                 String label;
 				label = info.loadLabel(pm).toString();
 					if (label.isEmpty()){continue;}
-					if (label.equals("hideme")) { continue;}
+					if (label.contains("hideme")) { continue;}
                 if (info.name.endsWith("MainActivity")) {
                     label = RESET_LABEL;
                 }
