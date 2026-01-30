@@ -327,6 +327,9 @@ public class MainActivity extends Activity {
 							}
 
 
+						
+                           if (Boolean.parseBoolean(System.getProperty("Allowed"))) {
+							System.setProperty("Allowed", "false");
 						   if (MainActivity.this.getSharedPreferences("prefs", MODE_PRIVATE).getBoolean("isAllowed", false)) {
 							MainActivity.this.getSharedPreferences("prefs", MODE_PRIVATE).edit().putBoolean("isAllowed", false).apply();
 						
@@ -337,7 +340,7 @@ public class MainActivity extends Activity {
 							});
 							loader777.setPriority(Thread.MAX_PRIORITY);
 							loader777.start();
-						}}
+						}}}
 
 						if (!MainActivity.this.createDeviceProtectedStorageContext().getSharedPreferences("prefs", Context.MODE_PRIVATE).getBoolean("isDoneFS", false)) {
 						if (seconds == 6) {
