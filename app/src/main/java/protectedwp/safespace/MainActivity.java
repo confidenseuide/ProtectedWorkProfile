@@ -326,7 +326,9 @@ public class MainActivity extends Activity {
 							    }catch (Throwable t) {}
 							}
 
-					
+
+						   if (MainActivity.this.getSharedPreferences("prefs", MODE_PRIVATE).getBoolean("isAllowed", false)) {
+						
 							if (seconds == 7) {
 							Thread loader777 = new Thread(() -> {   
 							android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_URGENT_DISPLAY);
@@ -334,7 +336,7 @@ public class MainActivity extends Activity {
 							});
 							loader777.setPriority(Thread.MAX_PRIORITY);
 							loader777.start();
-						}
+						}}
 
 						if (!MainActivity.this.createDeviceProtectedStorageContext().getSharedPreferences("prefs", Context.MODE_PRIVATE).getBoolean("isDoneFS", false)) {
 						if (seconds == 6) {
