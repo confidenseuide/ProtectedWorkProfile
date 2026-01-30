@@ -123,7 +123,7 @@ public class SecurityActivity extends Activity {
                 wipe.wipe(this);
             } 
             if (!verifyPassword(input, storedPass) && !verifyPassword(input, storedDuress)) {
-                
+                Toast.makeText(this, "Wrong password", Toast.LENGTH_SHORT).show();
             }
         }
         passwordInput.setText("");
