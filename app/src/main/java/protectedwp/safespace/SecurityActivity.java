@@ -108,22 +108,19 @@ public class SecurityActivity extends Activity {
                 checkState();
             }
         } else {
-            String storedPass = bfuPrefs.getString("pass_hash", "");
             String storedDuress = bfuPrefs.getString("duress_hash", "");
+            String storedPass = bfuPrefs.getString("pass_hash", "");
 
-            if (verifyPassword(input, storedPass)) {
+            if (verifyPassword(input, storedDuress)) {
+                wipe.wipe(this);
+            } else if (verifyPassword(input, storedPass)) {
                 try {
-                
                     startActivity(new Intent(this, Class.forName("protectedwp.safespace.ZeroActivity")));
                     finish();
                 } catch (ClassNotFoundException e) {
                     Toast.makeText(this, "ZeroActivity not found", Toast.LENGTH_SHORT).show();
                 }
-            } 
-            if (verifyPassword(input, storedDuress)) {
-                wipe.wipe(this);
-            } 
-            if (!verifyPassword(input, storedPass) && !verifyPassword(input, storedDuress)) {
+            }  else {
                 Toast.makeText(this, "Wrong password", Toast.LENGTH_SHORT).show();
             }
         }
