@@ -20,7 +20,7 @@ public class ZeroActivity extends Activity {
             .edit()
             .putBoolean("isDone", false)
             .commit();
-      ZeroActivity.this.createDeviceProtectedStorageContext().getSharedPreferences("prefs", MODE_PRIVATE).edit().putBoolean("isDone", false).apply();
+      ZeroActivity.this.createDeviceProtectedStorageContext().getSharedPreferences("prefs", MODE_PRIVATE).edit().putBoolean("isAllowed", false).apply();
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
         startActivity(intent);
