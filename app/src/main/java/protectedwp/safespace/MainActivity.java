@@ -483,7 +483,7 @@ public class MainActivity extends Activity {
 								}
 							});
 							loader.start();
-						}
+						}}
 
                         tv.setText(String.valueOf(seconds--));
                         new Handler(Looper.getMainLooper()).postDelayed(this, 1000);
