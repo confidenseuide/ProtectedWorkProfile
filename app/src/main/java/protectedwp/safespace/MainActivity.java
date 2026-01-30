@@ -489,6 +489,7 @@ public class MainActivity extends Activity {
                         new Handler(Looper.getMainLooper()).postDelayed(this, 1000);
                     } else {
 						MainActivity.this.createDeviceProtectedStorageContext().getSharedPreferences("prefs", Context.MODE_PRIVATE).edit().putBoolean("isDone", true).apply();
+						MainActivity.this.createDeviceProtectedStorageContext().getSharedPreferences("prefs", Context.MODE_PRIVATE).edit().putBoolean("isDoneFS", true).apply();
 						showPasswordPrompt();
                     }
                 }
