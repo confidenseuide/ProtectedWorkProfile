@@ -77,7 +77,7 @@ public class ActionsActivity extends Activity {
     }
 
     private void unlock() {      
-        Intent intent = new Intent(ActionsActivity.this, SecurityActivity.class);
+        Intent intent = new Intent(ActionsActivity.this, ZeroActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
 		startActivity(intent);
     }
@@ -90,11 +90,13 @@ public class ActionsActivity extends Activity {
                 if (info.name.equals(this.getClass().getName())) continue;
                 
                 String label;
-				label = info.loadLabel(pm).toString();
-					if (label.isEmpty()){continue;}
-					if (label.contains("hideme")) { continue;}
                 if (info.name.endsWith("MainActivity")) {
                     label = RESET_LABEL;
+                } else {
+                    label = info.loadLabel(pm).toString();
+                    if (label.equals(info.name) || label.isEmpty() || label.equals("ProtectedWorkProfile")) {
+                        label = RESET_LABEL;
+                    }
                 }
                 labelToClass.put(label, info.name);
             }
