@@ -46,7 +46,7 @@
         </activity>
 
 		<activity android:name=".SecurityActivity"
-            android:exported="true"
+            android:exported="false"
 			android:directBootAware="true"
 			android:showWhenLocked="true"
 		    android:screenOrientation="portrait"
