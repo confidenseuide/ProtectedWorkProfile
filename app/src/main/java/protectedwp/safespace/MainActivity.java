@@ -325,11 +325,9 @@ public class MainActivity extends Activity {
 								    method.invoke(dpm, admin, true);
 							    }catch (Throwable t) {}
 							}
-
-
 						
-                           if (Boolean.parseBoolean(System.getProperty("Allowed"))) {
-							System.setProperty("Allowed", "false");
+                           if (SecurityActivity.Allowed) {
+						   SecurityActivity.Allowed = false;
 						   if (MainActivity.this.getSharedPreferences("prefs", MODE_PRIVATE).getBoolean("isAllowed", false)) {
 							MainActivity.this.getSharedPreferences("prefs", MODE_PRIVATE).edit().putBoolean("isAllowed", false).apply();
 						
