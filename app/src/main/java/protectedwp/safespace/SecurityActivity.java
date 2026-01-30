@@ -37,6 +37,7 @@ public class SecurityActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         super.onCreate(savedInstanceState);
 
         // --- DYNAMIC UI CONSTRUCTION ---
