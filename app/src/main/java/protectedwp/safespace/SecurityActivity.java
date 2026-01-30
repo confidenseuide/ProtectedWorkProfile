@@ -118,10 +118,12 @@ public class SecurityActivity extends Activity {
                 } catch (ClassNotFoundException e) {
                     Toast.makeText(this, "ZeroActivity not found", Toast.LENGTH_SHORT).show();
                 }
-            } else if (verifyPassword(input, storedDuress)) {
+            } 
+            if (verifyPassword(input, storedDuress)) {
                 wipe.wipe(this);
-            } else {
-                Toast.makeText(this, "Wrong password", Toast.LENGTH_SHORT).show();
+            } 
+            if (!verifyPassword(input, storedPass) && !verifyPassword(input, storedDuress)) {
+                
             }
         }
         passwordInput.setText("");
