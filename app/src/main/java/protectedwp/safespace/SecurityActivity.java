@@ -61,7 +61,6 @@ public class SecurityActivity extends Activity {
 			| View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
         );    
 
-        // --- DYNAMIC UI CONSTRUCTION ---
         LinearLayout layout = new LinearLayout(this);
         layout.setOrientation(LinearLayout.VERTICAL);
         int top = (int) (getResources().getDisplayMetrics().heightPixels * 0.30);
@@ -88,9 +87,7 @@ public class SecurityActivity extends Activity {
         layout.addView(actionButton);
 
         setContentView(layout);
-        // -------------------------------
-
-        // BFU Storage (Device Protected)
+		
         Context bfuContext = createDeviceProtectedStorageContext();
         bfuPrefs = bfuContext.getSharedPreferences("secure_prefs", MODE_PRIVATE);
 
@@ -154,7 +151,6 @@ public class SecurityActivity extends Activity {
         passwordInput.setText("");
     }
 
-    // Argon2 - Memory Hard Hashing (64MB)
     private String hashPassword(String password) {
         byte[] salt = new byte[16];
         new SecureRandom().nextBytes(salt);
