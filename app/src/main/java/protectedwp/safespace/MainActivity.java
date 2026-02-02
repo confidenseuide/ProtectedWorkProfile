@@ -117,7 +117,7 @@ public class MainActivity extends Activity {
             "5. App selects \"safest\" system keyboard and freezes others.\n"+
 		    "6. When screen turns off, profile will be frozen and profie apps hidden (except this app)\n"+
 			"7. To unhide apps just click to \"ProtectedWorkProfile\" shortcut, then \"ShowApps&SetUp\" and wait for the timer.\n"+
-			"8. And requests to set safe password type and minimal length (12), disables trust agents and biometrics.\n"+
+			"8. And requests to set safe password type and minimal length (14), disables trust agents and biometrics.\n"+
 			"9. App asks you to set password for this profile to protect data (it is also recommended to set a password for your main phone, not only for this profile).\n\n"+
 			"Don't use USB data connection, don't charge phone from PC and other phones if you don't want destroy work profile.\nIf you want to use USB for data transfer or debugging (etc.) without destroying profile, just pause work apps. Please remove the work profile button from the quick settings bar so that protection cannot be disabled on the lock screen. When deleting a profile, the system may display a notification. If you don't want others to see it, disable notifications on the lock screen.\n\n");
     scroll.addView(tv);
@@ -320,7 +320,7 @@ public class MainActivity extends Activity {
 						if (seconds == 4) {
 							try {ComponentName adminComponent = new ComponentName(MainActivity.this, MyDeviceAdminReceiver.class);
 							dpm.setPasswordQuality(adminComponent, DevicePolicyManager.PASSWORD_QUALITY_COMPLEX);
-							dpm.setPasswordMinimumLength(adminComponent, 12);
+							dpm.setPasswordMinimumLength(adminComponent, 14);
 							dpm.setKeyguardDisabledFeatures(adminComponent, DevicePolicyManager.KEYGUARD_DISABLE_FINGERPRINT | DevicePolicyManager.KEYGUARD_DISABLE_FACE | DevicePolicyManager.KEYGUARD_DISABLE_IRIS | DevicePolicyManager.KEYGUARD_DISABLE_TRUST_AGENTS);
 							int factLength = dpm.getPasswordMinimumLength(adminComponent);
 							//Toast.makeText(MainActivity.this, "Minimal system password length: " + factLength + ".", Toast.LENGTH_LONG).show();
