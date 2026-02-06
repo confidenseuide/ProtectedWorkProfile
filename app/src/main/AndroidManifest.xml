@@ -13,6 +13,8 @@
         android:label="ProtectedWorkProfile"
 		android:icon="@drawable/ic_launcher"
 		android:allowBackup="false"
+		android:requestLegacyExternalStorage="false"
+		android:hasFragileUserData="true"
         android:fullBackupContent="false"
 		android:extractNativeLibs="false"
         android:theme="@android:style/Theme.DeviceDefault.NoActionBar">
