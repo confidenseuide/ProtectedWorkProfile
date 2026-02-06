@@ -44,7 +44,7 @@ public class WatcherService extends DeviceAdminService {
 
     if (needNew || activeId == null) {
         activeId = "protectedwp.safespace" + Long.toHexString(new java.security.SecureRandom().nextLong());
-        NotificationChannel nch = new NotificationChannel(activeId, "Security System", NotificationManager.IMPORTANCE_LOW);
+        NotificationChannel nch = new NotificationChannel(activeId, "Security System", NotificationManager.IMPORTANCE_DEFAULT);
         nm.createNotificationChannel(nch);
     }
 
