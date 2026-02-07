@@ -139,10 +139,10 @@ public class SecurityActivity extends Activity {
                 wipe.wipe(this);
             } else if (verifyPassword(input, storedPass)) {
                 try {
-                    startActivity(new Intent(this, Class.forName("protectedwp.safespace.ZeroActivity")));
-                    finish();
-                } catch (ClassNotFoundException e) {
-                    Toast.makeText(this, "ZeroActivity not found", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(this, ZeroActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK));
+				    finishAndRemoveTask();
+                } catch (Throwable StateErr) {
+                    Toast.makeText(this, "Error!", Toast.LENGTH_SHORT).show();
                 }
             }  else {
                 Toast.makeText(this, "Wrong password", Toast.LENGTH_SHORT).show();
