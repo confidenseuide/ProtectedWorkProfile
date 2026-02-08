@@ -33,7 +33,7 @@ public class ActionsActivity extends Activity {
 
         TextView title = new TextView(this);
         final UserManager um00 = (UserManager) getSystemService(USER_SERVICE);
-		if (um00.isUserUnlocked(android.os.Process.myUserHandle())) {
+		if (um00 != null && um00.isUserUnlocked(android.os.Process.myUserHandle())) {
 		title.setText("What to do? (It's recommended to check SecuritySettings)");
 		} else {
 		title.setText("To see all options, apps and unlock profile - use ShowApps&SetUp button.");}
