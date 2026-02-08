@@ -32,7 +32,11 @@ public class ActionsActivity extends Activity {
         ((LinearLayout.LayoutParams)contentBox.getLayoutParams()).setMargins(60, 0, 60, 0);
 
         TextView title = new TextView(this);
-        title.setText("What to do? (It's recommended to check SecuritySettings)");
+        final UserManager um = (UserManager) getSystemService(USER_SERVICE);
+		if (um.isUserUnlocked(android.os.Process.myUserHandle())) {
+		title.setText("What to do? (It's recommended to check SecuritySettings)");
+		} else {
+		title.setText("To see all options, apps and unlock profile - use ShowApps&SetUp button.");}
         title.setTextSize(24);
         title.setTypeface(null, Typeface.BOLD);
         title.setTextColor(Color.WHITE);
