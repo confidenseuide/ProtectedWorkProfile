@@ -25,7 +25,7 @@ public class AdditionalOptionsActivity extends Activity {
     params.leftMargin = margin; params.rightMargin = margin;
     input.setLayoutParams(params);
     container.addView(input);
-    final android.app.AlertDialog dialog = new android.app.AlertDialog.Builder(this).setTitle("Set the limit of failed password attempts to wipe data:").setView(container).setCancelable(false).setPositiveButton("OK", new android.content.DialogInterface.OnClickListener() {
+    final android.app.AlertDialog dialog = new android.app.AlertDialog.Builder(this).setTitle("Set the limit of failed system password attempts to wipe data. Even if you put the profile on pause and this application is stopped, when attempting to enter the profile, this limit will be taken into account at the system level. If you set the limit to 1, this can essentially become a more reliable replacement for a duress password, since instead of it you simply enter an incorrect password and the system itself performs a reset. But in such a case, a high risk of accidental reset exists. Set this limit, for example, when you go outside and do not intend to use the profile + on the street a higher risk exists that you will be forced to enter the password for the profile. If the profile and the phone have the same password, then this limit will be applied to the screen unlock. Well, and the most balanced option for being in home conditions is 3. Do not set 0, this means the absence of a limit.").setView(container).setCancelable(false).setPositiveButton("OK", new android.content.DialogInterface.OnClickListener() {
         @Override
         public void onClick(android.content.DialogInterface dialog, int which) {
             String val = input.getText().toString();
