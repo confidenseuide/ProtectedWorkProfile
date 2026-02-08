@@ -32,7 +32,7 @@ public class ActionsActivity extends Activity {
         ((LinearLayout.LayoutParams)contentBox.getLayoutParams()).setMargins(60, 0, 60, 0);
 
         TextView title = new TextView(this);
-        title.setText("What to do?");
+        title.setText("What to do? (It's recommended to check SecuritySettings)");
         title.setTextSize(24);
         title.setTypeface(null, Typeface.BOLD);
         title.setTextColor(Color.WHITE);
