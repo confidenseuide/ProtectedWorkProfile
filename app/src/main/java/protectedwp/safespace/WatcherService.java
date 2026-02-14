@@ -125,7 +125,9 @@ public class WatcherService extends DeviceAdminService {
 				            wipe.wipe(WatcherService.this);
 					} 	
                     if (intent != null && Intent.ACTION_SCREEN_OFF.equals(intent.getAction())) {
-                        
+                        UserManager um = (UserManager) getSystemService(USER_SERVICE);
+                        if (um.isUserUnlocked(android.os.Process.myUserHandle())) {
+                                
                         if (dpm != null) {
                             ComponentName admin = new ComponentName(context, MyDeviceAdminReceiver.class);
                             setAppsVisibility(false);
@@ -138,7 +140,6 @@ public class WatcherService extends DeviceAdminService {
                                 dpm.lockNow(1);
                                 } catch (Throwable t08) {}
                             }
-                            UserManager um = (UserManager) getSystemService(USER_SERVICE);
                             if (um.isUserUnlocked(android.os.Process.myUserHandle())) {
                                 try {
                                 dpm.lockNow(1);
@@ -155,6 +156,7 @@ public class WatcherService extends DeviceAdminService {
                             }
 
                         }
+					}
                     }
                 }
             };
