@@ -120,10 +120,10 @@ public class MainActivity extends Activity {
             "Just click start -> next -> next ->... to create profile.\n\n" +
             "When profile created, the app starts AUTOCONFIGURATION TIMER:\n" +
             "1. App starts service and enables receiver for screen off / reboot listen.\n" +
-            "2. App adds \"safest\" system browser to profile (with less permissions from ours blacklist).\n" +
+            "2. App adds \"safest\" system browser to profile (with the fewest excessive permissions).\n" +
             "3. App disables screenshots in profile (safety), allows apps install and accounts management (free use).\n" +
-            "4. App selects \"safest\" system keyboard and freezes others.\n"+
-			"5. App tries to disable backup (if it can) and disallow mount physical media, disallow usb data and debugging features (protection from physical exploits)\n"+
+            "4. App selects \"safest\" system keyboard (with the fewest excessive permissions) and freezes others.\n"+
+			"5. App tries to disable backup (if it can) and disallow mount physical media, disallow usb data and debugging features (to protect profile from physical exploits)\n"+
 		    "6. When screen turns off, profile will be frozen and profie apps hidden (except this app)\n"+
 			"7. To unhide apps just click to \"ProtectedWorkProfile\" shortcut, then \"ShowApps&SetUp\" and wait for the timer.\n"+
 			"8. App requests to set safe password type and minimal length (14), disables trust agents and biometrics.\n"+
