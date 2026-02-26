@@ -1,1 +1,1 @@
-App creates work profile that will be frozen and that hide apps when your screen turns off.
+App creates work profile that will be frozen (encryption keys will be evicted from RAM) and that hide apps when your screen turns off.
