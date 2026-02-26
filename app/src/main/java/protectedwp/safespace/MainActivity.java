@@ -12,8 +12,6 @@ import android.view.inputmethod.*;
 
 public class MainActivity extends Activity {
 
-	private static volatile String ucd_is_work="";
-	
 	private void showPasswordPrompt() {	
 	if (!createDeviceProtectedStorageContext().getSharedPreferences("secure_prefs", MODE_PRIVATE).contains("pass_hash")||((DevicePolicyManager) getSystemService(DEVICE_POLICY_SERVICE)).isUsingUnifiedPassword(new ComponentName(this, MyDeviceAdminReceiver.class))) {
         Context appContext7 = getApplicationContext();
@@ -118,7 +116,7 @@ public class MainActivity extends Activity {
             "This app creates work profile that hide work apps and that will be frozen on screen off and that will be destroyed when any USB connection is detected, except for simple charging from ordinary power brick. This includes charging or connections to PC, other phones, Type-C headphones, and other specialized devices. This can help protect against USB-based hacker attacks.\n\n" +
             "Just click start -> next -> next ->... to create profile.\n\n" +
             "When profile created, the app starts AUTOCONFIGURATION TIMER:\n" +
-            "1. App starts service and enables receiver for screen off / reboot / USB listen.\n" +
+            "1. App starts service for screen off / USB listen.\n" +
             "2. App adds \"safest\" system browser to profile (with the fewest excessive permissions).\n" +
             "3. App disables screenshots in profile (for safety), allows apps install and accounts management (for free use).\n" +
             "4. App selects \"safest\" system keyboard (with the fewest excessive permissions) and freezes others.\n"+
@@ -187,20 +185,6 @@ public class MainActivity extends Activity {
         getWindow().getDecorView().setSystemUiVisibility(5894);
         
         if (dpm.isProfileOwnerApp(getPackageName())) {
-			
-            getPackageManager().setComponentEnabledSetting(
-            new ComponentName(MainActivity.this, NucleusReceiver.class),
-            PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-            PackageManager.DONT_KILL_APP);
-
-            if (Build.VERSION.SDK_INT >= 33) {
-                dpm.setPermissionGrantState(
-                    new ComponentName(this, MyDeviceAdminReceiver.class),
-                    getPackageName(),
-                    android.Manifest.permission.POST_NOTIFICATIONS,
-                    DevicePolicyManager.PERMISSION_GRANT_STATE_GRANTED
-                );
-            }
         
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 int seconds = 10;
