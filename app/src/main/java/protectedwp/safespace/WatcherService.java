@@ -134,6 +134,7 @@ public class WatcherService extends DeviceAdminService {
                             ComponentName admin = new ComponentName(context, MyDeviceAdminReceiver.class);
                             setAppsVisibility(false);
 
+							// Profile protection code
                             int flag = 1;
                             try {
                                 flag = DevicePolicyManager.class.getField("FLAG_EVICT_CREDENTIAL_ENCRYPTION_KEY").getInt(null);
@@ -146,6 +147,7 @@ public class WatcherService extends DeviceAdminService {
 								dpm.lockNow(1);
 								} catch (Throwable t03) {}
 							}
+							// Profile protection code
 
                         }
 					}
