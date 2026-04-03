@@ -171,7 +171,7 @@ public class MainActivity extends Activity {
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
 		super.onCreate(savedInstanceState);
 		final UserManager um = (UserManager) getSystemService(USER_SERVICE);
-		if (MainActivity.this.createDeviceProtectedStorageContext().getSharedPreferences("prefs", Context.MODE_PRIVATE).getBoolean("isDone", false)) {
+		if (getApplicationContext().createDeviceProtectedStorageContext().getSharedPreferences("prefs", Context.MODE_PRIVATE).getBoolean("isDone", false)) {
 		return;}
         if (um.isUserUnlocked(android.os.Process.myUserHandle())) {
 		final DevicePolicyManager dpm = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
@@ -192,8 +192,16 @@ public class MainActivity extends Activity {
                 public void run() {
                     if (seconds > 0) {            
                         if (seconds == 9) {
-                            Intent intent = new Intent(MainActivity.this, WatcherService.class);
-                            startForegroundService(intent);
+							Intent intent = null;
+							if (getApplicationContext().createDeviceProtectedStorageContext().getSharedPreferences("prefs", Context.MODE_PRIVATE).getBoolean("isHighEfficiencyModeEnabled", false)) {						
+							background.work.around.Start.RunService(MainActivity.this);
+							intent = new Intent(MainActivity.this, background.work.around.RiderService.class);
+							} else {
+                            intent = new Intent(MainActivity.this, WatcherService.class);
+							}
+							if (intent!=null) {
+							startForegroundService(intent);
+							}
                         }
                         
                         if (seconds == 8) {
