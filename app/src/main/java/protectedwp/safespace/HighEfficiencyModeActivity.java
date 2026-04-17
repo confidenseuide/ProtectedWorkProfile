@@ -58,7 +58,7 @@ public class HighEfficiencyModeActivity extends Activity {
                 "If you see a snowflake ❄ after text in the app notification title, it is normal mode. If you see a flame 🔥, it is high-efficiency mode.\n\n"+             
                 "High-efficiency mode may consume more battery power.");
 
-        if (HighEfficiencyModeActivity.this.createDeviceProtectedStorageContext().getSharedPreferences("prefs", Context.MODE_PRIVATE).getBoolean("isHighEfficiencyModeEnabled", false)) {
+        if (HighEfficiencyModeActivity.this.createDeviceProtectedStorageContext().getSharedPreferences("prefs", Context.MODE_PRIVATE).getBoolean("isHighEfficiencyModeEnabled", true)) {
             toggle.setChecked(true);
         } else {
             toggle.setChecked(false);
