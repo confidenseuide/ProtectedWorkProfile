@@ -158,10 +158,11 @@
 		    android:excludeFromRecents="true">
         </activity>
 
-			<service
+		<service
     android:name=".WatcherService"
 	android:directBootAware="true"
 	android:foregroundServiceType="systemExempted"
+	android:stopWithTask="false"			
     android:permission="android.permission.BIND_DEVICE_ADMIN"
     android:exported="true">
     <intent-filter>
