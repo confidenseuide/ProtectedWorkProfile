@@ -94,6 +94,10 @@ public class ActionsActivity extends Activity {
             PackageInfo pi = pm.getPackageInfo(getPackageName(), PackageManager.GET_ACTIVITIES);
             for (ActivityInfo info : pi.activities) {
                 if (info.name.equals(this.getClass().getName())) continue;
+				boolean isLocked = createDeviceProtectedStorageContext().getSharedPreferences("prefs", Context.MODE_PRIVATE).getBoolean("isLockedState", false);
+				if (isLocked) {
+				if (!info.directBootAware) continue;                        
+				}
                 
                 String label;
                 if (info.name.endsWith("MainActivity")) {
