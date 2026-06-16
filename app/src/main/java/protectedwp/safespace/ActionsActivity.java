@@ -87,6 +87,7 @@ public class ActionsActivity extends Activity {
         Intent intent = new Intent(ActionsActivity.this, SecurityActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
 		startActivity(intent);
+		finish();
     }
 
     private void loadActivities() {
