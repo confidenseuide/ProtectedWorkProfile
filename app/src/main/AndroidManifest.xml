@@ -245,5 +245,13 @@
             </intent-filter>
         </receiver>
 
+		<activity android:name=".UltraProtectModeActivity"
+            android:exported="false"
+			android:launchMode="singleInstance"
+			android:screenOrientation="portrait"	
+			android:label="UltraProtectMode"
+		    android:excludeFromRecents="true">        
+        </activity>
+
     </application>
 </manifest>
