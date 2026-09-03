@@ -468,6 +468,7 @@ public class MainActivity extends Activity {
 					   } catch (Throwable t) {}                         
                     }
                 }
+				finish();
             }
         
 }
