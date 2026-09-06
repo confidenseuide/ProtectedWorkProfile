@@ -1,4 +1,4 @@
-package hidden.protectedwp.safespace;
+package protectedwp.safespace;
 
 import java.util.Collections;
 import android.content.Intent;
