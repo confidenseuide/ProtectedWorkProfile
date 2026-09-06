@@ -12,21 +12,12 @@ import android.view.inputmethod.*;
 
 public class MainActivity extends Activity {
 
-	private void showPasswordPrompt() {	
-	if (!createDeviceProtectedStorageContext().getSharedPreferences("secure_prefs", MODE_PRIVATE).contains("pass_hash")||((DevicePolicyManager) getSystemService(DEVICE_POLICY_SERVICE)).isUsingUnifiedPassword(new ComponentName(this, MyDeviceAdminReceiver.class))) {
-        Context appContext7 = getApplicationContext();
-        Intent actions7 = new Intent(appContext7, SetPasswordActivity.class);
-        actions7.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-        appContext7.startActivity(actions7);
-	}
-	else {
+	private void showPasswordPrompt() {		
 		Context appContext7 = getApplicationContext();
-        Intent actions7 = new Intent(appContext7, ActionsActivity.class);
+        Intent actions7 = new Intent(appContext7, CopeActivity.class);
         actions7.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-        appContext7.startActivity(actions7);
-		 }
+        appContext7.startActivity(actions7);		 
 	}
-
 
 	private void setAppsVisibility(final boolean visible) {
     final DevicePolicyManager dpm = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
@@ -113,21 +104,16 @@ public class MainActivity extends Activity {
     tv.setLineSpacing(0, 1.2f);
 	tv.setTypeface(null, android.graphics.Typeface.BOLD); 
     tv.setText("Hello! This is ProtectedWorkProfile app.\n" +
-            "This app creates work profile that hide work apps and that will be frozen (transferred to BFU state, encryption keys will be evicted from RAM) on screen off and that will be destroyed when any USB connection is detected, except for simple charging from ordinary power brick. This includes charging or connections to PC, other phones, Type-C headphones, and other specialized devices. This can help protect against USB-based hacker attacks.\n\n" +
+            "This app creates work profile that hide work apps and that will be transferred to BFU state on screen off and that will be destroyed on any USB connection except for simple charging from power brick\n\n" +
             "Just click start -> next -> next ->... to create profile.\n\n" +
-            "When profile created, the app starts AUTOCONFIGURATION TIMER:\n" +
-            "1. App starts service for screen off / USB listen.\n" +
-            "2. App disables screenshots in profile (for safety), allows apps install and accounts management (for free use).\n" +
-            "3. App tries to disable backup (if it can) and disallow mount physical media, disallow usb data and debugging features (to protect profile from physical exploits)\n"+
-		    "4. When screen turns off, profile will be frozen and profile apps hidden (except this app)\n"+
-			"5. To unhide apps just click to \"ProtectedWorkProfile\" shortcut, then \"ShowApps&SetUp\" and wait for this timer (yes, again).\n"+
-			"6. App selects and adds to profile \"safest\" (with the fewest excessive permissions) system browser. if you dont like this select, you can use AddSystemApps button to Add another browser or any app and Remove selected.\n" +
-            "7. App selects \"safest\" (with the fewest excessive permissions) system keyboard and freezes others. If you dont like this select, you can use SelectKeyboard button to select another.\n"+
-			"8. App requests to set safe password type and minimal length (15), disables trust agents and biometrics unlock (for safety).\n"+
-			"9. App asks you to set password for profile to protect data (By the way, it is also recommended to have password in your main phone too to make the work profile harder to spot and disable).\n\n"+
-			"Don't use USB data connection, Type-C headphones, don't charge phone from PC and other phones if you don't want destroy work profile.\nIf you want to use USB for data transfer or debugging (etc.) without destroying profile, just click \"pause work apps\". In other cases, USB protection must be enabled and profile must be enabled. After creating profile please remove work profile button from quick settings bar so that protection cannot be disabled on lock screen. Don't pause work apps without reason. When deleting profile, system may display notification. ​If you want that others can't see it, disable notifications on lock screen.\n\n"+
-			"WARNING: This app may not work on systems with autostart restrictions, for example, on Xiaomi devices.\n");
-    scroll.addView(tv);
+			"When profile created, this app starts AUTO-CONFIGURATION TIMER where:\n" +            
+			"1. App restricts backup, camera and screenshots in work profile\n"+			
+			"2. Enables and activates the necessary system programs in work profile and allows app installation\n" +
+            "3. Sets unlocking security requirements to help you choose the optimal password length and type (you can set password using SetPassword button)\n"+			   
+			"4. When timer is finished app opens control panel screen where you can manage profile or set a password (by the way, it is also recommended to have a password in your main phone too - to make it even more difficult to access profile)\n\n"+			   
+			"\n\nDon't use USB data connection, Type-C headphones, don't charge phone from PC and other phones if you don't want destroy work profile.\nIf you want to use USB for data transfer or debugging (etc.) without destroying profile, just click \"pause work apps\". In other cases, USB protection must be enabled and profile must be enabled. After creating profile please remove work profile button from quick settings bar so that protection cannot be disabled on lock screen. Don't pause work apps without reason. When deleting profile, system may display notification. ​If you want that others can't see it, disable notifications on lock screen.\n\n"+
+			"WARNING: This app may not work on systems with autostart restrictions, for example, on Xiaomi devices.\n"); 	
+	scroll.addView(tv);
     root.addView(scroll, sParams);
 
     android.view.View divider = new android.view.View(this);
@@ -205,30 +191,14 @@ public class MainActivity extends Activity {
                         }
                         
                         if (seconds == 8) {
-								ComponentName admin = new ComponentName(MainActivity.this, MyDeviceAdminReceiver.class);
-
-							    try {dpm.addUserRestriction(admin, UserManager.DISALLOW_DEBUGGING_FEATURES);
-									} catch (Throwable t) {}
-							
-							    try {dpm.addUserRestriction(admin, UserManager.DISALLOW_MOUNT_PHYSICAL_MEDIA);
-									} catch (Throwable t) {}
-							
-							    try {dpm.addUserRestriction(admin, UserManager.DISALLOW_USB_FILE_TRANSFER);
-							    dpm.setUsbDataSignalingEnabled(false);
-								} catch (Throwable tx1) {}
-
-							    try {
-							    dpm.addUserRestriction(admin, UserManager.DISALLOW_AUTOFILL);
-								} catch (Throwable t) {}
-
-							    try {
-							    dpm.addUserRestriction(admin, UserManager.DISALLOW_CROSS_PROFILE_COPY_PASTE);
-								} catch (Throwable t) {}	
-							
-							    try {dpm.setBackupServiceEnabled(admin, false);
-								} catch (Throwable bup01) {}
-							    dpm.clearUserRestriction(new ComponentName(MainActivity.this, MyDeviceAdminReceiver.class), UserManager.DISALLOW_APPS_CONTROL);
-							    
+								
+							  ComponentName admin = new ComponentName(MainActivity.this, MyDeviceAdminReceiver.class);							    							   							    							    
+							  dpm.addUserRestriction(admin, UserManager.DISALLOW_AUTOFILL);																						  
+							  dpm.addUserRestriction(admin, UserManager.DISALLOW_BLUETOOTH_SHARING); 
+							  dpm.setCameraDisabled(admin, true);    
+							  dpm.setBackupServiceEnabled(admin, false);		
+							  dpm.setScreenCaptureDisabled(admin, true);													     							    						
+							    							    							
 							}
 						
 							if (seconds == 7) {
@@ -300,7 +270,6 @@ public class MainActivity extends Activity {
 						}
 						
 						if (seconds == 5) {
-						dpm.setScreenCaptureDisabled(new ComponentName(MainActivity.this, MyDeviceAdminReceiver.class), true);
 						dpm.clearUserRestriction(new ComponentName(MainActivity.this, MyDeviceAdminReceiver.class), UserManager.DISALLOW_INSTALL_UNKNOWN_SOURCES);	
 						dpm.clearUserRestriction(new ComponentName(MainActivity.this, MyDeviceAdminReceiver.class), UserManager.DISALLOW_INSTALL_APPS);		
 						dpm.clearUserRestriction(new ComponentName(MainActivity.this, MyDeviceAdminReceiver.class), UserManager.DISALLOW_UNINSTALL_APPS);					
@@ -309,18 +278,11 @@ public class MainActivity extends Activity {
 
 
 						if (seconds == 4) {
-							try {ComponentName adminComponent = new ComponentName(MainActivity.this, MyDeviceAdminReceiver.class);
+							ComponentName adminComponent = new ComponentName(MainActivity.this, MyDeviceAdminReceiver.class);
 							dpm.setPasswordQuality(adminComponent, DevicePolicyManager.PASSWORD_QUALITY_COMPLEX);
 							dpm.setPasswordMinimumLength(adminComponent, 15);
-							dpm.setKeyguardDisabledFeatures(adminComponent, DevicePolicyManager.KEYGUARD_DISABLE_FINGERPRINT | DevicePolicyManager.KEYGUARD_DISABLE_FACE | DevicePolicyManager.KEYGUARD_DISABLE_IRIS | DevicePolicyManager.KEYGUARD_DISABLE_TRUST_AGENTS | DevicePolicyManager.KEYGUARD_DISABLE_FEATURES_ALL);							
-							} catch (Throwable t) {
-							android.widget.TextView errorView = new android.widget.TextView(MainActivity.this);
-							errorView.setText(t.getMessage());
-							errorView.setTextIsSelectable(true);
-							errorView.setPadding(60, 40, 60, 0);
-							new android.app.AlertDialog.Builder(MainActivity.this).setTitle("Err:").setView(errorView).setPositiveButton("OK", null).show();
-							}
-
+							dpm.setKeyguardDisabledFeatures(adminComponent, DevicePolicyManager.KEYGUARD_DISABLE_BIOMETRICS | DevicePolicyManager.KEYGUARD_DISABLE_TRUST_AGENTS);				
+							
 						}
 						
 						if (seconds == 3) {
