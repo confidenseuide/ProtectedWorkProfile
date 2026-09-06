@@ -43,25 +43,7 @@
 			android:label="AddSystemApps"
 		    android:excludeFromRecents="true">
         </activity>
-
-
-		<activity android:name=".MediaPlayerActivity"
-            android:exported="false"
-			android:launchMode="singleInstance"
-			android:screenOrientation="portrait"
-			android:label="PlayMedia"
-		    android:excludeFromRecents="true">
-        </activity>
-
-
-		<activity android:name=".AdditionalOptionsActivity"
-            android:exported="false"
-			android:launchMode="singleInstance"
-			android:screenOrientation="portrait"	
-			android:label="UnlockAttemptsLimitSettings"
-		    android:excludeFromRecents="true">        
-        </activity>
-
+	
 		<activity android:name=".SecurityActivity"
             android:exported="false"
 			android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
@@ -83,12 +65,12 @@
 		    android:excludeFromRecents="true">
         </activity>
 
-		<activity android:name=".SetPasswordActivity"
+		<activity android:name=".CopeActivity"
             android:exported="false"
-			android:screenOrientation="portrait"
 			android:launchMode="singleInstance"
-			android:label="SetPassword"
-		    android:excludeFromRecents="true">
+			android:screenOrientation="portrait"
+			android:label="Control Panel"
+		    android:excludeFromRecents="true">          
         </activity>
 
 		<activity android:name=".DestroyActivity"
