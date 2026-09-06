@@ -289,7 +289,6 @@ public class CopeActivity extends Activity {
 		cbCrossProfileCopyPaste.setChecked(copyPasteDisabled);
 		cbCrossProfileCopyPaste.setOnClickListener(v -> {   
 			boolean disable = cbCrossProfileCopyPaste.isChecked();  
-			ComponentName adminName = new ComponentName(this, MyDeviceAdminReceiver.class);  
 			if (disable) {      
 				dpm.addUserRestriction(adminName, UserManager.DISALLOW_CROSS_PROFILE_COPY_PASTE);  
 			} else {   
