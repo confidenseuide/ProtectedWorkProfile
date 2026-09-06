@@ -12,7 +12,7 @@ lint {
 
 defaultConfig {  
     applicationId "protectedwp.safespace"  
-    minSdk 29
+    minSdk 30
     targetSdk 37
     versionCode 85
     versionName "85.0"  
