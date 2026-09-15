@@ -10,7 +10,7 @@ import android.os.*;
 import android.hardware.usb.UsbManager;
 
 public class WatcherService extends DeviceAdminService {
-    private static final String CH_ID = "GuardChan";
+    private static final String CH_ID = "GH";
     private BroadcastReceiver receiver;
     private BroadcastReceiver usbReceiver;
     private long startTime;
@@ -21,9 +21,6 @@ public class WatcherService extends DeviceAdminService {
     NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
     String pkg = context.getPackageName();
 
-	Intent intent = new Intent(context, MainActivity.class); intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-    PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
-		
 	if (dpm.getPermissionGrantState(new ComponentName(this, MyDeviceAdminReceiver.class), context.getPackageName(), android.Manifest.permission.POST_NOTIFICATIONS) != DevicePolicyManager.PERMISSION_GRANT_STATE_GRANTED) {
     dpm.setPermissionGrantState(
                     new ComponentName(this, MyDeviceAdminReceiver.class),
@@ -47,19 +44,17 @@ public class WatcherService extends DeviceAdminService {
 
     if (needNew || activeId == null) {
         activeId = "protectedwp.safespace" + Long.toHexString(new java.security.SecureRandom().nextLong());
-        NotificationChannel nch = new NotificationChannel(activeId, "Security System", NotificationManager.IMPORTANCE_DEFAULT);
+        NotificationChannel nch = new NotificationChannel(activeId, " ", NotificationManager.IMPORTANCE_DEFAULT);
         nch.setSound(null, null);
 		nch.enableVibration(false);
 		nm.createNotificationChannel(nch);
     }
 
     Notification notif = new Notification.Builder(context, activeId)
-            .setContentTitle("ProtectedWorkProfile")
-            .setContentText("Tap here to start")
+            .setContentTitle("Profile Protected​")
+            .setContentText("it will be frozen on screen off and apps will be hidden.")
             .setSmallIcon(android.R.drawable.ic_lock_lock)
             .setOngoing(true)
-	        .setContentIntent(pendingIntent)
-		    .setAutoCancel(false)
             .build();
 
     if (android.os.Build.VERSION.SDK_INT >= 34) {
