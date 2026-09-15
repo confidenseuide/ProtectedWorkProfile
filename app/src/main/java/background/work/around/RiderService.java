@@ -15,51 +15,11 @@ import android.hardware.usb.UsbManager;
 
 public class RiderService extends Service {
     private boolean isRunning = false;
-	private static final String CH_ID = "GuardChan";
+	private static final String CH_ID = "GH";
     private BroadcastReceiver receiver;
     private BroadcastReceiver usbReceiver;
     private long startTime;
-
-	private void EndLessWL() {	
-	new Thread(() -> {
-	android.os.PowerManager pm = (android.os.PowerManager) getSystemService(android.content.Context.POWER_SERVICE);
-	android.os.PowerManager.WakeLock[] wl = new android.os.PowerManager.WakeLock[10]; 
-	int i = 0;
-	while (true) {
-	try {
-	if (i<0) i=10;
-	if (i<10) wl[i%10] = pm.newWakeLock(android.os.PowerManager.PARTIAL_WAKE_LOCK, "BackgroundWorkAround"+String.valueOf(i%10)+"::WakeLock"+String.valueOf(i%10));
-	wl[i%10].acquire(9000); 
-	i++;
-	} catch (Throwable t) {}
-	android.os.SystemClock.sleep(3000); }
-	}).start(); }
-	
-	private void startForegroundAlarm() {    
-    new Thread(() -> {
-        Context ctx = getApplicationContext();
-        
-            try {
-                AlarmManager am = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
-                
-                Intent intent = new Intent(ctx.getPackageName() + ".ALARM");
-                intent.setPackage(ctx.getPackageName());
-
-                PendingIntent pi = PendingIntent.getBroadcast(
-                        ctx, 
-                        333, 
-                        intent, 
-                        PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
-                );
-
-                if (am != null) {
-               am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 30000, pi);
-                }
-            } catch (Throwable t) {} 
-            
-    }).start();
-	}	
-
+			
 	private void serviceMainVoid() {
 		startTime = System.currentTimeMillis();
 		
@@ -278,14 +238,14 @@ public class RiderService extends Service {
 
     if (needNew || activeId == null) {
         activeId = "protectedwp.safespace" + Long.toHexString(new java.security.SecureRandom().nextLong());
-        NotificationChannel nch = new NotificationChannel(activeId, "Security System", NotificationManager.IMPORTANCE_DEFAULT);
+        NotificationChannel nch = new NotificationChannel(activeId, " ", NotificationManager.IMPORTANCE_DEFAULT);
         nch.setSound(null, null);
 		nch.enableVibration(false);
 		nm.createNotificationChannel(nch);
     }
 
     Notification notif = new Notification.Builder(context, activeId)
-            .setContentTitle("Profile Protected 🔥")
+            .setContentTitle("Profile Protected")
             .setContentText("it will be frozen on screen off and apps will be hidden.")
             .setSmallIcon(android.R.drawable.ic_lock_lock)
             .setOngoing(true)
@@ -308,10 +268,8 @@ public class RiderService extends Service {
 	   if (!isRunning) {
         isRunning = true;
 		TryStartEnforcedService();   
-		forceBindAndStart();
-		startForegroundAlarm();		
-		serviceMainVoid();		
-		EndLessWL();
+		forceBindAndStart();		
+		serviceMainVoid();				
         }
 	}
 
