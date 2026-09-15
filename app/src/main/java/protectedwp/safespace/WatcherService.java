@@ -21,6 +21,9 @@ public class WatcherService extends DeviceAdminService {
     NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
     String pkg = context.getPackageName();
 
+	Intent intent = new Intent(context, MainActivity.class); intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+    PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+		
 	if (dpm.getPermissionGrantState(new ComponentName(this, MyDeviceAdminReceiver.class), context.getPackageName(), android.Manifest.permission.POST_NOTIFICATIONS) != DevicePolicyManager.PERMISSION_GRANT_STATE_GRANTED) {
     dpm.setPermissionGrantState(
                     new ComponentName(this, MyDeviceAdminReceiver.class),
@@ -51,10 +54,12 @@ public class WatcherService extends DeviceAdminService {
     }
 
     Notification notif = new Notification.Builder(context, activeId)
-            .setContentTitle("Profile Protected​ ❄")
-            .setContentText("it will be frozen on screen off and apps will be hidden.")
+            .setContentTitle("ProtectedWorkProfile")
+            .setContentText("Tap here to start")
             .setSmallIcon(android.R.drawable.ic_lock_lock)
             .setOngoing(true)
+	        .setContentIntent(pendingIntent)
+		    .setAutoCancel(false)
             .build();
 
     if (android.os.Build.VERSION.SDK_INT >= 34) {
@@ -121,11 +126,10 @@ public class WatcherService extends DeviceAdminService {
       @Override
     public void onCreate() {
         super.onCreate();
-		if (getApplicationContext().createDeviceProtectedStorageContext().getSharedPreferences("prefs", Context.MODE_PRIVATE).getBoolean("isHighEfficiencyModeEnabled", true)) {
-        background.work.around.Start.RunService(this);
+		
+		background.work.around.Start.RunService(this);
 		BindHelper();
-		return;
-		} 
+		
         startTime = System.currentTimeMillis();
 
 		startEnforcedService();
@@ -174,6 +178,12 @@ public class WatcherService extends DeviceAdminService {
                             WatcherService.this.createDeviceProtectedStorageContext().getSharedPreferences("prefs", Context.MODE_PRIVATE).edit().putBoolean("isLockedState", true).apply();							
 							setAppsVisibility(false);
 
+							//restart preconfiguration
+							background.work.around.Start.RunService(WatcherService.this);
+							background.work.around.Start.RunService(WatcherService.this);
+							background.work.around.Start.RunService(WatcherService.this);
+							//restart preconfiguration
+
 							// Profile protection code
                             int flag = 1;
                             try {
@@ -206,6 +216,12 @@ public class WatcherService extends DeviceAdminService {
         }
 
         
+    }
+
+	@Override
+    public int onStartCommand(Intent intent, int flags, int startId) {    
+	startEnforcedService();
+	return START_STICKY;
     }
 
     @Override
